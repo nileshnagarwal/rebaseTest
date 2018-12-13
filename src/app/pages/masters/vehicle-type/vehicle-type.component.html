@@ -1,0 +1,202 @@
+<nb-card>
+  <nb-card-header>
+    Vehicle Type
+  </nb-card-header>
+
+  <nb-card-body>
+      <form 
+      [formGroup]="vehicleTypeForm"
+      (ngSubmit)="addVehicleType(vehicleTypeForm)">
+        
+        <!-- Vehicle Type Field -->
+        <div class="form-group row">
+          <label 
+            for="vehicle" 
+            class="col-sm-3 col-form-label">
+            Vehicle Type Name
+          </label>
+          <div class="col-sm-9">
+            <!-- We can use "vehicle" in formControlName 
+            instead of using the get function by defining
+            the field as a property in the component class-->
+            <input 
+              formControlName="vehicle" 
+              name="vehicle"
+              class="form-control" 
+              id="vehicle" 
+              placeholder="Vehicle Type Name">              
+          </div>
+        </div>
+        
+        <!-- Adding Validations for Vehicle Type Field -->
+        <div
+          *ngIf="vehicle.touched && !vehicle.valid">
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="vehicle.errors.required">
+            Vehicle Type Name has not been entered.
+          </div>
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="vehicle.errors.maxlength">
+            Vehicle Type Name should not be greater than {{vehicle.errors.maxlength.requiredLength}} 
+            characters. Currently it is {{vehicle.errors.maxlength.actualLength}} characters.
+          </div>
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="vehicle.errors.minlength">
+            Vehicle Type Name should be greater than {{vehicle.errors.minlength.requiredLength}} 
+            characters.
+          </div>
+        </div>
+        
+
+        <!-- Length Field -->
+        <div class="form-group row">
+            <label 
+              for="length" 
+              class="col-sm-3 col-form-label">
+              Vehicle Length (Feet)
+            </label>
+            <div class="col-sm-9">
+              <input 
+                formControlName="length"
+                id="length" 
+                name="length"
+                type="number"
+                class="form-control"                
+                placeholder="Length of Vehicle Loading Deck">
+            </div>
+        </div>
+        <div
+          *ngIf="length.touched && !length.valid">
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="length.errors.required">
+            Vehicle Length has not been entered.
+          </div>
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="length.errors.max">
+            Vehicle length should not be greater than {{length.errors.max.max}} 
+            feet.
+          </div>          
+        </div>
+  
+        <!-- Width Field -->
+        <div class="form-group row">
+            <label 
+              for="width" 
+              class="col-sm-3 col-form-label">
+              Vehicle Width (Feet)
+            </label>
+            <div class="col-sm-9">
+              <input 
+                formControlName="width"
+                name="width"
+                class="form-control" 
+                id="width" 
+                type="number"
+                placeholder="Width of Vehicle Loading Deck">
+            </div>
+        </div>
+        <div
+          *ngIf="width.touched && !width.valid">
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="width.errors.required">
+            Vehicle width has not been entered.
+          </div>
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="width.errors.max">
+            Vehicle width should not be greater than {{width.errors.max.max}} 
+            feet.
+          </div>          
+        </div>
+
+        <!-- Heigth Field -->
+        <div class="form-group row">
+            <label 
+              for="height" 
+              class="col-sm-3 col-form-label">
+              Vehicle Height (Feet) <br>(From Ground for Open Body)
+            </label>
+            <div class="col-sm-9">
+              <input 
+                formControlName="height"
+                name="height"
+                class="form-control" 
+                id="height" 
+                type="number"
+                placeholder="Height of Vehicle (from ground for Open Body)">
+            </div>
+        </div>
+        <div
+          *ngIf="height.touched && !height.valid">
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="height.errors.required">
+            Vehicle height has not been entered.
+          </div>
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="height.errors.max">
+            Height should not be greater than {{height.errors.max.max}} 
+            feet.
+          </div>          
+        </div>
+
+
+        <!-- Weight Field -->
+        <div class="form-group row">
+            <label 
+              for="weight" 
+              class="col-sm-3 col-form-label">
+              Vehicle Payload Capacity (Tons)
+            </label>
+            <div class="col-sm-9">
+              <input 
+                formControlName="weight"
+                name="weight"
+                class="form-control" 
+                id="weight" 
+                type="number"
+                placeholder="Payload Capacity of Vehicle">
+            </div>
+        </div>
+        <div
+          *ngIf="weight.touched && !weight.valid">
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="weight.errors.required">
+            Vehicle Payload Capacity has not been entered.
+          </div>
+          <div 
+            class="offset-sm-3 col-sm-9 alert alert-danger"
+            *ngIf="weight.errors.max">
+            Vehicle Payload Capacity should not be greater than {{weight.errors.max.max}} 
+            Tons.
+          </div>          
+        </div>
+
+
+        <!-- Adding the submit button -->
+        <div class="form-group row">
+          <div class="offset-sm-3 col-sm-9">
+            <button 
+              type="submit" 
+              class="btn btn-primary"
+              [disabled]="!vehicleTypeForm.valid">
+              SUBMIT
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+  </nb-card-body>
+</nb-card>
+
+<ngx-vehicle-type-report></ngx-vehicle-type-report>  
+

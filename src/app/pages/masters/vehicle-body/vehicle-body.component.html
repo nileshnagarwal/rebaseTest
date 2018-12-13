@@ -1,0 +1,64 @@
+<nb-card>
+  <nb-card-header>
+    Vehicle Body
+  </nb-card-header>
+
+  <nb-card-body>
+      <form 
+        #vehicleBodyForm="ngForm"
+        (ngSubmit)="addVehicleBody(vehicleBodyForm)">
+          <!-- Creating Div with label and input field -->
+          <div class="form-group row">
+            <label 
+              for="vehicleBody" 
+              class="col-sm-3 col-form-label">
+              Vehicle Body Type
+            </label>
+            <div class="col-sm-9">
+              <input 
+                required 
+                ngModel 
+                name="body"
+                class="form-control" 
+                id="vehicleBody" 
+                #vehicleBody=ngModel
+                placeholder="Vehicle Body Type">
+            </div>
+          </div>
+          
+          <!-- Creating div with the error message -->
+          
+          <!-- Doubt: The errors.required ngIf below does not seem 
+          to be working. If we remove the ngIf touched and not 
+          valid, the error is always displayed. Why to use a 
+          seperate div with ngIf errors.required then? -->          
+          <div
+            *ngIf="vehicleBody.touched && !vehicleBody.valid">
+            <div 
+              class="offset-sm-3 col-sm-9 alert alert-danger"
+              *ngIf="vehicleBody.errors.required">
+              Vehicle Body Type has not been entered
+            </div>
+          </div>
+          
+          <!-- Adding the submit button -->
+          <div class="form-group row">
+            <div class="offset-sm-3 col-sm-9">
+              <button 
+                type="submit" 
+                class="btn btn-primary"
+                [disabled]="!vehicleBodyForm.valid">
+                SUBMIT
+              </button>
+            </div>
+          </div>
+        </form>
+        
+  </nb-card-body>
+</nb-card>
+
+<nb-card-body>
+  <ngx-vehicle-body-report>
+  </ngx-vehicle-body-report>
+</nb-card-body>
+

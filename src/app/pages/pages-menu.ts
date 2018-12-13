@@ -17,6 +17,25 @@ export const MENU_ITEMS: NbMenuItem[] = [
     group: true,
   },
   {
+    title: 'Masters',
+    icon: 'nb-gear',
+    link: '/pages/masters',
+    children: [
+      {
+        title: 'Vehicle Body',
+        link: '/pages/masters/vehicle-body',
+      },
+      {
+        title: 'Vehicle Type',
+        link: '/pages/masters/vehicle-type',
+      },
+      {
+        title: 'Transporter',
+        link: '/pages/masters/transporter',
+      },
+    ],
+  },
+  {
     title: 'Extra Components',
     icon: 'nb-star',
     children: [
