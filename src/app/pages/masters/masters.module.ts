@@ -7,12 +7,14 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { MastersRoutingModule, routedComponents } from './masters-routing.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { VehicleBodyService } from './../../common/services/masters/vehicle-body.service';
+import { MaterialDesignModule } from '../../common/modules/material-design/material-design.module';
 
 @NgModule({
   imports: [
     ThemeModule,
     MastersRoutingModule,
     Ng2SmartTableModule,
+    MaterialDesignModule,
   ],
   declarations: [
     ...routedComponents,

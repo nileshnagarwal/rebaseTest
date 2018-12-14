@@ -1,5 +1,3 @@
-import { LocalDataSource } from 'ng2-smart-table';
-import { VehicleBodyReportComponent } from './../vehicle-body-report/vehicle-body-report.component';
 import { Component, EventEmitter, Output } from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
