@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { VehicleTypeReportComponent } from './../vehicle-type-report/vehicle-type-report.component';
 import { VehicleTypeService } from './../../../common/services/masters/vehicle-type.service';
 
 @Component({

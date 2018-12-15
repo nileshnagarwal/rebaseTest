@@ -1,9 +1,7 @@
 import { VehicleBodyComponent } from './../vehicle-body/vehicle-body.component';
 import { VehicleBodyService } from '../../../common/services/masters/vehicle-body.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { VehicleBody } from '../../../common/interfaces/vehicle-body';
-
 
 @Component({
   selector: 'ngx-vehicle-body-report',
@@ -16,7 +14,7 @@ import { VehicleBody } from '../../../common/interfaces/vehicle-body';
 })
 export class VehicleBodyReportComponent implements OnInit {
 
-  //ng2 Smart Table Setting
+  // ng2 Smart Table Setting
   settings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -42,13 +40,13 @@ export class VehicleBodyReportComponent implements OnInit {
     },
   };
 
-  //ng2 Smart Table Data Source
+  // ng2 Smart Table Data Source
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
     private service: VehicleBodyService,
-    private vehicleBodyComponent: VehicleBodyComponent
-  ){}
+    private vehicleBodyComponent: VehicleBodyComponent,
+  ) {}
 
   ngOnInit() {
     this.service.getVehicleBody()
@@ -56,8 +54,8 @@ export class VehicleBodyReportComponent implements OnInit {
       this.source.load(response.body);
     });
 
-    //Subscirbe to the refreshTable event emitter 
-    //of VehicleBodyComponent
+    // Subscirbe to the refreshTable event emitter
+    // of VehicleBodyComponent
     this.vehicleBodyComponent.refreshTable
     .subscribe(response => {
       this.service.getVehicleBody()
@@ -69,14 +67,13 @@ export class VehicleBodyReportComponent implements OnInit {
   }
 
   onAddConfirm(event): void {
-    console.log("onAddConfirm Trigerred");
     // Confirm if the user wants to add the data and
     // then call the service to add the data.
     if (window.confirm('Are you sure you want to add?')) {
       event.confirm.resolve();
       this.service.addVehicleBody(event['newData'])
         .subscribe(response => {
-          //Refresh Table Data
+          // Refresh Table Data
           this.service.getVehicleBody()
           .subscribe(responseGet => {
             this.source.load(responseGet.body);
@@ -92,7 +89,7 @@ export class VehicleBodyReportComponent implements OnInit {
       event.confirm.resolve();
       this.service.updateVehicleBody(event['newData'])
         .subscribe(response => {
-          //Refresh Table Data
+          // Refresh Table Data
           this.service.getVehicleBody()
           .subscribe(responseGet => {
             this.source.load(responseGet.body);
@@ -100,16 +97,15 @@ export class VehicleBodyReportComponent implements OnInit {
         });
     } else {
       event.confirm.reject();
-    }    
+    }
   }
 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();
-      console.log(event);
       this.service.deleteVehicleBody(event['data'])
         .subscribe(response => {
-          //Refresh Table Data
+          // Refresh Table Data
           this.service.getVehicleBody()
           .subscribe(responseGet => {
             this.source.load(responseGet.body);

@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatButtonModule, MatCheckboxModule, MatFormField, MatFormFieldModule, MatIconModule, MatInputModule, MatAutocompleteModule, MatSliderModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatFormFieldModule} from '@angular/material';
+import {MatIconModule, MatInputModule, MatAutocompleteModule, MatSliderModule} from '@angular/material';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    MatButtonModule, 
+    MatButtonModule,
     MatCheckboxModule,
     MatFormFieldModule,
     MatIconModule,
@@ -16,7 +17,7 @@ import {MatButtonModule, MatCheckboxModule, MatFormField, MatFormFieldModule, Ma
     MatCheckboxModule,
   ],
   exports: [
-    MatButtonModule, 
+    MatButtonModule,
     MatCheckboxModule,
     MatFormFieldModule,
     MatIconModule,
@@ -24,6 +25,6 @@ import {MatButtonModule, MatCheckboxModule, MatFormField, MatFormFieldModule, Ma
     MatAutocompleteModule,
     MatSliderModule,
     MatCheckboxModule,
-  ]
+  ],
 })
 export class MaterialDesignModule { }

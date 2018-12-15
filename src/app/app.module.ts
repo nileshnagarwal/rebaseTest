@@ -28,10 +28,10 @@ import { MaterialDesignModule } from './common/modules/material-design/material-
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
-    MaterialDesignModule,    
+    MaterialDesignModule,
   ],
   exports: [
-    MaterialDesignModule,    
+    MaterialDesignModule,
   ],
   bootstrap: [AppComponent],
   providers: [

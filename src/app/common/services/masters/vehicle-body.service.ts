@@ -15,7 +15,6 @@ export class VehicleBodyService {
   private url = 'http://127.0.0.1:8000/masters/vehiclebody/';
 
   addVehicleBody(vehicleBody) {
-    console.log(vehicleBody);
     return this.http
       .post(
         this.url,
@@ -28,9 +27,9 @@ export class VehicleBodyService {
     return this.http
       .get<VehicleBody[]>(
         this.url,
-        { 
-          observe: 'response', 
-          // headers: this.header 
+        {
+          observe: 'response',
+          // headers: this.header
         },
       );
   }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Headers } from '@angular/http';
 import { HttpClient, HttpResponse } from '../../../../../node_modules/@angular/common/http';
 import { Observable } from '../../../../../node_modules/rxjs';
 import { VehicleType } from '../../interfaces/vehicle-type';
@@ -15,7 +15,6 @@ export class VehicleTypeService {
   private url = 'http://127.0.0.1:8000/masters/vehicletype/';
 
   addVehicleType(vehicleType) {
-    // console.log(JSON.stringify(vehicleType));
     return this.http
       .post(
         this.url,
@@ -26,9 +25,9 @@ export class VehicleTypeService {
   getVehicleType(): Observable<HttpResponse<VehicleType[]>> {
     return this.http
       .get<VehicleType[]>(this.url,
-      { 
-        observe: 'response', 
-        headers: this.header
+      {
+        observe: 'response',
+        headers: this.header,
       });
   }
 

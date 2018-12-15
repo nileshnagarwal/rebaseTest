@@ -1,6 +1,6 @@
+import { TransporterService } from './../../common/services/masters/transporter.service';
 import { VehicleBodyComponent } from './vehicle-body/vehicle-body.component';
 import { VehicleTypeService } from './../../common/services/masters/vehicle-type.service';
-import { TransporterComponent } from './transporter/transporter.component';
 import { TransporterViewComponent } from './transporter-view/transporter-view.component';
 import { NgModule } from '@angular/core';
 import { ThemeModule } from '../../@theme/theme.module';
@@ -23,7 +23,7 @@ import { MaterialDesignModule } from '../../common/modules/material-design/mater
   providers: [
     VehicleBodyService,
     VehicleTypeService,
-    TransporterComponent,
+    TransporterService,
   ],
   entryComponents: [
     TransporterViewComponent,

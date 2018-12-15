@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { VehicleTypeService } from '../../../common/services/masters/vehicle-type.service';
 import { VehicleTypeComponent } from '../vehicle-type/vehicle-type.component';
@@ -55,10 +55,8 @@ export class VehicleTypeReportComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-    }
+    },
   };
-
-  
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -68,14 +66,13 @@ export class VehicleTypeReportComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    
     this.service.getVehicleType()
     .subscribe(response => {
       this.source.load(response.body);
     });
 
-    //Subscirbe to the refreshTable event emitter 
-    //of VehicleTypeComponent
+    // Subscirbe to the refreshTable event emitter
+    // of VehicleTypeComponent
     this.vehicleTypeComponent.refreshTable
     .subscribe(response => {
       this.service.getVehicleType()
@@ -89,7 +86,6 @@ export class VehicleTypeReportComponent implements OnInit {
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();
-      console.log(event);
       this.service.deleteVehicleType(event['data'])
         .subscribe(response => {});
     } else {
