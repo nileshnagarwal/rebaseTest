@@ -19,6 +19,9 @@ const routes: Routes = [{
     path: 'masters',
     loadChildren: './masters/masters.module#MastersModule',
   }, {
+    path: 'enquiries-quotes',
+    loadChildren: './enquiries-quotes/enquiries-quotes.module#EnquiriesQuotesModule',
+  }, {
     path: 'ui-features',
     loadChildren: './ui-features/ui-features.module#UiFeaturesModule',
   }, {

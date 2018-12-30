@@ -36,6 +36,21 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Enquiries-Quotes',
+    icon: 'nb-gear',
+    link: '/pages/enquiries-quotes',
+    children: [
+      {
+        title: 'Enquiries',
+        link: '/pages/enquiries-quotes/enquiries',
+      },
+      {
+        title: 'Quotes',
+        link: '/pages/enquiries-quotes/quotes',
+      },      
+    ],
+  },
+  {
     title: 'Extra Components',
     icon: 'nb-star',
     children: [

@@ -41,12 +41,12 @@ export class TransporterReportComponent implements OnInit {
         title: 'Primary Mobile',
         type: 'number',
       },
-      primary_contact: {
-        title: 'Primary Contact',
-        type: 'string',
-      },
       primary_person: {
         title: 'Contact Person',
+        type: 'string',
+      },
+      other_contact: {
+        title: 'Other Contacts',
         type: 'string',
       },
     },
