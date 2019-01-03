@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { ThemeModule } from '../../@theme/theme.module';
 import { EnquiriesQuotesRoutingModule, routedComponents } from './enquiries-quotes-routing.module';
 import { MaterialDesignModule } from '../../common/modules/material-design/material-design.module';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 
 @NgModule({
@@ -11,10 +12,11 @@ import { MaterialDesignModule } from '../../common/modules/material-design/mater
     ThemeModule,
     EnquiriesQuotesRoutingModule,
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyCa_g_ssoDwW4RM0k6GpCk8oGIzjWoyDjY",
-      libraries: ["places"]
+      apiKey: 'AIzaSyCa_g_ssoDwW4RM0k6GpCk8oGIzjWoyDjY',
+      libraries: ['places'],
     }),
     MaterialDesignModule,
+    GooglePlaceModule,
   ],
   declarations: [
     ...routedComponents,

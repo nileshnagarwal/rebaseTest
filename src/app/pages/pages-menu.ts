@@ -47,7 +47,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Quotes',
         link: '/pages/enquiries-quotes/quotes',
-      },      
+      },
     ],
   },
   {

@@ -1,6 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { VehicleTypeService } from '../../../common/services/masters/vehicle-type.service';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -10,12 +11,22 @@ import { VehicleTypeService } from '../../../common/services/masters/vehicle-typ
 })
 export class EnquiriesComponent {
 
-  constructor(private service: VehicleTypeService) {}
+  constructor() {}
+
+
+  @ViewChild('placesRef') placesRef: GooglePlaceDirective;
 
   statusOptions: string[] = [
     'Finalised Order',
     'Quote Required',
   ];
+
+  public latSource: number;
+  public lngSource: number;
+  public latDest: number;
+  public lngDest: number;
+  public latRet: number;
+  public lngRet: number;
 
   text: string;
 
@@ -31,6 +42,10 @@ export class EnquiriesComponent {
     'Part',
     'Container',
   ];
+
+  placesOptions = {
+    componentRestrictions: {country: 'in'},
+  };
 
 
   searchStatus(event) {
@@ -53,23 +68,6 @@ export class EnquiriesComponent {
         }
   }
 
-  // .map is not working hence commented out
-  // searchVehicleType(event) {
-  //   this.service.getVehicleType()
-  //     .map(response => response.json())  
-  //       .subscribe(response => {
-  //         this.vehicleTypeResults = [];
-  //         this.vehicleTypeOptions = response;
-  //         for (let i = 0; i < this.vehicleTypeOptions.length; i++) {
-  //           const statusQuery = this.vehicleTypeOptions[i];
-  //           if (statusQuery['vehicle'].toLowerCase().includes(event.query.toLowerCase())) {
-  //               this.vehicleTypeResults.push(statusQuery['vehicle']);
-  //           }
-  //         }
-  //       },
-  //     );
-  // }
-
   enquiriesForm = new FormGroup({
     status: new FormControl('', [
       Validators.required,
@@ -81,19 +79,19 @@ export class EnquiriesComponent {
       Validators.required,
     ]),
     vehicleBody: new FormControl('', []),
-    enquiryId: new FormControl('',[
-      Validators.required, 
+    enquiryId: new FormControl('', [
+      Validators.required,
     ]),
-    length: new FormControl('',[
-      Validators.required, 
+    length: new FormControl('', [
+      Validators.required,
     ]),
-    width: new FormControl('',[
-      Validators.required, 
+    width: new FormControl('', [
+      Validators.required,
     ]),
-    height: new FormControl('',[
-      Validators.required, 
+    height: new FormControl('', [
+      Validators.required,
     ]),
-    weight: new FormControl('',[
+    weight: new FormControl('', [
       Validators.required,
     ]),
     source: new FormControl('', [
@@ -107,8 +105,10 @@ export class EnquiriesComponent {
     loadingDate: new FormControl('', []),
   });
 
-  getStatusErrorMessage() {
-    return this.enquiriesForm.controls.status.hasError('required') ? 'You must enter a value' : '';
+  getErrorMessage() {
+    return this.enquiriesForm.controls.status.hasError('required') ? 'You must enter a value' :
+    this.enquiriesForm.controls.source.hasError('required') ? 'You must enter a value' :
+    this.enquiriesForm.controls.destination.hasError('required') ? 'You must enter a value' : '';
   }
 
   get status()
@@ -116,5 +116,19 @@ export class EnquiriesComponent {
     return this.enquiriesForm.get('status');
   }
 
+  public handleSourceAddressChange(address: Address) {
+    this.latSource = this.placesRef.place.geometry.location.lat();
+    this.lngSource = this.placesRef.place.geometry.location.lng();
+  }
+
+  public handleDestAddressChange(address: Address) {
+    this.latSource = this.placesRef.place.geometry.location.lat();
+    this.lngSource = this.placesRef.place.geometry.location.lng();
+  }
+
+  public handleReturnAddressChange(address: Address) {
+    this.latSource = this.placesRef.place.geometry.location.lat();
+    this.lngSource = this.placesRef.place.geometry.location.lng();
+  }
 
 }

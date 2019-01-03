@@ -29,5 +29,5 @@ export class EnquiriesQuotesRoutingModule { }
 
 export const routedComponents = [
   EnquiriesComponent,
-  QuotesComponent,  
+  QuotesComponent,
 ];

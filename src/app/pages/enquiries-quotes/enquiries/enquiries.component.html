@@ -24,7 +24,7 @@
             class="form-control"
             matInput formControlName="status" 
             [matAutocomplete]="auto">
-          <!-- <mat-error *ngIf="status.invalid">{{getStatusErrorMessage()}}</mat-error> -->
+          <mat-error *ngIf="status.invalid">{{getErrorMessage()}}</mat-error>
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let status of statusOptions" [value]="status">
               {{status}}
@@ -34,111 +34,75 @@
       </div>
     </div>
 
-    <div
-      *ngIf="status.touched && !status.valid">
-      <div 
-        class="offset-sm-3 col-sm-9 alert alert-danger">
-        {{getStatusErrorMessage()}}
+    <div class="form-group row">
+      <label 
+        for="source" 
+        class="col-sm-3 col-form-label">
+        Source
+      </label>
+      <div class="col-sm-9">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <input
+            ngx-google-places-autocomplete 
+            [options]='placesOptions' 
+            #placesRef="ngx-places" 
+            (onAddressChange)="handleSourceAddressChange($event)"
+            placeholder="Source"
+            id="source"
+            name="source"
+            class="form-control"
+            matInput formControlName="source">
+          <mat-error *ngIf="status.invalid">{{getErrorMessage()}}</mat-error>          
+        </mat-form-field>
       </div>
     </div>
 
-    
-    <!-- p-autocomplete doesn't work hence commented out the below sections -->
-      <!-- Status Options Box -->
-      <!-- <div class="form-group row">
-        <label 
-          for="status" 
-          class="col-sm-3 col-form-label">
-          Status of Enquiry
-        </label>
-        <div class="col-sm-9">
-          <p-autoComplete
-            id="status"
-            name="status"
-            formControlName="status" 
-            [suggestions]="results"            
-            inputStyleClass="form-control"
-            placeholder="Enquiry Status" 
-            (completeMethod)="searchStatus($event)">
-          </p-autoComplete>
-        </div>
-      </div> -->
-
-      <!-- Load Type Options Box -->
-      <!-- <div class="form-group row">
-        <label 
-          for="load-type" 
-          class="col-sm-3 col-form-label">
-          Load Type
-        </label>
-        <div class="col-sm-9">
-          <p-autoComplete
-            id="load-type" 
-            name="load-type"
-            formControlName="loadType" 
-            [suggestions]="results"            
-            inputStyleClass="form-control"
-            placeholder="Load Type"
-            [dropdown]="true" 
-            (completeMethod)="searchLoadType($event)">
-          </p-autoComplete>
-        </div>
-      </div> -->
-
-      <!-- Vehicle Type Options Box -->
-      <!-- <div class="form-group row">
-        <label 
-          for="vehicle-type" 
-          class="col-sm-3 col-form-label">
-          Vehicle Type
-        </label>
-        <div class="col-sm-9">
-          <p-autoComplete
-            id="vehicle-type"
-            name="vehicle-type" 
-            formControlName="vehicleType" 
-            [suggestions]="vehicleTypeResults"            
-            inputStyleClass="form-control"
-            placeholder="Vehicle Type"
-            [dropdown]="true" 
-            (completeMethod)="searchVehicleType($event)">
-          </p-autoComplete>
-        </div>
-      </div> -->
-
-      <!-- Google Places AutoComplete Box -->
-      <div class="form-group row">
-        <label 
-          for="source" 
-          class="col-sm-3 col-form-label">
-          Source
-        </label>
-        <div class="col-sm-9">
-          
-        </div>
+    <div class="form-group row">
+      <label 
+        for="destination" 
+        class="col-sm-3 col-form-label">
+        Destination
+      </label>
+      <div class="col-sm-9">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <input
+            ngx-google-places-autocomplete
+            [options]='placesOptions' 
+            #placesRef="ngx-places" 
+            (onAddressChange)="handleDestAddressChange($event)"
+            placeholder="Destination"
+            id="destination"
+            name="destination"
+            class="form-control"
+            matInput formControlName="destination">
+          <mat-error *ngIf="status.invalid">{{getErrorMessage()}}</mat-error>          
+        </mat-form-field>
       </div>
+    </div>
 
-      <div class="form-group row">
-        <label 
-          for="destination" 
-          class="col-sm-3 col-form-label">
-          Destination
-        </label>
-        <div class="col-sm-9">
-          
-        </div>
+    <div class="form-group row">
+      <label 
+        for="return" 
+        class="col-sm-3 col-form-label">
+        Return
+      </label>
+      <div class="col-sm-9">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <input
+            ngx-google-places-autocomplete 
+            [options]='placesOptions'
+            #placesRef="ngx-places" 
+            (onAddressChange)="handleReturnAddressChange($event)"
+            placeholder="Return"
+            id="return"
+            name="return"
+            class="form-control"
+            matInput formControlName="return">
+          <!-- <mat-error *ngIf="status.invalid">{{getErrorMessage()}}</mat-error> -->    
+        </mat-form-field>
       </div>
+    </div>
 
-      <div class="form-group row">
-        <label 
-          for="return" 
-          class="col-sm-3 col-form-label">
-          Return
-        </label>
-        <div class="col-sm-9">
-          
-        </div>
-      </div>
 
       <div class="form-group row">
         <label 
