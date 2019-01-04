@@ -1,7 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { VehicleTypeService } from '../../../common/services/masters/vehicle-type.service';
+import { VehicleBodyService } from './../../../common/services/masters/vehicle-body.service';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -9,12 +11,29 @@ import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 
   styleUrls: ['./enquiries.component.css'],
 })
-export class EnquiriesComponent {
+export class EnquiriesComponent implements OnInit {
 
-  constructor() {}
+  constructor(
+    private vehicleTypeService: VehicleTypeService,
+    private vehicleBodyService: VehicleBodyService) {}
 
+  ngOnInit() {
+    this.vehicleTypeService.getVehicleType()
+    .subscribe(response => {
+      this.vehicleTypeOptions = response.body.
+        map(responseMap => responseMap.vehicle);
+    });
 
-  @ViewChild('placesRef') placesRef: GooglePlaceDirective;
+    this.vehicleBodyService.getVehicleBody()
+    .subscribe(response => {
+      this.vehicleBodyOptions = response.body.
+        map(responseMap => responseMap.body);
+    });
+  }
+
+  @ViewChild('sourceRef') sourceRef: GooglePlaceDirective;
+  @ViewChild('destRef') destRef: GooglePlaceDirective;
+  @ViewChild('returnRef') returnRef: GooglePlaceDirective;
 
   statusOptions: string[] = [
     'Finalised Order',
@@ -34,7 +53,9 @@ export class EnquiriesComponent {
 
   vehicleTypeResults: string[];
 
-  vehicleTypeOptions: string[];
+  vehicleTypeOptions: any[];
+
+  vehicleBodyOptions: any[];
 
   loadTypeOptions: string[] = [
     'ODC',
@@ -105,30 +126,91 @@ export class EnquiriesComponent {
     loadingDate: new FormControl('', []),
   });
 
-  getErrorMessage() {
-    return this.enquiriesForm.controls.status.hasError('required') ? 'You must enter a value' :
-    this.enquiriesForm.controls.source.hasError('required') ? 'You must enter a value' :
-    this.enquiriesForm.controls.destination.hasError('required') ? 'You must enter a value' : '';
+  public handleSourceAddressChange(address: Address) {
+    this.latSource = this.sourceRef.place.geometry.location.lat();
+    this.lngSource = this.sourceRef.place.geometry.location.lng();
   }
+
+  public handleDestAddressChange(address: Address) {
+    this.latDest = this.destRef.place.geometry.location.lat();
+    this.lngDest = this.destRef.place.geometry.location.lng();
+  }
+
+  public handleReturnAddressChange(address: Address) {
+    this.latRet = this.returnRef.place.geometry.location.lat();
+    this.lngRet = this.returnRef.place.geometry.location.lng();
+  }
+
+  // Below we handle error messages for each field individually
+
+  getStatusErrorMessage() {
+    return this.enquiriesForm.controls.status.hasError('required') ? 'You must enter a value' : '';
+  }
+
+  getSourceErrorMessage() {
+    return this.enquiriesForm.controls.source.hasError('required') ? 'You must enter a value' : '';
+  }
+
+  getLoadTypeErrorMessage() {
+    return this.enquiriesForm.controls.source.hasError('required') ? 'You must enter a value' : '';
+  }
+
+  // The following get functions are used to describe
+  // properties which can be used for cleaner code in html file.
 
   get status()
   {
     return this.enquiriesForm.get('status');
   }
 
-  public handleSourceAddressChange(address: Address) {
-    this.latSource = this.placesRef.place.geometry.location.lat();
-    this.lngSource = this.placesRef.place.geometry.location.lng();
+  get source()
+  {
+    return this.enquiriesForm.get('source');
   }
 
-  public handleDestAddressChange(address: Address) {
-    this.latSource = this.placesRef.place.geometry.location.lat();
-    this.lngSource = this.placesRef.place.geometry.location.lng();
+  get destination()
+  {
+    return this.enquiriesForm.get('destination');
   }
 
-  public handleReturnAddressChange(address: Address) {
-    this.latSource = this.placesRef.place.geometry.location.lat();
-    this.lngSource = this.placesRef.place.geometry.location.lng();
+  get return()
+  {
+    return this.enquiriesForm.get('return');
+  }
+
+  get length()
+  {
+    return this.enquiriesForm.get('length');
+  }
+
+  get width()
+  {
+    return this.enquiriesForm.get('width');
+  }
+
+  get height()
+  {
+    return this.enquiriesForm.get('height');
+  }
+
+  get weight()
+  {
+    return this.enquiriesForm.get('weight');
+  }
+
+  get loadType()
+  {
+    return this.enquiriesForm.get('loadType');
+  }
+
+  get vehicleType()
+  {
+    return this.enquiriesForm.get('vehicleType');
+  }
+
+  get vehicleBody()
+  {
+    return this.enquiriesForm.get('vehicleBody');
   }
 
 }

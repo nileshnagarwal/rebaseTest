@@ -24,7 +24,7 @@
             class="form-control"
             matInput formControlName="status" 
             [matAutocomplete]="auto">
-          <mat-error *ngIf="status.invalid">{{getErrorMessage()}}</mat-error>
+          <mat-error *ngIf="status.invalid">{{getStatusErrorMessage()}}</mat-error>
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let status of statusOptions" [value]="status">
               {{status}}
@@ -45,14 +45,14 @@
           <input
             ngx-google-places-autocomplete 
             [options]='placesOptions' 
-            #placesRef="ngx-places" 
+            #sourceRef="ngx-places" 
             (onAddressChange)="handleSourceAddressChange($event)"
             placeholder="Source"
             id="source"
             name="source"
             class="form-control"
             matInput formControlName="source">
-          <mat-error *ngIf="status.invalid">{{getErrorMessage()}}</mat-error>          
+          <mat-error *ngIf="source.invalid">{{getSourceErrorMessage()}}</mat-error>          
         </mat-form-field>
       </div>
     </div>
@@ -68,14 +68,14 @@
           <input
             ngx-google-places-autocomplete
             [options]='placesOptions' 
-            #placesRef="ngx-places" 
+            #destRef="ngx-places" 
             (onAddressChange)="handleDestAddressChange($event)"
             placeholder="Destination"
             id="destination"
             name="destination"
             class="form-control"
             matInput formControlName="destination">
-          <mat-error *ngIf="status.invalid">{{getErrorMessage()}}</mat-error>          
+          <!-- <mat-error *ngIf="destination.invalid">{{getErrorMessage()}}</mat-error>           -->
         </mat-form-field>
       </div>
     </div>
@@ -91,14 +91,14 @@
           <input
             ngx-google-places-autocomplete 
             [options]='placesOptions'
-            #placesRef="ngx-places" 
+            #returnRef="ngx-places" 
             (onAddressChange)="handleReturnAddressChange($event)"
             placeholder="Return"
             id="return"
             name="return"
             class="form-control"
             matInput formControlName="return">
-          <!-- <mat-error *ngIf="status.invalid">{{getErrorMessage()}}</mat-error> -->    
+          <!-- <mat-error *ngIf="return.invalid">{{getErrorMessage()}}</mat-error>     -->
         </mat-form-field>
       </div>
     </div>
@@ -185,6 +185,62 @@
             type="number"
             class="form-control"                
             placeholder="Weight">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label 
+          for="loadType" 
+          class="col-sm-3 col-form-label">
+          Load Type
+        </label>
+        <div class="col-sm-9">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input 
+              type="text" 
+              placeholder="Load Type"
+              id="loadType"
+              name="loadType"
+              class="form-control"
+              matInput formControlName="loadType" 
+              [matAutocomplete]="autoLoadType">
+            <mat-error *ngIf="loadType.invalid">{{getLoadTypeErrorMessage()}}</mat-error>
+            <mat-autocomplete #autoLoadType="matAutocomplete">
+              <mat-option *ngFor="let loadTypeOpt of loadTypeOptions" [value]="loadTypeOpt">
+                {{loadTypeOpt}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label 
+          for="vehicleType" 
+          class="col-sm-3 col-form-label">
+          Vehicle Types
+        </label>
+        <div class="col-sm-9">
+          <mat-form-field>
+            <mat-select placeholder="Vehicle Types" formControlName="vehicleType" multiple>
+              <mat-option *ngFor="let vehicleTypeOpt of vehicleTypeOptions" [value]="vehicleTypeOpt">{{vehicleTypeOpt}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label 
+          for="vehicleBody" 
+          class="col-sm-3 col-form-label">
+          Vehicle Body
+        </label>
+        <div class="col-sm-9">
+          <mat-form-field>
+            <mat-select placeholder="Vehicle Body" formControlName="vehicleBody" multiple>
+              <mat-option *ngFor="let vehicleBodyOpt of vehicleBodyOptions" [value]="vehicleBodyOpt">{{vehicleBodyOpt}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
 

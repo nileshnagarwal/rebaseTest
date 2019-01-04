@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatButtonModule, MatCheckboxModule, MatFormFieldModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatSelectModule} from '@angular/material';
 import {MatIconModule, MatInputModule, MatAutocompleteModule, MatSliderModule} from '@angular/material';
 
 @NgModule({
@@ -15,6 +15,7 @@ import {MatIconModule, MatInputModule, MatAutocompleteModule, MatSliderModule} f
     MatAutocompleteModule,
     MatSliderModule,
     MatCheckboxModule,
+    MatSelectModule,
   ],
   exports: [
     MatButtonModule,
@@ -25,6 +26,7 @@ import {MatIconModule, MatInputModule, MatAutocompleteModule, MatSliderModule} f
     MatAutocompleteModule,
     MatSliderModule,
     MatCheckboxModule,
+    MatSelectModule,
   ],
 })
 export class MaterialDesignModule { }
