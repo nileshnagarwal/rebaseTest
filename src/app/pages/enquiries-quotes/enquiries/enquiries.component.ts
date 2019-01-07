@@ -4,6 +4,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { VehicleTypeService } from '../../../common/services/masters/vehicle-type.service';
 import { VehicleBodyService } from './../../../common/services/masters/vehicle-body.service';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -15,7 +16,8 @@ export class EnquiriesComponent implements OnInit {
 
   constructor(
     private vehicleTypeService: VehicleTypeService,
-    private vehicleBodyService: VehicleBodyService) {}
+    private vehicleBodyService: VehicleBodyService,
+    private adapter: DateAdapter<any>) {}
 
   ngOnInit() {
     this.vehicleTypeService.getVehicleType()
@@ -29,6 +31,9 @@ export class EnquiriesComponent implements OnInit {
       this.vehicleBodyOptions = response.body.
         map(responseMap => responseMap.body);
     });
+
+    // The below statement changes the date locale to India
+    this.adapter.setLocale('in');
   }
 
   @ViewChild('sourceRef') sourceRef: GooglePlaceDirective;
@@ -178,6 +183,11 @@ export class EnquiriesComponent implements OnInit {
     return this.enquiriesForm.get('return');
   }
 
+  get enquiryId()
+  {
+    return this.enquiriesForm.get('enquiryId');
+  }
+
   get length()
   {
     return this.enquiriesForm.get('length');
@@ -211,6 +221,16 @@ export class EnquiriesComponent implements OnInit {
   get vehicleBody()
   {
     return this.enquiriesForm.get('vehicleBody');
+  }
+
+  get loadingDate()
+  {
+    return this.enquiriesForm.get('loadingDate');
+  }
+
+  get comments()
+  {
+    return this.enquiriesForm.get('comments');
   }
 
 }
