@@ -1,9 +1,9 @@
 export interface Enquiry {
     status?: string;
-    loadType: string;
-    vehicleType: string;
-    vehicleBody: string;
-    enquiryId: string;
+    load_type: string;
+    vehicle_type: number[];
+    vehicle_body: number[];
+    enquiry_no: string;
     length: number;
     width: number;
     height: number;
@@ -11,8 +11,9 @@ export interface Enquiry {
     source: string;
     destination: string;
     return?: string;
-    specialReq?: string;
-    loadingDate: number;
+    comments?: string;
+    loading_date: Date;
+    extraExpenses: number[];
 }
 
 

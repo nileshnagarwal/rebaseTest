@@ -4,7 +4,9 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { VehicleTypeService } from '../../../common/services/masters/vehicle-type.service';
 import { VehicleBodyService } from './../../../common/services/masters/vehicle-body.service';
+import { EnquiriesService } from './../../../common/services/enquiries-quotes/enquiries.service';
 import { DateAdapter } from '@angular/material/core';
+import { googlePlaceValidator } from '../../../common/validators/ngx-google-places.directive';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -17,22 +19,24 @@ export class EnquiriesComponent implements OnInit {
   constructor(
     private vehicleTypeService: VehicleTypeService,
     private vehicleBodyService: VehicleBodyService,
-    private adapter: DateAdapter<any>) {}
+    private adapter: DateAdapter<any>,
+    private service: EnquiriesService) {}
 
   ngOnInit() {
     this.vehicleTypeService.getVehicleType()
     .subscribe(response => {
       this.vehicleTypeOptions = response.body.
-        map(responseMap => responseMap.vehicle);
+        map(responseMap => responseMap);
     });
 
     this.vehicleBodyService.getVehicleBody()
     .subscribe(response => {
       this.vehicleBodyOptions = response.body.
-        map(responseMap => responseMap.body);
+        map(responseMap => responseMap);
     });
 
     // The below statement changes the date locale to India
+    // displaying DD-MM-YYYY date format in form
     this.adapter.setLocale('in');
   }
 
@@ -73,6 +77,8 @@ export class EnquiriesComponent implements OnInit {
     componentRestrictions: {country: 'in'},
   };
 
+  // Temp variable
+  sourceValid: boolean;
 
   searchStatus(event) {
     this.results = [];
@@ -94,18 +100,24 @@ export class EnquiriesComponent implements OnInit {
         }
   }
 
+  addEnquiry(enquiriesForm) {
+    this.service.addEnquiry(enquiriesForm.value)
+      .subscribe(response => {});
+      // enquiriesForm.reset();
+  }
+
   enquiriesForm = new FormGroup({
     status: new FormControl('', [
       Validators.required,
     ]),
-    loadType: new FormControl('', [
+    load_type: new FormControl('', [
       Validators.required,
     ]),
-    vehicleType: new FormControl('', [
+    vehicle_type: new FormControl('', [
       Validators.required,
     ]),
-    vehicleBody: new FormControl('', []),
-    enquiryId: new FormControl('', [
+    vehicle_body: new FormControl('', []),
+    enquiry_no: new FormControl('', [
       Validators.required,
     ]),
     length: new FormControl('', [
@@ -122,28 +134,47 @@ export class EnquiriesComponent implements OnInit {
     ]),
     source: new FormControl('', [
       Validators.required,
+      googlePlaceValidator(null),
     ]),
     destination: new FormControl('', [
       Validators.required,
+      googlePlaceValidator(null),
     ]),
-    return: new FormControl('', []),
+    return: new FormControl('', [
+      googlePlaceValidator(null),
+    ]),
     comments: new FormControl('', []),
-    loadingDate: new FormControl('', []),
+    loading_date: new FormControl('', []),
   });
 
   public handleSourceAddressChange(address: Address) {
-    this.latSource = this.sourceRef.place.geometry.location.lat();
-    this.lngSource = this.sourceRef.place.geometry.location.lng();
+    this.latSource = address.geometry.location.lat();
+    this.lngSource = address.geometry.location.lng();
+    this.source.setValue(address.formatted_address);
+    this.source.setValidators([
+      Validators.required,
+      googlePlaceValidator(address),
+    ]);
+    this.source.updateValueAndValidity();
   }
 
   public handleDestAddressChange(address: Address) {
-    this.latDest = this.destRef.place.geometry.location.lat();
-    this.lngDest = this.destRef.place.geometry.location.lng();
+    this.latDest = address.geometry.location.lat();
+    this.lngDest = address.geometry.location.lng();
+    this.destination.setValue(address.formatted_address);
+    this.destination.setValidators([
+      Validators.required,
+      googlePlaceValidator(address),
+    ]);
+    this.destination.updateValueAndValidity();
   }
 
   public handleReturnAddressChange(address: Address) {
-    this.latRet = this.returnRef.place.geometry.location.lat();
-    this.lngRet = this.returnRef.place.geometry.location.lng();
+    this.latRet = address.geometry.location.lat();
+    this.lngRet = address.geometry.location.lng();
+    this.return.setValue(address.formatted_address);
+    this.return.setValidators(googlePlaceValidator(address));
+    this.return.updateValueAndValidity();
   }
 
   // Below we handle error messages for each field individually
@@ -183,9 +214,9 @@ export class EnquiriesComponent implements OnInit {
     return this.enquiriesForm.get('return');
   }
 
-  get enquiryId()
+  get enquiry_no()
   {
-    return this.enquiriesForm.get('enquiryId');
+    return this.enquiriesForm.get('enquiry_no');
   }
 
   get length()
@@ -208,24 +239,24 @@ export class EnquiriesComponent implements OnInit {
     return this.enquiriesForm.get('weight');
   }
 
-  get loadType()
+  get load_type()
   {
-    return this.enquiriesForm.get('loadType');
+    return this.enquiriesForm.get('load_type');
   }
 
-  get vehicleType()
+  get vehicle_type()
   {
-    return this.enquiriesForm.get('vehicleType');
+    return this.enquiriesForm.get('vehicle_type');
   }
 
-  get vehicleBody()
+  get vehicle_body()
   {
-    return this.enquiriesForm.get('vehicleBody');
+    return this.enquiriesForm.get('vehicle_body');
   }
 
-  get loadingDate()
+  get loading_date()
   {
-    return this.enquiriesForm.get('loadingDate');
+    return this.enquiriesForm.get('loading_date');
   }
 
   get comments()

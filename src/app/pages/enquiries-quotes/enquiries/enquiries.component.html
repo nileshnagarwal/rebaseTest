@@ -106,15 +106,15 @@
 
       <div class="form-group row">
         <label 
-          for="enquiryId" 
+          for="enquiry_no" 
           class="col-sm-3 col-form-label">
           Enquiry ID
         </label>
         <div class="col-sm-9">
           <input 
-            formControlName="enquiryId"
-            id="enquiryId" 
-            name="enquiryId"
+            formControlName="enquiry_no"
+            id="enquiry_no" 
+            name="enquiry_no"
             class="form-control"                
             placeholder="Enquiry ID">
         </div>
@@ -190,7 +190,7 @@
 
       <div class="form-group row">
         <label 
-          for="loadType" 
+          for="load_type" 
           class="col-sm-3 col-form-label">
           Load Type
         </label>
@@ -199,12 +199,12 @@
             <input 
               type="text" 
               placeholder="Load Type"
-              id="loadType"
-              name="loadType"
+              id="load_type"
+              name="load_type"
               class="form-control"
-              matInput formControlName="loadType" 
+              matInput formControlName="load_type" 
               [matAutocomplete]="autoLoadType">
-            <mat-error *ngIf="loadType.invalid">{{getLoadTypeErrorMessage()}}</mat-error>
+            <mat-error *ngIf="load_type.invalid">{{getLoadTypeErrorMessage()}}</mat-error>
             <mat-autocomplete #autoLoadType="matAutocomplete">
               <mat-option *ngFor="let loadTypeOpt of loadTypeOptions" [value]="loadTypeOpt">
                 {{loadTypeOpt}}
@@ -216,14 +216,14 @@
 
       <div class="form-group row">
         <label 
-          for="vehicleType" 
+          for="vehicle_type" 
           class="col-sm-3 col-form-label">
           Vehicle Types
         </label>
         <div class="col-sm-9">
           <mat-form-field>
-            <mat-select placeholder="Vehicle Types" formControlName="vehicleType" multiple>
-              <mat-option *ngFor="let vehicleTypeOpt of vehicleTypeOptions" [value]="vehicleTypeOpt">{{vehicleTypeOpt}}</mat-option>
+            <mat-select placeholder="Vehicle Types" formControlName="vehicle_type" multiple>
+              <mat-option *ngFor="let vehicleTypeOpt of vehicleTypeOptions" [value]="vehicleTypeOpt.vehicle_type_id">{{vehicleTypeOpt.vehicle}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -231,14 +231,14 @@
 
       <div class="form-group row">
         <label 
-          for="vehicleBody" 
+          for="vehicle_body" 
           class="col-sm-3 col-form-label">
           Vehicle Body
         </label>
         <div class="col-sm-9">
           <mat-form-field>
-            <mat-select placeholder="Vehicle Body" formControlName="vehicleBody" multiple>
-              <mat-option *ngFor="let vehicleBodyOpt of vehicleBodyOptions" [value]="vehicleBodyOpt">{{vehicleBodyOpt}}</mat-option>
+            <mat-select placeholder="Vehicle Body" formControlName="vehicle_body" multiple>
+              <mat-option *ngFor="let vehicleBodyOpt of vehicleBodyOptions" [value]="vehicleBodyOpt.vehicle_body_id">{{vehicleBodyOpt.body}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -253,9 +253,10 @@
         <div class="col-sm-9">
           <mat-form-field>
             <input 
-              id="loadingDate" 
+              id="loading_date"
+              name="loading_date"
               matInput [matDatepicker]="picker" 
-              formControlName="loadingDate"
+              formControlName="loading_date"
               placeholder="Choose a date">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker touchUi #picker></mat-datepicker>
