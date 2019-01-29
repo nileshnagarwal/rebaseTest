@@ -7,6 +7,7 @@ import { VehicleBodyService } from './../../../common/services/masters/vehicle-b
 import { EnquiriesService } from './../../../common/services/enquiries-quotes/enquiries.service';
 import { DateAdapter } from '@angular/material/core';
 import { googlePlaceValidator } from '../../../common/validators/ngx-google-places.directive';
+import { dropdownValidator } from '../../../common/validators/dropdown.directive';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -56,8 +57,6 @@ export class EnquiriesComponent implements OnInit {
   public latRet: number;
   public lngRet: number;
 
-  text: string;
-
   results: string[];
 
   vehicleTypeResults: string[];
@@ -76,9 +75,6 @@ export class EnquiriesComponent implements OnInit {
   placesOptions = {
     componentRestrictions: {country: 'in'},
   };
-
-  // Temp variable
-  sourceValid: boolean;
 
   searchStatus(event) {
     this.results = [];
@@ -103,12 +99,13 @@ export class EnquiriesComponent implements OnInit {
   addEnquiry(enquiriesForm) {
     this.service.addEnquiry(enquiriesForm.value)
       .subscribe(response => {});
-      // enquiriesForm.reset();
+      // enquiriesForm.reset(); TO BE DELETED
   }
 
   enquiriesForm = new FormGroup({
     status: new FormControl('', [
       Validators.required,
+      dropdownValidator(this.statusOptions),
     ]),
     load_type: new FormControl('', [
       Validators.required,
@@ -180,7 +177,8 @@ export class EnquiriesComponent implements OnInit {
   // Below we handle error messages for each field individually
 
   getStatusErrorMessage() {
-    return this.enquiriesForm.controls.status.hasError('required') ? 'You must enter a value' : '';
+    return this.enquiriesForm.controls.status.hasError('required') ? 'You must enter a value' :
+      this.enquiriesForm.controls.status.hasError('invalid') ?  'You must select from the given options' : '';
   }
 
   getSourceErrorMessage() {
