@@ -25,7 +25,7 @@
             matInput formControlName="status" 
             [matAutocomplete]="auto">
           <mat-error *ngIf="status.invalid">{{getStatusErrorMessage()}}</mat-error>
-          <mat-autocomplete #auto="matAutocomplete">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="enquiryNoValidationTrigger($event)">
             <mat-option *ngFor="let status of statusOptions" [value]="status">
               {{status}}
             </mat-option>
@@ -108,15 +108,18 @@
         <label 
           for="enquiry_no" 
           class="col-sm-3 col-form-label">
-          Enquiry ID
+          Enquiry No
         </label>
         <div class="col-sm-9">
-          <input 
+        <mat-form-field class="example-full-width" appearance="outline">
+          <input
+            matInput
             formControlName="enquiry_no"
             id="enquiry_no" 
             name="enquiry_no"
             class="form-control"                
-            placeholder="Enquiry ID">
+            placeholder="Enquiry No">
+        </mat-form-field>
         </div>
       </div>
 

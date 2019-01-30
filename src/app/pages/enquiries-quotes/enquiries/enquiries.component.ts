@@ -8,6 +8,8 @@ import { EnquiriesService } from './../../../common/services/enquiries-quotes/en
 import { DateAdapter } from '@angular/material/core';
 import { googlePlaceValidator } from '../../../common/validators/ngx-google-places.directive';
 import { dropdownValidator } from '../../../common/validators/dropdown.directive';
+import { enquiryNoValidator } from '../../../common/validators/enquiry-id.directive';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -45,9 +47,13 @@ export class EnquiriesComponent implements OnInit {
   @ViewChild('destRef') destRef: GooglePlaceDirective;
   @ViewChild('returnRef') returnRef: GooglePlaceDirective;
 
+  // StatusOptions are hard coded at backend as well as frontend.
+  // Changing this involves changing it in this component as well as
+  // as changing it in validator.
   statusOptions: string[] = [
-    'Finalised Order',
-    'Quote Required',
+    'Confirmed Order',
+    'Unfloated Enquiry',
+    'Floated Enquiry',
   ];
 
   public latSource: number;
@@ -143,6 +149,14 @@ export class EnquiriesComponent implements OnInit {
     comments: new FormControl('', []),
     loading_date: new FormControl('', []),
   });
+
+  public enquiryNoValidationTrigger(event: MatAutocompleteSelectedEvent) {
+    this.enquiry_no.setValidators([
+      Validators.required,
+      enquiryNoValidator(this.status.value),
+    ]);
+    this.enquiry_no.updateValueAndValidity();
+  }
 
   public handleSourceAddressChange(address: Address) {
     this.latSource = address.geometry.location.lat();
