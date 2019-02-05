@@ -8,102 +8,106 @@
     [formGroup]="enquiriesForm"
     (ngSubmit)="addEnquiry(enquiriesForm)">
 
-    <div class="form-group row">
-      <label 
-        for="status" 
-        class="col-sm-3 col-form-label">
-        Status of Enquiry
-      </label>
-      <div class="col-sm-9">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <input 
-            type="text" 
-            placeholder="Enquiry Status"
-            id="status"
-            name="status"
-            class="form-control"
-            matInput formControlName="status" 
-            [matAutocomplete]="auto">
-          <mat-error *ngIf="status.invalid">{{getStatusErrorMessage()}}</mat-error>
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="enquiryNoValidationTrigger($event)">
-            <mat-option *ngFor="let status of statusOptions" [value]="status">
-              {{status}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+      <!-- Status of Enquiry -->
+      <div class="form-group row">
+        <label 
+          for="status" 
+          class="col-sm-3 col-form-label">
+          Status of Enquiry
+        </label>
+        <div class="col-sm-9">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input 
+              type="text" 
+              placeholder="Enquiry Status"
+              id="status"
+              name="status"
+              class="form-control"
+              matInput formControlName="status" 
+              [matAutocomplete]="auto">
+            <mat-error *ngIf="status.invalid">{{getStatusErrorMessage()}}</mat-error>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="enquiryNoValidationTrigger($event)">
+              <mat-option *ngFor="let status of statusOptions" [value]="status">
+                {{status}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
       </div>
-    </div>
-
-    <div class="form-group row">
-      <label 
-        for="source" 
-        class="col-sm-3 col-form-label">
-        Source
-      </label>
-      <div class="col-sm-9">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <input
-            ngx-google-places-autocomplete 
-            [options]='placesOptions' 
-            #sourceRef="ngx-places" 
-            (onAddressChange)="handleSourceAddressChange($event)"
-            placeholder="Source"
-            id="source"
-            name="source"
-            class="form-control"
-            matInput formControlName="source">
-          <mat-error *ngIf="source.invalid">{{getSourceErrorMessage()}}</mat-error>          
-        </mat-form-field>
+      
+      <!-- Source Location -->
+      <div class="form-group row">
+          <label 
+            for="source" 
+            class="col-sm-3 col-form-label">
+            Source
+          </label>
+          <div class="col-sm-9">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <input
+                ngx-google-places-autocomplete 
+                [options]='placesOptions' 
+                #sourceRef="ngx-places" 
+                (onAddressChange)="handleSourceAddressChange($event)"
+                placeholder="Source"
+                id="source"
+                name="source"
+                class="form-control"
+                matInput formControlName="source">
+              <mat-error *ngIf="source.invalid">{{getSourceErrorMessage()}}</mat-error>          
+            </mat-form-field>
+          </div>
       </div>
-    </div>
-
-    <div class="form-group row">
-      <label 
-        for="destination" 
-        class="col-sm-3 col-form-label">
-        Destination
-      </label>
-      <div class="col-sm-9">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <input
-            ngx-google-places-autocomplete
-            [options]='placesOptions' 
-            #destRef="ngx-places" 
-            (onAddressChange)="handleDestAddressChange($event)"
-            placeholder="Destination"
-            id="destination"
-            name="destination"
-            class="form-control"
-            matInput formControlName="destination">
-          <!-- <mat-error *ngIf="destination.invalid">{{getErrorMessage()}}</mat-error>           -->
-        </mat-form-field>
+      
+      <!-- Destination Location -->
+      <div class="form-group row">
+        <label 
+          for="destination" 
+          class="col-sm-3 col-form-label">
+          Destination
+        </label>
+        <div class="col-sm-9">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input
+              ngx-google-places-autocomplete
+              [options]='placesOptions' 
+              #destRef="ngx-places" 
+              (onAddressChange)="handleDestAddressChange($event)"
+              placeholder="Destination"
+              id="destination"
+              name="destination"
+              class="form-control"
+              matInput formControlName="destination">
+            <mat-error *ngIf="destination.invalid">{{getDestinationErrorMessage()}}</mat-error>          
+          </mat-form-field>
+        </div>
       </div>
-    </div>
 
-    <div class="form-group row">
-      <label 
-        for="return" 
-        class="col-sm-3 col-form-label">
-        Return
-      </label>
-      <div class="col-sm-9">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <input
-            ngx-google-places-autocomplete 
-            [options]='placesOptions'
-            #returnRef="ngx-places" 
-            (onAddressChange)="handleReturnAddressChange($event)"
-            placeholder="Return"
-            id="return"
-            name="return"
-            class="form-control"
-            matInput formControlName="return">
-          <!-- <mat-error *ngIf="return.invalid">{{getErrorMessage()}}</mat-error>     -->
-        </mat-form-field>
+      <!-- Return Location -->
+      <div class="form-group row">
+        <label 
+          for="return" 
+          class="col-sm-3 col-form-label">
+          Return
+        </label>
+        <div class="col-sm-9">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input
+              ngx-google-places-autocomplete 
+              [options]='placesOptions'
+              #returnRef="ngx-places" 
+              (onAddressChange)="handleReturnAddressChange($event)"
+              placeholder="Return"
+              id="return"
+              name="return"
+              class="form-control"
+              matInput formControlName="return">
+            <mat-error *ngIf="return.invalid">{{getReturnErrorMessage()}}</mat-error>    
+          </mat-form-field>
+        </div>
       </div>
-    </div>
-
-
+      
+      <!-- Enquiry No -->
       <div class="form-group row">
         <label 
           for="enquiry_no" 
@@ -122,7 +126,8 @@
         </mat-form-field>
         </div>
       </div>
-
+      
+      <!-- Length -->
       <div class="form-group row">
         <label 
           for="length" 
@@ -130,16 +135,20 @@
           Length
         </label>
         <div class="col-sm-9">
+        <mat-form-field class="example-full-width" appearance="outline">        
           <input 
+            matInput
             formControlName="length"
             id="length" 
             name="length"
             type="number"
             class="form-control"                
             placeholder="Length">
+        </mat-form-field>
         </div>
       </div>
 
+      <!-- Width -->
       <div class="form-group row">
         <label 
           for="width" 
@@ -147,16 +156,20 @@
           Width
         </label>
         <div class="col-sm-9">
-          <input 
+        <mat-form-field class="example-full-width" appearance="outline">
+          <input
+            matInput
             formControlName="width"
             id="width" 
             name="width"
             type="number"
             class="form-control"                
             placeholder="Width">
+        </mat-form-field>
         </div>
       </div>
 
+      <!-- Height -->
       <div class="form-group row">
         <label 
           for="height" 
@@ -164,16 +177,20 @@
           Height
         </label>
         <div class="col-sm-9">
+        <mat-form-field class="example-full-width" appearance="outline">
           <input 
+            matInput
             formControlName="height"
             id="height" 
             name="height"
             type="number"
             class="form-control"                
             placeholder="Height">
+        </mat-form-field>
         </div>
       </div>
 
+      <!-- Weight -->
       <div class="form-group row">
         <label 
           for="weight" 
@@ -181,16 +198,20 @@
           Weight
         </label>
         <div class="col-sm-9">
+        <mat-form-field class="example-full-width" appearance="outline">
           <input 
+            matInput
             formControlName="weight"
             id="weight" 
             name="weight"
             type="number"
             class="form-control"                
             placeholder="Weight">
+        </mat-form-field>
         </div>
       </div>
 
+      <!-- Load Type -->
       <div class="form-group row">
         <label 
           for="load_type" 
@@ -217,6 +238,7 @@
         </div>
       </div>
 
+      <!-- Vehicle Type -->
       <div class="form-group row">
         <label 
           for="vehicle_type" 
@@ -224,7 +246,7 @@
           Vehicle Types
         </label>
         <div class="col-sm-9">
-          <mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline">
             <mat-select placeholder="Vehicle Types" formControlName="vehicle_type" multiple>
               <mat-option *ngFor="let vehicleTypeOpt of vehicleTypeOptions" [value]="vehicleTypeOpt.vehicle_type_id">{{vehicleTypeOpt.vehicle}}</mat-option>
             </mat-select>
@@ -232,6 +254,7 @@
         </div>
       </div>
 
+      <!-- Vehicle Body -->
       <div class="form-group row">
         <label 
           for="vehicle_body" 
@@ -239,7 +262,7 @@
           Vehicle Body
         </label>
         <div class="col-sm-9">
-          <mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline">
             <mat-select placeholder="Vehicle Body" formControlName="vehicle_body" multiple>
               <mat-option *ngFor="let vehicleBodyOpt of vehicleBodyOptions" [value]="vehicleBodyOpt.vehicle_body_id">{{vehicleBodyOpt.body}}</mat-option>
             </mat-select>
@@ -247,6 +270,7 @@
         </div>
       </div>
 
+      <!-- Loading Date -->
       <div class="form-group row">
         <label 
           for="loadingDate" 
@@ -254,7 +278,7 @@
           Loading Date
         </label>
         <div class="col-sm-9">
-          <mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline">
             <input 
               id="loading_date"
               name="loading_date"
@@ -267,6 +291,7 @@
         </div>
       </div>
 
+      <!-- Comments -->
       <div class="form-group row">
         <label 
           for="comments" 
@@ -285,6 +310,46 @@
         </div>
       </div>
 
+      <!-- NewSource FormArray -->
+      <div class="form-group row" 
+      *ngFor="let new_source of new_sources.controls; let i=index"
+      formArrayName="new_sources">
+        <label 
+          for="new_source" 
+          class="col-sm-3 col-form-label">
+          NewSource
+        </label>
+        <div class="col-sm-2">
+            <input
+              [formControlName]="i"
+              ngx-google-places-autocomplete 
+              [options]='placesOptions' 
+              #sourceRef="ngx-places" 
+              (onAddressChange)="handleNewSourceAddressChange($event, i)"
+              placeholder="NewSource"
+              id="new_source"
+              name="new_source"
+              class="form-control">
+        </div>
+        <div class="col-sm-2">
+          <Button class="btn btn-primary btn-md"          
+          *ngIf="new_sources.controls.length > 1"
+          (click)="removeNewSource(new_sources.controls[i])"
+          type="button">
+          Remove Source</Button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-9">
+          <Button class="btn btn-primary btn-md"
+          (click)="addNewSource()"
+          type="button">
+          Add Source</Button>
+        </div>
+      </div>
+      
+
       <!-- Adding the submit button -->
       <div class="form-group row">
         <div class="offset-sm-3 col-sm-9">
@@ -298,5 +363,11 @@
       </div>
     
     </form>
+
+    <pre>
+      {{ enquiriesForm.value | json }}
+    </pre>
+
   </nb-card-body>       
 </nb-card>
+

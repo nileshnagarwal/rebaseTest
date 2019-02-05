@@ -11,11 +11,11 @@ export function googlePlaceValidator(place: Address | null): ValidatorFn {
     // return null as the required validator will handle this case.
     if (control.value !== '') {
       if (place == null) {
-        return {'invalid':
+        return {'invalidPlace':
           {inputValue: control.value, 'place': null},
         };
       } else if (place.formatted_address !== control.value) {
-        return {'invalid':
+        return {'invalidPlace':
           {inputValue: control.value, googlePlaceValue: place.formatted_address, 'place': place},
         };
       } else {

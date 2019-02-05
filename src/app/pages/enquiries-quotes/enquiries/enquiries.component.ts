@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { VehicleTypeService } from '../../../common/services/masters/vehicle-type.service';
@@ -41,6 +41,9 @@ export class EnquiriesComponent implements OnInit {
     // The below statement changes the date locale to India
     // displaying DD-MM-YYYY date format in form
     this.adapter.setLocale('in');
+
+    // Initialise Source FormArray with 1 Source
+    this.addNewSource();
   }
 
   @ViewChild('sourceRef') sourceRef: GooglePlaceDirective;
@@ -147,7 +150,10 @@ export class EnquiriesComponent implements OnInit {
       googlePlaceValidator(null),
     ]),
     comments: new FormControl('', []),
-    loading_date: new FormControl('', []),
+    loading_date: new FormControl('', [
+      Validators.required,
+    ]),
+    new_sources: new FormArray([]),
   });
 
   public enquiryNoValidationTrigger(event: MatAutocompleteSelectedEvent) {
@@ -188,15 +194,55 @@ export class EnquiriesComponent implements OnInit {
     this.return.updateValueAndValidity();
   }
 
+  public handleNewSourceAddressChange(address: Address, i: number) {
+    // this.latRet = address.geometry.location.lat();
+    // this.lngRet = address.geometry.location.lng();
+    this.new_sources.controls[i].setValue(address.formatted_address);
+    this.new_sources.controls[i].setValidators([
+      Validators.required,
+      googlePlaceValidator(address),
+    ]);
+    this.new_sources.controls[i].updateValueAndValidity();
+  }
+
+  addNewSource() {
+    // add source to the list
+    this.new_sources.push(new FormControl('', [
+      Validators.required,
+      googlePlaceValidator(null),
+    ]) );
+  }
+
+  removeNewSource(new_source) {
+    // remove source from the list
+    // <FormArray> means 'as FormArray'. This is alternative way to
+    // the method used in addSource()
+    const index = this.new_sources.controls.indexOf(new_source);
+    this.new_sources.removeAt(index);
+    // console.log(new_source);
+    // console.log(this.enquiriesForm.value);
+  }
+
   // Below we handle error messages for each field individually
 
   getStatusErrorMessage() {
     return this.enquiriesForm.controls.status.hasError('required') ? 'You must enter a value' :
-      this.enquiriesForm.controls.status.hasError('invalid') ?  'You must select from the given options' : '';
+      this.enquiriesForm.controls.status.hasError('invalidOption') ?  'You must select from the given options' : '';
   }
 
   getSourceErrorMessage() {
-    return this.enquiriesForm.controls.source.hasError('required') ? 'You must enter a value' : '';
+    return this.enquiriesForm.controls.source.hasError('required') ? 'You must enter a value' :
+      this.enquiriesForm.controls.source.hasError('invalidPlace') ? 'Please select from suggested places' : '';
+  }
+
+  getDestinationErrorMessage() {
+    return this.enquiriesForm.controls.destination.hasError('required') ? 'You must enter a value' :
+      this.enquiriesForm.controls.destination.hasError('invalidPlace') ? 'Please select from suggested places' : '';
+  }
+
+  getReturnErrorMessage() {
+    return this.enquiriesForm.controls.return.hasError('required') ? 'You must enter a value' :
+      this.enquiriesForm.controls.return.hasError('invalidPlace') ? 'Please select from suggested places' : '';
   }
 
   getLoadTypeErrorMessage() {
@@ -274,6 +320,11 @@ export class EnquiriesComponent implements OnInit {
   get comments()
   {
     return this.enquiriesForm.get('comments');
+  }
+
+  get new_sources()
+  {
+    return (this.enquiriesForm.get('new_sources') as FormArray);
   }
 
 }
