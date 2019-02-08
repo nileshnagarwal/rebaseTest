@@ -195,22 +195,23 @@ export class EnquiriesComponent implements OnInit {
   }
 
   public handleNewSourceAddressChange(address: Address, i: number) {
-    // this.latRet = address.geometry.location.lat();
-    // this.lngRet = address.geometry.location.lng();
-    this.new_sources.controls[i].setValue(address.formatted_address);
-    this.new_sources.controls[i].setValidators([
+    this.new_sources.controls[i].get('place').setValue(address.formatted_address);
+    this.new_sources.controls[i].get('place').setValidators([
       Validators.required,
       googlePlaceValidator(address),
     ]);
-    this.new_sources.controls[i].updateValueAndValidity();
+    this.new_sources.controls[i].get('place').updateValueAndValidity();
+    this.new_sources.controls[i].get('lat').setValue(address.geometry.location.lat());
+    this.new_sources.controls[i].get('lng').setValue(address.geometry.location.lng());
   }
 
   addNewSource() {
     // add source to the list
-    this.new_sources.push(new FormControl('', [
-      Validators.required,
-      googlePlaceValidator(null),
-    ]) );
+    this.new_sources.push(new FormGroup({
+      place: new FormControl('', [Validators.required]),
+      lat: new FormControl('', [Validators.required]),
+      lng: new FormControl('', [Validators.required]),
+    }));
   }
 
   removeNewSource(new_source) {
@@ -219,8 +220,6 @@ export class EnquiriesComponent implements OnInit {
     // the method used in addSource()
     const index = this.new_sources.controls.indexOf(new_source);
     this.new_sources.removeAt(index);
-    // console.log(new_source);
-    // console.log(this.enquiriesForm.value);
   }
 
   // Below we handle error messages for each field individually
@@ -327,4 +326,8 @@ export class EnquiriesComponent implements OnInit {
     return (this.enquiriesForm.get('new_sources') as FormArray);
   }
 
+  get place()
+  {
+    return this.enquiriesForm.get('place');
+  }
 }

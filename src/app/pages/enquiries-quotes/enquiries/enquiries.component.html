@@ -311,32 +311,33 @@
       </div>
 
       <!-- NewSource FormArray -->
-      <div class="form-group row" 
-      *ngFor="let new_source of new_sources.controls; let i=index"
+      <div *ngFor="let new_source of new_sources.controls; let i=index"
       formArrayName="new_sources">
-        <label 
-          for="new_source" 
-          class="col-sm-3 col-form-label">
-          NewSource
-        </label>
-        <div class="col-sm-2">
-            <input
-              [formControlName]="i"
-              ngx-google-places-autocomplete 
-              [options]='placesOptions' 
-              #sourceRef="ngx-places" 
-              (onAddressChange)="handleNewSourceAddressChange($event, i)"
-              placeholder="NewSource"
-              id="new_source"
-              name="new_source"
-              class="form-control">
-        </div>
-        <div class="col-sm-2">
-          <Button class="btn btn-primary btn-md"          
-          *ngIf="new_sources.controls.length > 1"
-          (click)="removeNewSource(new_sources.controls[i])"
-          type="button">
-          Remove Source</Button>
+        <div [formGroupName] = "i" class="form-group row">
+          <label 
+            for="new_source" 
+            class="col-sm-3 col-form-label">
+            NewSource
+          </label>
+          <div class="col-sm-2">
+              <input
+                formControlName="place"
+                ngx-google-places-autocomplete 
+                [options]='placesOptions' 
+                #sourceRef="ngx-places" 
+                (onAddressChange)="handleNewSourceAddressChange($event, i)"
+                placeholder="NewSource"
+                id="new_source"
+                name="new_source"
+                class="form-control">
+          </div>
+          <div class="col-sm-2">
+            <Button class="btn btn-primary btn-md"          
+            *ngIf="new_sources.controls.length > 1"
+            (click)="removeNewSource(new_sources.controls[i])"
+            type="button">
+            Remove Source</Button>
+          </div>
         </div>
       </div>
       <div class="form-group row">
