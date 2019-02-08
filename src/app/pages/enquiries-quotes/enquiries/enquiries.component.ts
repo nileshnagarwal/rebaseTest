@@ -42,8 +42,9 @@ export class EnquiriesComponent implements OnInit {
     // displaying DD-MM-YYYY date format in form
     this.adapter.setLocale('in');
 
-    // Initialise Source FormArray with 1 Source
-    this.addNewSource();
+    // Initialise Source and Destination FormArray with 1 Source/Dest
+    this.addSource();
+    this.addDestination();
   }
 
   @ViewChild('sourceRef') sourceRef: GooglePlaceDirective;
@@ -138,14 +139,7 @@ export class EnquiriesComponent implements OnInit {
     weight: new FormControl('', [
       Validators.required,
     ]),
-    source: new FormControl('', [
-      Validators.required,
-      googlePlaceValidator(null),
-    ]),
-    destination: new FormControl('', [
-      Validators.required,
-      googlePlaceValidator(null),
-    ]),
+    destinations: new FormArray([]),
     return: new FormControl('', [
       googlePlaceValidator(null),
     ]),
@@ -153,7 +147,7 @@ export class EnquiriesComponent implements OnInit {
     loading_date: new FormControl('', [
       Validators.required,
     ]),
-    new_sources: new FormArray([]),
+    sources: new FormArray([]),
   });
 
   public enquiryNoValidationTrigger(event: MatAutocompleteSelectedEvent) {
@@ -164,26 +158,15 @@ export class EnquiriesComponent implements OnInit {
     this.enquiry_no.updateValueAndValidity();
   }
 
-  public handleSourceAddressChange(address: Address) {
-    this.latSource = address.geometry.location.lat();
-    this.lngSource = address.geometry.location.lng();
-    this.source.setValue(address.formatted_address);
-    this.source.setValidators([
+  public handleDestinationAddressChange(address: Address, i: number) {
+    this.destinations.controls[i].get('place').setValue(address.formatted_address);
+    this.destinations.controls[i].get('place').setValidators([
       Validators.required,
       googlePlaceValidator(address),
     ]);
-    this.source.updateValueAndValidity();
-  }
-
-  public handleDestAddressChange(address: Address) {
-    this.latDest = address.geometry.location.lat();
-    this.lngDest = address.geometry.location.lng();
-    this.destination.setValue(address.formatted_address);
-    this.destination.setValidators([
-      Validators.required,
-      googlePlaceValidator(address),
-    ]);
-    this.destination.updateValueAndValidity();
+    this.destinations.controls[i].get('place').updateValueAndValidity();
+    this.destinations.controls[i].get('lat').setValue(address.geometry.location.lat());
+    this.destinations.controls[i].get('lng').setValue(address.geometry.location.lng());
   }
 
   public handleReturnAddressChange(address: Address) {
@@ -194,32 +177,49 @@ export class EnquiriesComponent implements OnInit {
     this.return.updateValueAndValidity();
   }
 
-  public handleNewSourceAddressChange(address: Address, i: number) {
-    this.new_sources.controls[i].get('place').setValue(address.formatted_address);
-    this.new_sources.controls[i].get('place').setValidators([
+  public handleSourceAddressChange(address: Address, i: number) {
+    this.sources.controls[i].get('place').setValue(address.formatted_address);
+    this.sources.controls[i].get('place').setValidators([
       Validators.required,
       googlePlaceValidator(address),
     ]);
-    this.new_sources.controls[i].get('place').updateValueAndValidity();
-    this.new_sources.controls[i].get('lat').setValue(address.geometry.location.lat());
-    this.new_sources.controls[i].get('lng').setValue(address.geometry.location.lng());
+    this.sources.controls[i].get('place').updateValueAndValidity();
+    this.sources.controls[i].get('lat').setValue(address.geometry.location.lat());
+    this.sources.controls[i].get('lng').setValue(address.geometry.location.lng());
   }
 
-  addNewSource() {
+  addSource() {
     // add source to the list
-    this.new_sources.push(new FormGroup({
+    this.sources.push(new FormGroup({
       place: new FormControl('', [Validators.required]),
       lat: new FormControl('', [Validators.required]),
       lng: new FormControl('', [Validators.required]),
     }));
   }
 
-  removeNewSource(new_source) {
+  removeSource(source) {
     // remove source from the list
     // <FormArray> means 'as FormArray'. This is alternative way to
     // the method used in addSource()
-    const index = this.new_sources.controls.indexOf(new_source);
-    this.new_sources.removeAt(index);
+    const index = this.sources.controls.indexOf(source);
+    this.sources.removeAt(index);
+  }
+
+  addDestination() {
+    // add source to the list
+    this.destinations.push(new FormGroup({
+      place: new FormControl('', [Validators.required]),
+      lat: new FormControl('', [Validators.required]),
+      lng: new FormControl('', [Validators.required]),
+    }));
+  }
+
+  removeDestination(destination) {
+    // remove source from the list
+    // <FormArray> means 'as FormArray'. This is alternative way to
+    // the method used in addSource()
+    const index = this.destinations.controls.indexOf(destination);
+    this.destinations.removeAt(index);
   }
 
   // Below we handle error messages for each field individually
@@ -245,7 +245,7 @@ export class EnquiriesComponent implements OnInit {
   }
 
   getLoadTypeErrorMessage() {
-    return this.enquiriesForm.controls.source.hasError('required') ? 'You must enter a value' : '';
+    // return this.enquiriesForm.controls.source.hasError('required') ? 'You must enter a value' : '';
   }
 
   // The following get functions are used to describe
@@ -256,14 +256,9 @@ export class EnquiriesComponent implements OnInit {
     return this.enquiriesForm.get('status');
   }
 
-  get source()
+  get destinations()
   {
-    return this.enquiriesForm.get('source');
-  }
-
-  get destination()
-  {
-    return this.enquiriesForm.get('destination');
+    return (this.enquiriesForm.get('destinations') as FormArray);
   }
 
   get return()
@@ -321,9 +316,9 @@ export class EnquiriesComponent implements OnInit {
     return this.enquiriesForm.get('comments');
   }
 
-  get new_sources()
+  get sources()
   {
-    return (this.enquiriesForm.get('new_sources') as FormArray);
+    return (this.enquiriesForm.get('sources') as FormArray);
   }
 
   get place()
