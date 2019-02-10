@@ -1,3 +1,4 @@
+import { ExtraExpensesService } from './../../../common/services/masters/extra-expenses.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -22,10 +23,14 @@ export class EnquiriesComponent implements OnInit {
   constructor(
     private vehicleTypeService: VehicleTypeService,
     private vehicleBodyService: VehicleBodyService,
+    private extraExpensesService: ExtraExpensesService,
     private adapter: DateAdapter<any>,
     private service: EnquiriesService) {}
 
   ngOnInit() {
+
+    // Prefill Dropdown Boxes of Vehicle Type, Vehicle Body and
+    // Extra Expenses
     this.vehicleTypeService.getVehicleType()
     .subscribe(response => {
       this.vehicleTypeOptions = response.body.
@@ -38,6 +43,12 @@ export class EnquiriesComponent implements OnInit {
         map(responseMap => responseMap);
     });
 
+    this.extraExpensesService.getExtraExpenses()
+    .subscribe(response => {
+      this.extraExpensesOptions = response.body.
+        map(responseMap => responseMap);
+    });
+
     // The below statement changes the date locale to India
     // displaying DD-MM-YYYY date format in form
     this.adapter.setLocale('in');
@@ -47,9 +58,17 @@ export class EnquiriesComponent implements OnInit {
     this.addDestination();
   }
 
+  /*
+  The below section defines all the local fields
+  */
+
+  // Gives us access to GooglePlaceDirective which contains
+  // all information related to the directive.
+  // This is unused for now. Delete if not required.
   @ViewChild('sourceRef') sourceRef: GooglePlaceDirective;
   @ViewChild('destRef') destRef: GooglePlaceDirective;
   @ViewChild('returnRef') returnRef: GooglePlaceDirective;
+
 
   // StatusOptions are hard coded at backend as well as frontend.
   // Changing this involves changing it in this component as well as
@@ -60,21 +79,11 @@ export class EnquiriesComponent implements OnInit {
     'Floated Enquiry',
   ];
 
-  public latSource: number;
-  public lngSource: number;
-  public latDest: number;
-  public lngDest: number;
-  public latRet: number;
-  public lngRet: number;
-
-  results: string[];
-
-  vehicleTypeResults: string[];
-
+  // Below are arrays for DropDowns. Except for loadTypeOptions all
+  // arrays are pulled from Backend. loadTypeOptions are hardcoded.
   vehicleTypeOptions: any[];
-
   vehicleBodyOptions: any[];
-
+  extraExpensesOptions: any[];
   loadTypeOptions: string[] = [
     'ODC',
     'Normal',
@@ -82,39 +91,24 @@ export class EnquiriesComponent implements OnInit {
     'Container',
   ];
 
+  // This is used in template to restrict Google Places
+  // text box to India.
   placesOptions = {
     componentRestrictions: {country: 'in'},
   };
 
-  searchStatus(event) {
-    this.results = [];
-        for (let i = 0; i < this.statusOptions.length; i++) {
-            const statusQuery = this.statusOptions[i];
-            if (statusQuery.toLowerCase().includes(event.query.toLowerCase())) {
-                this.results.push(statusQuery);
-            }
-        }
-  }
-
-  searchLoadType(event) {
-    this.results = [];
-        for (let i = 0; i < this.loadTypeOptions.length; i++) {
-            const statusQuery = this.loadTypeOptions[i];
-            if (statusQuery.toLowerCase().includes(event.query.toLowerCase())) {
-                this.results.push(statusQuery);
-            }
-        }
-  }
-
+  // Submit function for the form
   addEnquiry(enquiriesForm) {
     this.service.addEnquiry(enquiriesForm.value)
       .subscribe(response => {});
       // enquiriesForm.reset(); TO BE DELETED
   }
 
+  // Enquiry Form Controls Defined
   enquiriesForm = new FormGroup({
     status: new FormControl('', [
       Validators.required,
+      // Checks if option selected is available in dropdown
       dropdownValidator(this.statusOptions),
     ]),
     load_type: new FormControl('', [
@@ -139,26 +133,55 @@ export class EnquiriesComponent implements OnInit {
     weight: new FormControl('', [
       Validators.required,
     ]),
+    // Source and Dest are defined as FormArrays
+    // to allow multiple Sources and Destinations
+    sources: new FormArray([]),
     destinations: new FormArray([]),
-    return: new FormControl('', [
-      googlePlaceValidator(null),
-    ]),
+    return: new FormGroup({
+      place: new FormControl('', [Validators.required]),
+      lat: new FormControl('', [Validators.required]),
+      lng: new FormControl('', [Validators.required]),
+    }),
     comments: new FormControl('', []),
     loading_date: new FormControl('', [
       Validators.required,
     ]),
-    sources: new FormArray([]),
+    extra_expenses: new FormControl('', [
+      Validators.required,
+    ]),
   });
 
+  // EnquiryNoValidator gets set here. This function is triggered
+  // on (optionSelected) selected event of Status Field as it needs
+  // to be passed the status field value.
   public enquiryNoValidationTrigger(event: MatAutocompleteSelectedEvent) {
     this.enquiry_no.setValidators([
       Validators.required,
       enquiryNoValidator(this.status.value),
     ]);
+    // This rechecks the validation
     this.enquiry_no.updateValueAndValidity();
   }
 
+  // Below are AddressChange handlers for Source, Destination and Return.
+  public handleSourceAddressChange(address: Address, i: number) {
+    // First we update the value selected from suggestions in input box
+    this.sources.controls[i].get('place').setValue(address.formatted_address);
+    // Next we set googlePlaceValidator passing the address. This was not
+    // set before as we need to pass the address to validator and initially
+    // this value is null.
+    this.sources.controls[i].get('place').setValidators([
+      Validators.required,
+      googlePlaceValidator(address),
+    ]);
+    this.sources.controls[i].get('place').updateValueAndValidity();
+    // Final step we store the lat and long from address
+    this.sources.controls[i].get('lat').setValue(address.geometry.location.lat());
+    this.sources.controls[i].get('lng').setValue(address.geometry.location.lng());
+  }
+
   public handleDestinationAddressChange(address: Address, i: number) {
+    // Refer handleSourceAddressChange() for explanation
     this.destinations.controls[i].get('place').setValue(address.formatted_address);
     this.destinations.controls[i].get('place').setValidators([
       Validators.required,
@@ -170,24 +193,19 @@ export class EnquiriesComponent implements OnInit {
   }
 
   public handleReturnAddressChange(address: Address) {
-    this.latRet = address.geometry.location.lat();
-    this.lngRet = address.geometry.location.lng();
-    this.return.setValue(address.formatted_address);
-    this.return.setValidators(googlePlaceValidator(address));
-    this.return.updateValueAndValidity();
-  }
-
-  public handleSourceAddressChange(address: Address, i: number) {
-    this.sources.controls[i].get('place').setValue(address.formatted_address);
-    this.sources.controls[i].get('place').setValidators([
-      Validators.required,
+    // Refer handleSourceAddressChange() for explanation
+    this.return.get('place').setValue(address.formatted_address);
+    this.return.get('place').setValidators([
       googlePlaceValidator(address),
     ]);
-    this.sources.controls[i].get('place').updateValueAndValidity();
-    this.sources.controls[i].get('lat').setValue(address.geometry.location.lat());
-    this.sources.controls[i].get('lng').setValue(address.geometry.location.lng());
+    this.return.get('place').updateValueAndValidity();
+    this.return.get('lat').setValue(address.geometry.location.lat());
+    this.return.get('lng').setValue(address.geometry.location.lng());
   }
 
+  // Below we have functions to add and remove FormControls to
+  // Multiple Source and Destination FormArrays. These are triggered
+  // when user clicks on Add Source/Dest or Remove Source/Dest buttons.
   addSource() {
     // add source to the list
     this.sources.push(new FormGroup({
@@ -206,7 +224,7 @@ export class EnquiriesComponent implements OnInit {
   }
 
   addDestination() {
-    // add source to the list
+    // add destination to the list
     this.destinations.push(new FormGroup({
       place: new FormControl('', [Validators.required]),
       lat: new FormControl('', [Validators.required]),
@@ -215,7 +233,7 @@ export class EnquiriesComponent implements OnInit {
   }
 
   removeDestination(destination) {
-    // remove source from the list
+    // remove destination from the list
     // <FormArray> means 'as FormArray'. This is alternative way to
     // the method used in addSource()
     const index = this.destinations.controls.indexOf(destination);
@@ -223,7 +241,6 @@ export class EnquiriesComponent implements OnInit {
   }
 
   // Below we handle error messages for each field individually
-
   getStatusErrorMessage() {
     return this.enquiriesForm.controls.status.hasError('required') ? 'You must enter a value' :
       this.enquiriesForm.controls.status.hasError('invalidOption') ?  'You must select from the given options' : '';
@@ -258,6 +275,8 @@ export class EnquiriesComponent implements OnInit {
 
   get destinations()
   {
+    // This is returned as FormArray to get access to the functions
+    // associated with FormArrays such as push, removeAt etc.
     return (this.enquiriesForm.get('destinations') as FormArray);
   }
 
@@ -318,11 +337,9 @@ export class EnquiriesComponent implements OnInit {
 
   get sources()
   {
+    // This is returned as FormArray to get access to the functions
+    // associated with FormArrays such as push, removeAt etc.
     return (this.enquiriesForm.get('sources') as FormArray);
   }
 
-  get place()
-  {
-    return this.enquiriesForm.get('place');
-  }
 }

@@ -8,6 +8,8 @@
     [formGroup]="enquiriesForm"
     (ngSubmit)="addEnquiry(enquiriesForm)">
 
+    <!-- we will place our fields here -->
+
       <!-- Status of Enquiry -->
       <div class="form-group row">
         <label 
@@ -26,6 +28,8 @@
               matInput formControlName="status" 
               [matAutocomplete]="auto">
             <mat-error *ngIf="status.invalid">{{getStatusErrorMessage()}}</mat-error>
+            <!-- We need to trigger Enquiry No Validation Trigger here as it depends on enquiry status and
+            needs status value to be passed to the enquiryNoValidator -->
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="enquiryNoValidationTrigger($event)">
               <mat-option *ngFor="let status of statusOptions" [value]="status">
                 {{status}}
@@ -38,6 +42,7 @@
       <!-- Source FormArray -->
       <div *ngFor="let source of sources.controls; let i=index"
       formArrayName="sources">
+        <!-- Angular assigns array index as group name by default for FormArrays  -->
         <div [formGroupName] = "i" class="form-group row">
           <label 
             for="source" 
@@ -89,7 +94,7 @@
                 formControlName="place"
                 ngx-google-places-autocomplete 
                 [options]='placesOptions' 
-                #destinationRef="ngx-places" 
+                #destRef="ngx-places" 
                 (onAddressChange)="handleDestinationAddressChange($event, i)"
                 placeholder="Destination"
                 id="destination"
@@ -122,20 +127,22 @@
           class="col-sm-3 col-form-label">
           Return
         </label>
-        <div class="col-sm-9">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <input
-              ngx-google-places-autocomplete 
-              [options]='placesOptions'
-              #returnRef="ngx-places" 
-              (onAddressChange)="handleReturnAddressChange($event)"
-              placeholder="Return"
-              id="return"
-              name="return"
-              class="form-control"
-              matInput formControlName="return">
-            <mat-error *ngIf="return.invalid">{{getReturnErrorMessage()}}</mat-error>    
-          </mat-form-field>
+         <div formGroupName="return"> 
+          <div class="col-sm-9">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <input
+                ngx-google-places-autocomplete 
+                [options]='placesOptions'
+                #returnRef="ngx-places" 
+                (onAddressChange)="handleReturnAddressChange($event)"
+                placeholder="Return"
+                id="return"
+                name="return"
+                class="form-control"
+                matInput formControlName="place">
+              <mat-error *ngIf="return.invalid">{{getReturnErrorMessage()}}</mat-error>    
+            </mat-form-field>
+          </div>
         </div>
       </div>
       
@@ -319,6 +326,22 @@
               placeholder="Choose a date">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker touchUi #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Extra Expenses -->
+      <div class="form-group row">
+        <label 
+          for="extra_expenses" 
+          class="col-sm-3 col-form-label">
+          Extra Expenses
+        </label>
+        <div class="col-sm-9">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-select placeholder="Extra Expenses" formControlName="extra_expenses" multiple>
+              <mat-option *ngFor="let extraExpenseOpt of extraExpensesOptions" [value]="extraExpenseOpt.extra_expenses_id">{{extraExpenseOpt.extra_expenses}}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>

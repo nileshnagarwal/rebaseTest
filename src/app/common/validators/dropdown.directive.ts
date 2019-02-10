@@ -1,4 +1,5 @@
 import { ValidatorFn, AbstractControl } from '@angular/forms';
+// Check if the option selected is one of the options in dropdown
 
 export function dropdownValidator(dropdown: string[]): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
