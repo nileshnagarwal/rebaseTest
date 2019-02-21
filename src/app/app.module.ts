@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialDesignModule } from './common/modules/material-design/material-design.module';
+import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
 
 
 @NgModule({
@@ -29,6 +30,24 @@ import { MaterialDesignModule } from './common/modules/material-design/material-
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     MaterialDesignModule,
+
+    NbAuthModule.forRoot({
+      strategies: [
+        NbPasswordAuthStrategy.setup({
+          name: 'email',
+          token: {
+            class: NbAuthJWTToken,
+            key: 'access',
+          },
+          baseEndpoint: 'http://127.0.0.1:8000',
+          login: {
+            // ...
+            endpoint: '/api/token/',
+          },
+        }),
+      ],
+      forms: {},
+    }),
   ],
   exports: [
     MaterialDesignModule,
