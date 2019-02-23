@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
 import { VehicleBody } from '../../interfaces/vehicle-body';
 
 @Injectable()
@@ -25,13 +24,7 @@ export class VehicleBodyService {
 
   getVehicleBody(): Observable<HttpResponse<VehicleBody[]>> {
     return this.http
-      .get<VehicleBody[]>(
-        this.url,
-        {
-          observe: 'response',
-          // headers: this.header
-        },
-      );
+      .get<HttpResponse<VehicleBody[]>>(this.url);
   }
 
   updateVehicleBody(vehicleBody) {

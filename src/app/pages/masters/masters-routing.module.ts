@@ -1,3 +1,4 @@
+import { AuthGuardService } from './../../common/services/auth-guard/auth-guard.service';
 import { VehicleTypeReportComponent } from './vehicle-type-report/vehicle-type-report.component';
 import { VehicleBodyReportComponent } from './vehicle-body-report/vehicle-body-report.component';
 import { TransporterViewComponent } from './transporter-view/transporter-view.component';
@@ -15,6 +16,7 @@ const routes: Routes = [{
   component: VehicleBodyComponent,
   children: [{
     path: 'vehicle-body',
+    canActivate: [AuthGuardService],
     component: VehicleBodyComponent,
     }],
   }, {

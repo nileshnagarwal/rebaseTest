@@ -15,8 +15,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialDesignModule } from './common/modules/material-design/material-design.module';
-import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
 
+import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
+import { httpInterceptorProviders } from './common/misc/http-interceptors';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,8 @@ import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/a
     CoreModule.forRoot(),
     MaterialDesignModule,
 
+    // NbAuthModule Strategy Settings Override
+    // Refer Ngx Admin Docs
     NbAuthModule.forRoot({
       strategies: [
         NbPasswordAuthStrategy.setup({
@@ -48,6 +51,7 @@ import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/a
       ],
       forms: {},
     }),
+
   ],
   exports: [
     MaterialDesignModule,
@@ -55,6 +59,11 @@ import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/a
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
+
+    // Barrel of Http Interceptors
+    httpInterceptorProviders,
+
+    // { provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: (req) => {return false ;}},
   ],
 })
 export class AppModule {
