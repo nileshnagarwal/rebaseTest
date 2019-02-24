@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { takeWhile } from 'rxjs/operators';
-import { LayoutService } from '../../../../@core/data/layout.service';
+import { LayoutService } from '../../../../@core/utils/layout.service';
 
 
 @Component({
@@ -9,7 +9,7 @@ import { LayoutService } from '../../../../@core/data/layout.service';
   styleUrls: ['./country-orders-chart.component.scss'],
   template: `
     <div class="header">
-      <span class="title">Selected Country</span>
+      <span class="title">Selected Country/Region</span>
       <h2>{{countryName}}</h2>
     </div>
     <div echarts

@@ -2,7 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
-import { LayoutService } from '../../../@core/data/layout.service';
+import { LayoutService } from '../../../@core/utils/layout.service';
+
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 
@@ -51,12 +53,6 @@ export class HeaderComponent implements OnInit {
   toggleSidebar(): boolean {
     this.sidebarService.toggle(true, 'menu-sidebar');
     this.layoutService.changeLayoutSize();
-
-    return false;
-  }
-
-  toggleSettings(): boolean {
-    this.sidebarService.toggle(false, 'settings-sidebar');
 
     return false;
   }

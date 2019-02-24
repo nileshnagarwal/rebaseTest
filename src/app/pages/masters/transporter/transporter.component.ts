@@ -53,28 +53,23 @@ export class TransporterComponent {
   // The following get functions are used to describe
   // properties which can be used for cleaner code in html file.
 
-  get transporter()
-  {
+  get transporter() {
     return this.transporterForm.get('transporter');
   }
 
-  get primary_mobile()
-  {
+  get primary_mobile() {
     return this.transporterForm.get('primary_mobile');
   }
 
-  get primary_contact()
-  {
+  get primary_contact() {
     return this.transporterForm.get('primary_contact');
   }
 
-  get primary_person()
-  {
+  get primary_person() {
     return this.transporterForm.get('primary_person');
   }
 
-  get other_contact()
-  {
+  get other_contact() {
     return this.transporterForm.get('other_contact');
   }
 

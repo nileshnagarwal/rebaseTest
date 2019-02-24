@@ -64,28 +64,23 @@ export class VehicleTypeComponent implements OnInit {
   // The following get functions are used to describe
   // properties which can be used for cleaner code in html file.
 
-  get vehicle()
-  {
+  get vehicle() {
     return this.vehicleTypeForm.get('vehicle');
   }
 
-  get length()
-  {
+  get length() {
     return this.vehicleTypeForm.get('length');
   }
 
-  get width()
-  {
+  get width() {
     return this.vehicleTypeForm.get('width');
   }
 
-  get height()
-  {
+  get height() {
     return this.vehicleTypeForm.get('height');
   }
 
-  get weight()
-  {
+  get weight() {
     return this.vehicleTypeForm.get('weight');
   }
 

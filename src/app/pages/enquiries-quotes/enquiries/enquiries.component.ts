@@ -268,75 +268,61 @@ export class EnquiriesComponent implements OnInit {
   // The following get functions are used to describe
   // properties which can be used for cleaner code in html file.
 
-  get status()
-  {
+  get status() {
     return this.enquiriesForm.get('status');
   }
 
-  get destinations()
-  {
+  get destinations() {
     // This is returned as FormArray to get access to the functions
     // associated with FormArrays such as push, removeAt etc.
     return (this.enquiriesForm.get('destinations') as FormArray);
   }
 
-  get return()
-  {
+  get return() {
     return this.enquiriesForm.get('return');
   }
 
-  get enquiry_no()
-  {
+  get enquiry_no() {
     return this.enquiriesForm.get('enquiry_no');
   }
 
-  get length()
-  {
+  get length() {
     return this.enquiriesForm.get('length');
   }
 
-  get width()
-  {
+  get width() {
     return this.enquiriesForm.get('width');
   }
 
-  get height()
-  {
+  get height() {
     return this.enquiriesForm.get('height');
   }
 
-  get weight()
-  {
+  get weight() {
     return this.enquiriesForm.get('weight');
   }
 
-  get load_type()
-  {
+  get load_type() {
     return this.enquiriesForm.get('load_type');
   }
 
-  get vehicle_type()
-  {
+  get vehicle_type() {
     return this.enquiriesForm.get('vehicle_type');
   }
 
-  get vehicle_body()
-  {
+  get vehicle_body() {
     return this.enquiriesForm.get('vehicle_body');
   }
 
-  get loading_date()
-  {
+  get loading_date() {
     return this.enquiriesForm.get('loading_date');
   }
 
-  get comments()
-  {
+  get comments() {
     return this.enquiriesForm.get('comments');
   }
 
-  get sources()
-  {
+  get sources() {
     // This is returned as FormArray to get access to the functions
     // associated with FormArrays such as push, removeAt etc.
     return (this.enquiriesForm.get('sources') as FormArray);

@@ -15,7 +15,13 @@ export class TokenInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler):
     Observable<HttpEvent<any>> {
     // Get the auth token from the service.
-    const authToken = 'Bearer ' + this.auth.getToken();
+
+    let authToken: string;
+
+    this.auth.getToken().subscribe(token => {
+      authToken = token.toString();
+    });
+    const header = 'Bearer ' + authToken;
 
     // Clone the request and replace the original headers with
     // cloned headers, updated with the authorization.
@@ -24,7 +30,7 @@ export class TokenInterceptor implements HttpInterceptor {
     // });
 
     // Clone the request and set the new header in one step.
-    const authReq = req.clone({ setHeaders: { Authorization: authToken } });
+    const authReq = req.clone({ setHeaders: { Authorization: header } });
 
     // send cloned request with header to the next handler.
     return next.handle(authReq);
