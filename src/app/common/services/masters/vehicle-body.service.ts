@@ -24,7 +24,13 @@ export class VehicleBodyService {
 
   getVehicleBody(): Observable<HttpResponse<VehicleBody[]>> {
     return this.http
-      .get<HttpResponse<VehicleBody[]>>(this.url);
+      .get<VehicleBody[]>(
+        this.url,
+        {
+          observe: 'response',
+          // headers: this.header
+        },
+      );
   }
 
   updateVehicleBody(vehicleBody) {

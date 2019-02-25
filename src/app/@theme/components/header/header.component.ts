@@ -6,8 +6,6 @@ import { LayoutService } from '../../../@core/utils/layout.service';
 
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 
-import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
-
 @Component({
   selector: 'ngx-header',
   styleUrls: ['./header.component.scss'],
