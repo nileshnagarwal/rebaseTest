@@ -1,4 +1,4 @@
-import { AuthGuardService } from './../../common/services/auth-guard/auth-guard.service';
+import { AuthGuardService } from '../../common/services/auth/auth-guard/auth-guard.service';
 import { TransporterService } from './../../common/services/masters/transporter.service';
 import { VehicleBodyComponent } from './vehicle-body/vehicle-body.component';
 import { VehicleTypeService } from './../../common/services/masters/vehicle-type.service';

@@ -40,7 +40,7 @@ import { httpInterceptorProviders } from './common/misc/http-interceptors';
           name: 'email',
           token: {
             class: NbAuthJWTToken,
-            key: 'access',
+            key: 'token.access_token',
           },
           baseEndpoint: 'http://127.0.0.1:8000',
           login: {
