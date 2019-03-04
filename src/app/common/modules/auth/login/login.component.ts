@@ -1,5 +1,7 @@
+import { AuthService } from './../../../services/auth/auth-service/auth.service';
 import { Component } from '@angular/core';
 import { NbLoginComponent } from '@nebular/auth';
+import { User } from '../../../interfaces/user';
 
 @Component({
   selector: 'ngx-login',
@@ -16,22 +18,26 @@ export class LoginComponent extends NbLoginComponent {
 
     // Start of newly added Lines of Code
     // First We get the existing token stored in localstorage
-    const currentToken = this.service.getToken();
-    let refreshToken: string;
 
     // Below call is from existing login()
     this.service.authenticate(this.strategy, this.user).subscribe(function (result) {
         _this.submitted = false;
 
         // New Lines of Code
+        const user: User = {
+          'accessToken': '',
+          'name': '',
+          'refreshToken': '',
+          'tokenExpiration': null,
+          'user_id': null,
+        };
+        user.accessToken = result.getToken().toString();
+        user.name = result.getToken().getPayload()['name'];
+        user.user_id = result.getToken().getPayload()['user_id'];
         // We get refreshToken from response of autheticate()
-        refreshToken = result.getResponse().body.token.refresh_token;
-        // Finally we save the refreshToken in existing token under
-        // the new 'refreshToken' key
-        if (result && refreshToken) {
-          localStorage.setItem('refreshToken', refreshToken);
-          currentToken['value']['refreshToken'] = refreshToken;
-        }
+        user.refreshToken = result.getResponse().body.token.refresh_token;
+        user.tokenExpiration = AuthService.getExpiryDate(user.refreshToken);
+        localStorage.setItem('currentUser', JSON.stringify(user));
 
         // Existing login() lines of code resumes
         if (result.isSuccess()) {

@@ -18,6 +18,7 @@ import { MaterialDesignModule } from './common/modules/material-design/material-
 
 import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
 import { httpInterceptorProviders } from './common/misc/http-interceptors';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [AppComponent],
@@ -52,6 +53,14 @@ import { httpInterceptorProviders } from './common/misc/http-interceptors';
       forms: {},
     }),
 
+    JwtModule.forRoot({
+      config: {
+        tokenGetter:  () => {
+          return JSON.parse(localStorage.getItem('currentUser'))['accessToken'];
+        },
+      },
+    }),
+
   ],
   exports: [
     MaterialDesignModule,
@@ -62,8 +71,6 @@ import { httpInterceptorProviders } from './common/misc/http-interceptors';
 
     // Barrel of Http Interceptors
     httpInterceptorProviders,
-
-    // { provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: (req) => {return false ;}},
   ],
 })
 export class AppModule {

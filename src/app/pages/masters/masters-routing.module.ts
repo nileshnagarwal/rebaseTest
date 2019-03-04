@@ -24,6 +24,7 @@ const routes: Routes = [{
   component: VehicleTypeComponent,
   children: [{
     path: 'vehicle-type',
+    canActivate: [AuthGuardService],
     component: VehicleTypeComponent,
   }],
   }, {
@@ -31,6 +32,7 @@ const routes: Routes = [{
     component: TransporterComponent,
     children: [{
       path: 'transporter',
+      canActivate: [AuthGuardService],
       component: TransporterComponent,
     }],
     }];
