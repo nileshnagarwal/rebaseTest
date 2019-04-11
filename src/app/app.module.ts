@@ -56,7 +56,10 @@ import { JwtModule } from '@auth0/angular-jwt';
     JwtModule.forRoot({
       config: {
         tokenGetter:  () => {
-          return JSON.parse(localStorage.getItem('currentUser'))['accessToken'];
+          const token = JSON.parse(localStorage.getItem('currentUser'));
+          if (token === null) {
+            return null;
+          } else return token['accessToken'];
         },
       },
     }),

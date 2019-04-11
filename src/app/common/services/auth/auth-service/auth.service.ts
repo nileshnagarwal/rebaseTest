@@ -21,9 +21,9 @@ export class AuthService {
     private router: Router,
   ) { }
 
-    getUser(): Observable<User> {
-      return of(JSON.parse(localStorage.getItem('currentUser')));
-    }
+  getUser(): Observable<User> {
+    return of(JSON.parse(localStorage.getItem('currentUser')));
+  }
 
   refreshAccessToken(): Observable<User> {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -58,15 +58,19 @@ export class AuthService {
   isAuthenticated() {
     return this.getUser()
       .pipe(map((user: User) => {
-        const refreshExpiry = this.jwtHelper.getTokenExpirationDate(user.refreshToken);
-        if (refreshExpiry.valueOf() >= Date.now()) {
-          return true;
-        } else return false;
+        if (user === null) {
+          return false;
+        } else {
+          const refreshExpiry = this.jwtHelper.getTokenExpirationDate(user.refreshToken);
+          if (refreshExpiry.valueOf() >= Date.now()) {
+            return true;
+          } else return false;
+        }
       }));
   }
 
   logout(strategyName) {
-    localStorage.removeItem('currentUser');
+    // localStorage.removeItem('currentUser');
     this.nbAuthService.logout(strategyName);
     this.router.navigate(['/login']);
   }
