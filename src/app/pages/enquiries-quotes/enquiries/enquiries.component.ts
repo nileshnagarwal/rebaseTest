@@ -1,3 +1,4 @@
+import { AuthService } from './../../../common/services/auth/auth-service/auth.service';
 import { ExtraExpensesService } from './../../../common/services/masters/extra-expenses.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
@@ -25,7 +26,8 @@ export class EnquiriesComponent implements OnInit {
     private vehicleBodyService: VehicleBodyService,
     private extraExpensesService: ExtraExpensesService,
     private adapter: DateAdapter<any>,
-    private service: EnquiriesService) {}
+    private service: EnquiriesService,
+    private authService: AuthService) {}
 
   ngOnInit() {
 
@@ -56,6 +58,12 @@ export class EnquiriesComponent implements OnInit {
     // Initialise Source and Destination FormArray with 1 Source/Dest
     this.addSource();
     this.addDestination();
+
+    // Set user field to current user_id
+    this.authService.getUser()
+      .subscribe(user => {
+        this.user.setValue(user.user_id);
+      })
   }
 
   /*
@@ -138,15 +146,18 @@ export class EnquiriesComponent implements OnInit {
     sources: new FormArray([]),
     destinations: new FormArray([]),
     return: new FormGroup({
-      place: new FormControl('', [Validators.required]),
-      lat: new FormControl('', [Validators.required]),
-      lng: new FormControl('', [Validators.required]),
+      place: new FormControl('', []),
+      lat: new FormControl('', []),
+      lng: new FormControl('', []),
     }),
     comments: new FormControl('', []),
     loading_date: new FormControl('', [
       Validators.required,
     ]),
     extra_expenses: new FormControl('', [
+      Validators.required,
+    ]),
+    user: new FormControl('', [
       Validators.required,
     ]),
   });
@@ -326,6 +337,10 @@ export class EnquiriesComponent implements OnInit {
     // This is returned as FormArray to get access to the functions
     // associated with FormArrays such as push, removeAt etc.
     return (this.enquiriesForm.get('sources') as FormArray);
+  }
+
+  get user() {
+    return this.enquiriesForm.get('user');
   }
 
 }
