@@ -63,7 +63,7 @@ export class EnquiriesComponent implements OnInit {
     this.authService.getUser()
       .subscribe(user => {
         this.user.setValue(user.user_id);
-      })
+      });
   }
 
   /*
@@ -149,6 +149,7 @@ export class EnquiriesComponent implements OnInit {
       place: new FormControl('', []),
       lat: new FormControl('', []),
       lng: new FormControl('', []),
+      place_id_agm: new FormControl('', []),
     }),
     comments: new FormControl('', []),
     loading_date: new FormControl('', [
@@ -189,6 +190,7 @@ export class EnquiriesComponent implements OnInit {
     // Final step we store the lat and long from address
     this.sources.controls[i].get('lat').setValue(address.geometry.location.lat());
     this.sources.controls[i].get('lng').setValue(address.geometry.location.lng());
+    this.sources.controls[i].get('place_id_agm').setValue(address.place_id);
   }
 
   public handleDestinationAddressChange(address: Address, i: number) {
@@ -201,6 +203,7 @@ export class EnquiriesComponent implements OnInit {
     this.destinations.controls[i].get('place').updateValueAndValidity();
     this.destinations.controls[i].get('lat').setValue(address.geometry.location.lat());
     this.destinations.controls[i].get('lng').setValue(address.geometry.location.lng());
+    this.destinations.controls[i].get('place_id_agm').setValue(address.place_id);
   }
 
   public handleReturnAddressChange(address: Address) {
@@ -212,6 +215,7 @@ export class EnquiriesComponent implements OnInit {
     this.return.get('place').updateValueAndValidity();
     this.return.get('lat').setValue(address.geometry.location.lat());
     this.return.get('lng').setValue(address.geometry.location.lng());
+    this.return.get('place_id_agm').setValue(address.place_id);
   }
 
   // Below we have functions to add and remove FormControls to
@@ -223,6 +227,7 @@ export class EnquiriesComponent implements OnInit {
       place: new FormControl('', [Validators.required]),
       lat: new FormControl('', [Validators.required]),
       lng: new FormControl('', [Validators.required]),
+      place_id_agm: new FormControl('', [Validators.required]),
     }));
   }
 
@@ -240,6 +245,7 @@ export class EnquiriesComponent implements OnInit {
       place: new FormControl('', [Validators.required]),
       lat: new FormControl('', [Validators.required]),
       lng: new FormControl('', [Validators.required]),
+      place_id_agm: new FormControl('', [Validators.required]),
     }));
   }
 

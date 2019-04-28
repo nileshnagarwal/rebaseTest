@@ -6,6 +6,10 @@ import { EnquiriesQuotesRoutingModule, routedComponents } from './enquiries-quot
 import { MaterialDesignModule } from '../../common/modules/material-design/material-design.module';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EnquiriesService } from '../../common/services/enquiries-quotes/enquiries.service';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { EnquiriesViewComponent } from './enquiries-view/enquiries-view.component';
+import { AgmDirectionModule } from 'agm-direction';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   imports: [
@@ -13,6 +17,11 @@ import { EnquiriesService } from '../../common/services/enquiries-quotes/enquiri
     EnquiriesQuotesRoutingModule,
     MaterialDesignModule,
     GooglePlaceModule,
+    Ng2SmartTableModule,
+    AgmCoreModule.forRoot({ // @agm/core
+      apiKey: 'AIzaSyAdW-L7cDATNI2-G8kph-c8zKuDR8hTdzs',
+    }),
+    AgmDirectionModule,
   ],
   declarations: [
     ...routedComponents,
@@ -21,6 +30,9 @@ import { EnquiriesService } from '../../common/services/enquiries-quotes/enquiri
     VehicleTypeService,
     VehicleBodyService,
     EnquiriesService,
+  ],
+  entryComponents: [
+    EnquiriesViewComponent,
   ],
 })
 export class EnquiriesQuotesModule { }

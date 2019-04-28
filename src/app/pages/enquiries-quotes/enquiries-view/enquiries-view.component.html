@@ -1,0 +1,87 @@
+<nb-card>
+  <nb-card-header>
+        <h4>Enquiry No: {{ response?.enquiry_no }}</h4>
+  </nb-card-header>
+
+  <nb-card-body>
+
+    <!-- we will place our fields here -->
+
+      <h5>{{ response?.load_type }} Cargo</h5>
+      <div class="form-group row">
+        <div class="col-12 col-sm-12">
+          Size: 
+          {{ response?.length }} x 
+          {{ response?.width }} x 
+          {{ response?.height }} Feet 
+          - Weight: {{ response?.weight }} Tons
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-4 col-sm-5">
+          From:
+            <div *ngFor="let source of response?.places_source; let i=index">
+              {{i+1}}. {{ source }}
+            </div>
+        </div>
+        <div class="col-2 col-sm-2 arrowhead-right"></div>
+        <div class="col-5 col-sm-5">
+          To:
+            <div *ngFor="let dest of response?.places_destination; let i=index">
+              {{i+1}}. {{ dest }}
+            </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-4 col-sm-5">
+          Vehicles that can be used:
+            <div *ngFor="let vehicle_type of response?.vehicle_type_str; let i=index">
+              {{i+1}}. {{ vehicle_type }}
+            </div>
+        </div>
+        <div class="col-2 col-sm-2"></div>
+        <div class="col-4 col-sm-5" *ngIf="response?.vehicle_body.length>0">
+          Vehicle Body that can be used:
+            <div *ngFor="let vehicle_body of response?.vehicle_body_str; let i=index">
+              {{i+1}}. {{ vehicle_body }}
+            </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-4 col-sm-5">
+          <!-- date pipe is used for displaying loading date. Details on angular.io -->
+          Loading Date: {{ response?.loading_date | date:'LLL dd, yyyy | EEE' }}
+        </div>
+        <div class="col-2 col-sm-2"></div>
+        <div class="col-4 col-sm-5" *ngIf="response?.extra_expenses.length>0">
+          Extra Expenses to be accounted:
+            <div *ngFor="let extra_expenses of response?.extra_expenses_str; let i=index">
+              {{i+1}}. {{ extra_expenses }}
+            </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-4 col-sm-5" *ngIf="response?.comments!=''">
+          Comments: {{ response?.comments }}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-4 col-sm-5" *ngIf="directionsUrl!=''">
+          <a [attr.href]="directionsUrl" target="_blank" [title]="directionsUrl">Show route on Google Maps</a>
+        </div>
+      </div>
+      
+      <!-- agm-direction is angular google maps direction component. 
+        Read documentation here: https://robby570.tw/Agm-Direction-Docs/ 
+        ngIf is used as the template is loaded before getting the value
+        from server. The variable being undefined, an error is thrown to 
+        the console. -->
+      <agm-map *ngIf="!(origin==null)" [latitude]="latitude" [longitude]="longitude">
+        <agm-direction [origin]="origin" [destination]="destination" [waypoints]="waypoints"
+          [provideRouteAlternatives]="provideRouteAlternatives" [renderOptions]="renderOptions">
+        </agm-direction>
+      </agm-map>
+  </nb-card-body>       
+</nb-card>
+
