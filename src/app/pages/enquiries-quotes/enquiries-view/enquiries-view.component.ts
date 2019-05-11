@@ -1,5 +1,7 @@
+import { QuotesComponent } from './../quotes/quotes.component';
 import { Component, OnInit } from '@angular/core';
 import { EnquiriesService } from './../../../common/services/enquiries-quotes/enquiries.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -11,7 +13,8 @@ import { EnquiriesService } from './../../../common/services/enquiries-quotes/en
 export class EnquiriesViewComponent implements OnInit {
 
   constructor(
-    private service: EnquiriesService) {}
+    private service: EnquiriesService,
+    private modalService: NgbModal) {}
 
   ngOnInit() {
     this.service.getEnquiryById(this.enquiryId)
@@ -128,4 +131,15 @@ export class EnquiriesViewComponent implements OnInit {
         '&travelmode=driving';
   }
 
+
+  openQuote() {
+    const activeModal = this.modalService.open(
+      QuotesComponent,
+      { size: 'lg', container: 'nb-layout' },
+    );
+    activeModal.componentInstance.enquiryId = this.enquiryId;
+    activeModal.componentInstance.enquiryNo = this.response['enquiry_no'];
+    activeModal.componentInstance.vehicleTypeOptions = this.response['vehicle_type_str'];
+    activeModal.componentInstance.vehicleBodyOptions = this.response['vehicle_body_str'];
+  }
 }

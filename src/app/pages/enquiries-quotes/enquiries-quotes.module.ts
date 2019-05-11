@@ -10,6 +10,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { EnquiriesViewComponent } from './enquiries-view/enquiries-view.component';
 import { AgmDirectionModule } from 'agm-direction';
 import { AgmCoreModule } from '@agm/core';
+import { TransporterService } from '../../common/services/masters/transporter.service';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { AgmCoreModule } from '@agm/core';
     VehicleTypeService,
     VehicleBodyService,
     EnquiriesService,
+    TransporterService,
   ],
   entryComponents: [
     EnquiriesViewComponent,
