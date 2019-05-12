@@ -50,7 +50,7 @@
         <div class="col-sm-9">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-select placeholder="Vehicle Types" formControlName="vehicle_type" multiple>
-              <mat-option *ngFor="let vehicleTypeOpt of vehicleTypeOptions" [value]="vehicleTypeOpt">{{vehicleTypeOpt}}</mat-option>
+              <mat-option *ngFor="let vehicleTypeOpt of vehicleTypeOptions" [value]="vehicleTypeOpt.vehicle_type_id">{{vehicleTypeOpt.vehicle}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -59,26 +59,15 @@
       <!-- Vehicle Body -->
       <div class="form-group row">
         <label 
-          for="vehicle_body" 
+          for="vehicle_body"
           class="col-sm-3 col-form-label">
           Vehicle Body
         </label>
         <div class="col-sm-9">
           <mat-form-field class="example-full-width" appearance="outline">
-            <input 
-              type="text" 
-              placeholder="Vehicle Body"
-              id="vehicle_body"
-              name="vehicle_body"
-              class="form-control"
-              matInput formControlName="vehicle_body" 
-              [matAutocomplete]="autoVehicleBody">
-            <!-- <mat-error *ngIf="vehicle_body.invalid">{{getVehicleBodyErrorMessage()}}</mat-error> -->
-            <mat-autocomplete #autoVehicleBody="matAutocomplete">
-              <mat-option *ngFor="let vehicleBodyOpt of vehicleBodyOptions" [value]="vehicleBodyOpt">
-                {{vehicleBodyOpt}}
-              </mat-option>
-            </mat-autocomplete>
+            <mat-select placeholder="Vehicle Body" formControlName="vehicle_body" multiple>
+              <mat-option *ngFor="let vehicleBodyOpt of vehicleBodyOptions" [value]="vehicleBodyOpt.vehicle_body_id">{{vehicleBodyOpt.body}}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>

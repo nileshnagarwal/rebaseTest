@@ -1,3 +1,5 @@
+import { VehicleBody } from './../../../common/interfaces/vehicle-body';
+import { VehicleType } from './../../../common/interfaces/vehicle-type';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TransporterService } from '../../../common/services/masters/transporter.service';
@@ -27,9 +29,9 @@ export class QuotesComponent implements OnInit {
 
   @Input() enquiryId: string;
   @Input() enquiryNo: number;
-  vehicleTypeOptions: string[];
+  vehicleTypeOptions: VehicleType[];
   transporterOptions: Transporter[] = [];
-  vehicleBodyOptions: string[];
+  vehicleBodyOptions: VehicleBody[];
   transFilteredOptions: Transporter[];
 
   @ViewChild('transInput') transInput: ElementRef;
