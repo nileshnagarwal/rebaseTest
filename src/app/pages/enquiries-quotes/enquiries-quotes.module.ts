@@ -1,3 +1,4 @@
+import { QuotesService } from './../../common/services/enquiries-quotes/quotes.service';
 import { VehicleBodyService } from './../../common/services/masters/vehicle-body.service';
 import { VehicleTypeService } from './../../common/services/masters/vehicle-type.service';
 import { NgModule } from '@angular/core';
@@ -32,6 +33,7 @@ import { TransporterService } from '../../common/services/masters/transporter.se
     VehicleBodyService,
     EnquiriesService,
     TransporterService,
+    QuotesService,
   ],
   entryComponents: [
     EnquiriesViewComponent,

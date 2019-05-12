@@ -1,9 +1,11 @@
+import { QuotesService } from './../../../common/services/enquiries-quotes/quotes.service';
 import { VehicleBody } from './../../../common/interfaces/vehicle-body';
 import { VehicleType } from './../../../common/interfaces/vehicle-type';
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TransporterService } from '../../../common/services/masters/transporter.service';
 import { Transporter } from '../../../common/interfaces/transporter';
+import { AuthService } from '../../../common/services/auth/auth-service/auth.service';
 
 @Component({
   selector: 'ngx-quotes',
@@ -14,6 +16,8 @@ export class QuotesComponent implements OnInit {
 
   constructor(
     private transporterService: TransporterService,
+    private service: QuotesService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -24,7 +28,12 @@ export class QuotesComponent implements OnInit {
           map(responseMap => responseMap);
       });
     this.enquiry_id.setValue(this.enquiryId);
-    this.enquiry_no.setValue(this.enquiryNo);
+
+    // Set user field to current user_id
+    this.authService.getUser()
+    .subscribe(user => {
+      this.user_id.setValue(user.user_id);
+    });
   }
 
   @Input() enquiryId: string;
@@ -34,10 +43,8 @@ export class QuotesComponent implements OnInit {
   vehicleBodyOptions: VehicleBody[];
   transFilteredOptions: Transporter[];
 
-  @ViewChild('transInput') transInput: ElementRef;
-
   filter($event) {
-    $event['type'] === 'click' ? '' : this.transporter.reset();
+    $event['type'] === 'click' ? '' : this.transporter_id.reset();
     const filterValue = $event['target']['value'];
     if (filterValue !== undefined) {
       this.transFilteredOptions = this.transporterOptions
@@ -50,7 +57,7 @@ export class QuotesComponent implements OnInit {
   }
 
   transSelected($event) {
-    this.transporter.setValue($event['option']['value']['transporter_id']);
+    this.transporter_id.setValue($event['option']['value']['transporter_id']);
   }
 
   // Quote Form Controls Defined
@@ -58,10 +65,7 @@ export class QuotesComponent implements OnInit {
     enquiry_id: new FormControl('', [
       Validators.required,
     ]),
-    enquiry_no: new FormControl(this.enquiryNo, [
-      Validators.required,
-    ]),
-    transporter: new FormControl('', [
+    transporter_id: new FormControl('', [
       Validators.required,
     ]),
     freight: new FormControl('', [
@@ -73,14 +77,21 @@ export class QuotesComponent implements OnInit {
     vehicle_avail: new FormControl('', [
       Validators.required,
     ]),
-    vehicle_type: new FormControl('', [
+    vehicle_type_id: new FormControl('', [
       Validators.required,
     ]),
-    vehicle_body: new FormControl('', []),
+    vehicle_body_id: new FormControl('', []),
     comments: new FormControl('', []),
+    user_id: new FormControl('', [
+      Validators.required,
+    ]),
   });
 
-  addQuote(quotesForm) {}
+  addQuote(quotesForm) {
+    this.service.addQuote(quotesForm.value)
+    .subscribe(response => {});
+      // quotesForm.reset(); TO BE DELETED
+  }
 
   // The following get functions are used to describe
   // properties which can be used for cleaner code in html file.
@@ -88,12 +99,9 @@ export class QuotesComponent implements OnInit {
   get enquiry_id() {
     return this.quotesForm.get('enquiry_id');
   }
-  get enquiry_no() {
-    return this.quotesForm.get('enquiry_no');
-  }
 
-  get transporter() {
-    return this.quotesForm.get('transporter');
+  get transporter_id() {
+    return this.quotesForm.get('transporter_id');
   }
 
   get freight() {
@@ -108,15 +116,19 @@ export class QuotesComponent implements OnInit {
     return this.quotesForm.get('vehicle_avail');
   }
 
-  get vehicle_type() {
-    return this.quotesForm.get('vehicle_type');
+  get vehicle_type_id() {
+    return this.quotesForm.get('vehicle_type_id');
   }
 
-  get vehicle_body() {
-    return this.quotesForm.get('vehicle_body');
+  get vehicle_body_id() {
+    return this.quotesForm.get('vehicle_body_id');
   }
 
   get comments() {
     return this.quotesForm.get('comments');
+  }
+
+  get user_id() {
+    return this.quotesForm.get('user_id');
   }
 }
