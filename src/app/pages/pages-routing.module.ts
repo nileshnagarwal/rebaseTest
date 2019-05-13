@@ -17,14 +17,14 @@ const routes: Routes = [{
   // }, {
   //   path: 'iot-dashboard',
   //   component: DashboardComponent,
-  // }, 
+  // },
   {
     path: 'masters',
     loadChildren: './masters/masters.module#MastersModule',
   }, {
     path: 'enquiries-quotes',
     loadChildren: './enquiries-quotes/enquiries-quotes.module#EnquiriesQuotesModule',
-  }, 
+  },
   // {
   //   path: 'ui-features',
   //   loadChildren: './ui-features/ui-features.module#UiFeaturesModule',
@@ -55,7 +55,7 @@ const routes: Routes = [{
   // }, {
   //   path: 'miscellaneous',
   //   loadChildren: './miscellaneous/miscellaneous.module#MiscellaneousModule',
-  // }, 
+  // },
   {
     path: '',
     redirectTo: 'enquiries-quotes/enquiries',
