@@ -19,6 +19,7 @@ import { MaterialDesignModule } from './common/modules/material-design/material-
 import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
 import { httpInterceptorProviders } from './common/misc/http-interceptors';
 import { JwtModule } from '@auth0/angular-jwt';
+import { tokenGetterFn } from './common/functions/tokenGetterFn';
 
 @NgModule({
   declarations: [AppComponent],
@@ -55,12 +56,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 
     JwtModule.forRoot({
       config: {
-        tokenGetter:  () => {
-          const token = JSON.parse(localStorage.getItem('currentUser'));
-          if (token === null) {
-            return null;
-          } else return token['accessToken'];
-        },
+        tokenGetter:  tokenGetterFn,
       },
     }),
 
@@ -78,3 +74,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 })
 export class AppModule {
 }
+
+
+
+

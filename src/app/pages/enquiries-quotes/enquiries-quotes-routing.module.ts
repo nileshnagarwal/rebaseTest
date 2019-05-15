@@ -4,6 +4,7 @@ import { QuotesComponent } from './quotes/quotes.component';
 import { EnquiriesComponent } from './../enquiries-quotes/enquiries/enquiries.component';
 import { EnquiriesReportComponent } from './enquiries-report/enquiries-report.component';
 import { EnquiriesViewComponent } from './enquiries-view/enquiries-view.component';
+import { EnquiriesQuotesComponent } from './enquiries-quotes.component';
 
 const routes: Routes = [{
   path: '',
@@ -39,6 +40,7 @@ const routes: Routes = [{
 export class EnquiriesQuotesRoutingModule { }
 
 export const routedComponents = [
+  EnquiriesQuotesComponent,
   EnquiriesComponent,
   QuotesComponent,
   EnquiriesReportComponent,
