@@ -20,6 +20,7 @@ import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/a
 import { httpInterceptorProviders } from './common/misc/http-interceptors';
 import { JwtModule } from '@auth0/angular-jwt';
 import { tokenGetterFn } from './common/functions/tokenGetterFn';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,7 +45,7 @@ import { tokenGetterFn } from './common/functions/tokenGetterFn';
             class: NbAuthJWTToken,
             key: 'token.access_token',
           },
-          baseEndpoint: 'http://127.0.0.1:8000',
+          baseEndpoint: environment.baseUrl,
           login: {
             // ...
             endpoint: '/api/token/',

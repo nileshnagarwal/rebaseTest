@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Enquiry } from '../../interfaces/enquiry';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class EnquiriesService {
   }
 
   private header;
-  private url = 'http://127.0.0.1:8000/enquiry/';
+  private url = environment.baseUrl + '/enquiry/';
 
   addEnquiry(enquiry: Enquiry) {
     return this.http

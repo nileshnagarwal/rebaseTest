@@ -3,6 +3,7 @@ import { Headers } from '@angular/http';
 import { HttpClient, HttpResponse } from '../../../../../node_modules/@angular/common/http';
 import { Observable } from '../../../../../node_modules/rxjs';
 import { VehicleType } from '../../interfaces/vehicle-type';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class VehicleTypeService {
@@ -12,7 +13,7 @@ export class VehicleTypeService {
   }
 
   private header;
-  private url = 'http://127.0.0.1:8000/masters/vehicletype/';
+  private url = environment.baseUrl + '/masters/vehicletype/';
 
   addVehicleType(vehicleType) {
     return this.http

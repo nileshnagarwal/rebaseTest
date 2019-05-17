@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { VehicleBody } from '../../interfaces/vehicle-body';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class VehicleBodyService {
@@ -11,7 +12,7 @@ export class VehicleBodyService {
   }
 
   private header;
-  private url = 'http://127.0.0.1:8000/masters/vehiclebody/';
+  private url = environment.baseUrl + '/masters/vehiclebody/';
 
   addVehicleBody(vehicleBody) {
     return this.http

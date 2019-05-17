@@ -1,1 +1,3 @@
-export const refreshTokenApiUrl = 'http://127.0.0.1:8000/api/token/refresh/';
+import { environment } from '../../../../environments/environment';
+
+export const refreshTokenApiUrl = environment.baseUrl + '/api/token/refresh/';

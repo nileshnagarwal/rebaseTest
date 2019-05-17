@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Quote } from '../../interfaces/quote';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class QuotesService {
   }
 
   private header;
-  private url = 'http://127.0.0.1:8000/quotes/';
+  private url = environment.baseUrl + '/quotes/';
 
   addQuote(quote: Quote) {
     return this.http

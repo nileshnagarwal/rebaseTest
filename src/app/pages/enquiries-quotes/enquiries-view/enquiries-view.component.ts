@@ -85,7 +85,7 @@ export class EnquiriesViewComponent implements OnInit {
     const waypoints = [];
 
     // Getting Waypoints of source
-    for (const waypoint of this.response['places_source_obj']){
+    for (const waypoint of this.response['places_source_obj']) {
       if (this.counter > 0) {
         waypoints.push({
           location: {
@@ -102,7 +102,7 @@ export class EnquiriesViewComponent implements OnInit {
 
     // Getting Waypoints of destination
     this.counter = 0; // resetting counter
-    for (const waypoint of this.response['places_destination_obj']){
+    for (const waypoint of this.response['places_destination_obj']) {
       if (this.counter < (this.destLength - 1)) {
         waypoints.push({
           location: {

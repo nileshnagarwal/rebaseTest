@@ -3,6 +3,7 @@ import { Headers } from '@angular/http';
 import { Transporter } from '../../interfaces/transporter';
 import { HttpClient, HttpResponse } from '../../../../../node_modules/@angular/common/http';
 import { Observable } from '../../../../../node_modules/rxjs';
+import { environment } from '../../../../environments/environment';
 
 
 @Injectable()
@@ -13,7 +14,7 @@ export class TransporterService {
   }
 
   private header;
-  private url = 'http://127.0.0.1:8000/masters/transporter/';
+  private url = environment.baseUrl + '/masters/transporter/';
 
   addTransporter(transporter: Transporter) {
     return this.http
