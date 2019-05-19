@@ -26,6 +26,7 @@
                 "input": "node_modules/leaflet/dist/images",
                 "output": "/assets/img/markers"
               },
+              "src/manifest.json",
               "src/manifest.json"
             ],
             "styles": [
@@ -130,6 +131,7 @@
                 "input": "node_modules/leaflet/dist/images",
                 "output": "/assets/img/markers"
               },
+              "src/manifest.json",
               "src/manifest.json"
             ]
           }

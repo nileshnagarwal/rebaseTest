@@ -21,6 +21,7 @@ import { httpInterceptorProviders } from './common/misc/http-interceptors';
 import { JwtModule } from '@auth0/angular-jwt';
 import { tokenGetterFn } from './common/functions/tokenGetterFn';
 import { environment } from '../environments/environment';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [AppComponent],
@@ -60,6 +61,8 @@ import { environment } from '../environments/environment';
         tokenGetter:  tokenGetterFn,
       },
     }),
+
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 
   ],
   exports: [
