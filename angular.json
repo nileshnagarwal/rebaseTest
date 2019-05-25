@@ -26,6 +26,7 @@
                 "input": "node_modules/leaflet/dist/images",
                 "output": "/assets/img/markers"
               },
+              "src/firebase-messaging-sw.js",
               "src/manifest.json",
               "src/manifest.json"
             ],

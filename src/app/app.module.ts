@@ -23,6 +23,12 @@ import { tokenGetterFn } from './common/functions/tokenGetterFn';
 import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { MessagingService } from './common/services/messaging.service';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -64,6 +70,10 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   exports: [
     MaterialDesignModule,
@@ -74,6 +84,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
     // Barrel of Http Interceptors
     httpInterceptorProviders,
+    MessagingService,
   ],
 })
 export class AppModule {
