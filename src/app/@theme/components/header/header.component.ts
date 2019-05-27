@@ -1,3 +1,4 @@
+import { MessagingService } from './../../../common/services/messaging.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
@@ -5,6 +6,8 @@ import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { LayoutService } from '../../../@core/utils/layout.service';
 
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
+import { AuthService } from '../../../common/services/auth/auth-service/auth.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'ngx-header',
@@ -25,9 +28,11 @@ export class HeaderComponent implements OnInit {
               private menuService: NbMenuService,
               private analyticsService: AnalyticsService,
               private layoutService: LayoutService,
-              private authService: NbAuthService) {
+              private nbAuthService: NbAuthService,
+              private authService: AuthService,
+              private messagingService: MessagingService) {
 
-    this.authService.onTokenChange()
+    this.nbAuthService.onTokenChange()
       .subscribe((token: NbAuthJWTToken) => {
         if (token.isValid()) {
           // here we receive a payload from the token and assigne it to our `user` variable
@@ -44,11 +49,39 @@ export class HeaderComponent implements OnInit {
     // To display the user's name at the top.
     // Here we get the payload from existing token and
     // extract user information from the token.
-    this.authService.getToken()
+    this.nbAuthService.getToken()
       .subscribe((token: NbAuthJWTToken) => {
         this.user = token.getPayload();
       });
   }
+
+  // Below we implement Notification Subscription
+  message; // for storing current message received
+
+  subscribeNotifications() {
+    let userId: number;
+    this.authService.getUser()
+    .subscribe(user => {
+      userId = user.user_id;
+      this.messagingService.requestPermission(userId);
+    });
+    // Perhaps the below statements should be inside subscribe
+    // of getUser() below requestPermission.
+    // Need to implement and try.
+    this.messagingService.receiveMessage();
+    this.message = this.messagingService.currentMessage;
+  }
+
+  // For checking if already subscribed and controlling visibility of
+  // push notification icon in header
+  isSubscribed() {
+    if (Notification.permission !== 'granted') {
+      return of(false);
+    } else {
+      return of(true);
+    }
+  }
+
 
   toggleSidebar(): boolean {
     this.sidebarService.toggle(true, 'menu-sidebar');

@@ -5,7 +5,6 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from './@core/utils/analytics.service';
-import { MessagingService } from './common/services/messaging.service';
 
 @Component({
   selector: 'ngx-app',
@@ -13,19 +12,10 @@ import { MessagingService } from './common/services/messaging.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(
-    private analytics: AnalyticsService,
-    private messagingService: MessagingService) {
+  constructor(private analytics: AnalyticsService) {
   }
-
-  message;
 
   ngOnInit(): void {
     this.analytics.trackPageViews();
-
-    const userId = 'user001';
-    this.messagingService.requestPermission(userId);
-    this.messagingService.receiveMessage();
-    this.message = this.messagingService.currentMessage;
   }
 }

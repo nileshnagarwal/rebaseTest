@@ -1,41 +1,53 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireMessaging } from '@angular/fire/messaging';
-import { take } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { NbToastrService } from '@nebular/theme';
 
 @Injectable()
 export class MessagingService {
 
-  currentMessage = new BehaviorSubject(null);
-
   constructor(
-    private angularFireDB: AngularFireDatabase,
-    private angularFireAuth: AngularFireAuth,
-    private angularFireMessaging: AngularFireMessaging) {
+    private angularFireMessaging: AngularFireMessaging,
+    private http: HttpClient,
+    private toastrService: NbToastrService) {
     this.angularFireMessaging.messaging.subscribe(
       (_messaging) => {
         _messaging.onMessage = _messaging.onMessage.bind(_messaging);
         _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
       },
     );
+    this.header = new Headers({ 'Content-Type': 'application/json' });
   }
 
+  private header;
+  private url = environment.baseUrl + '/devices/';
+
+  currentMessage = new BehaviorSubject(null);
   /**
    * update token in firebase database
    *
    * @param userId userId as a key
    * @param token token as a value
    */
-  updateToken(userId, token) {
-    // we can change this function to request our backend service
-    this.angularFireAuth.authState.pipe(take(1)).subscribe(
-      () => {
-        const data = {};
-        data[userId] = token;
-        this.angularFireDB.object('fcmTokens/').update(data);
-      });
+  updateToken(userId, token: string) {
+    // Constructing fcmDevice as required by fcm-django model
+    // Refer: https://github.com/xtrinch/fcm-django
+    const fcmDevice = {
+      registration_id: token,
+      name: '',
+      active: true,
+      user: userId,
+      type: 'web',
+    };
+
+    return this.http
+        .post(
+          this.url,
+          fcmDevice,
+          { headers: this.header },
+        );
   }
 
   /**
@@ -44,13 +56,22 @@ export class MessagingService {
    * @param userId userId
    */
   requestPermission(userId) {
-    this.angularFireMessaging.requestToken.subscribe(
-      (token) => {
-        this.updateToken(userId, token);
-      },
-      (err) => {
-      },
-    );
+    // First check if already subscribed
+    if (Notification.permission !== 'granted') {
+      this.angularFireMessaging.requestToken.subscribe(
+        (token) => {
+          this.updateToken(userId, token)
+            .subscribe(response => {
+              this.toastrShow('success', false, 'nb-notifications', '10000', 'top-right');
+
+            });
+        },
+        (err) => {
+        },
+      );
+    } else {
+      alert('You are already subscibed to push notifications');
+    }
   }
 
   /**
@@ -61,5 +82,13 @@ export class MessagingService {
       (payload) => {
         this.currentMessage.next(payload);
       });
+  }
+
+  // Trigger toastr for showing subscription complete message
+  toastrShow(status, preventDuplicates, icon, duration, position) {
+    this.toastrService.show('You will be notified when a New Enquiry is added',
+    'Subscription Successfull',
+      {status, preventDuplicates, icon, duration, position},
+    );
   }
 }

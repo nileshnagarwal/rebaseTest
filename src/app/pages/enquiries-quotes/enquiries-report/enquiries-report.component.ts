@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { EnquiriesService } from './../../../common/services/enquiries-quotes/enquiries.service';
 import { EnquiriesViewComponent } from '../enquiries-view/enquiries-view.component';
+import { NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-enquiries-report',
@@ -77,6 +78,7 @@ export class EnquiriesReportComponent implements OnInit {
     private service: EnquiriesService,
     // private transporterComponent: TransporterComponent,
     private modalService: NgbModal,
+    private toastrService: NbToastrService,
   ) {}
 
   ngOnInit() {
@@ -90,6 +92,10 @@ export class EnquiriesReportComponent implements OnInit {
     this.service.getEnquiry()
       .subscribe(response => {
         this.source.load(response.body);
+        // Trigger toastr for reminding to subsribe
+        if (Notification.permission !== 'granted') {
+          this.toastrShow('info', false, 'nb-notifications', '5000', 'top-right');
+        }
       });
   }
 
@@ -110,6 +116,14 @@ export class EnquiriesReportComponent implements OnInit {
       { size: 'lg', container: 'nb-layout' },
     );
     activeModal.componentInstance.enquiryId = event['data']['enquiry_id'];
+  }
+
+  // Trigger toastr for reminding to subsribe
+  toastrShow(status, preventDuplicates, icon, duration, position) {
+    this.toastrService.show('Click on Bell Icon to Subscribe',
+      'Get Notified on New Enquiries',
+      {status, preventDuplicates, icon, duration, position},
+    );
   }
 
   getLocalDataSource() {

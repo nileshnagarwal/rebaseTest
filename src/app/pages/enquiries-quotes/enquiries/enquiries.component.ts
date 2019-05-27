@@ -27,7 +27,8 @@ export class EnquiriesComponent implements OnInit {
     private extraExpensesService: ExtraExpensesService,
     private adapter: DateAdapter<any>,
     private service: EnquiriesService,
-    private authService: AuthService) {}
+    private authService: AuthService,
+  ) {}
 
   ngOnInit() {
 
@@ -64,6 +65,7 @@ export class EnquiriesComponent implements OnInit {
       .subscribe(user => {
         this.user.setValue(user.user_id);
       });
+
   }
 
   /*
