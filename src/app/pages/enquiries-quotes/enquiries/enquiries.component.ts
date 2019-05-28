@@ -157,9 +157,7 @@ export class EnquiriesComponent implements OnInit {
     loading_date: new FormControl('', [
       Validators.required,
     ]),
-    extra_expenses: new FormControl('', [
-      Validators.required,
-    ]),
+    extra_expenses: new FormControl('', []),
     user: new FormControl('', [
       Validators.required,
     ]),
