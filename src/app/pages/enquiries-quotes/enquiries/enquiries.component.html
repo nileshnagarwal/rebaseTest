@@ -7,29 +7,45 @@
     <form
     [formGroup]="enquiriesForm"
     (ngSubmit)="addEnquiry(enquiriesForm)"
-    class="form offset-sm-1">
+    >
 
     <!-- we will place our fields here -->
 
+      <!-- Enquiry No -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              formControlName="enquiry_no"
+              id="enquiry_no" 
+              name="enquiry_no"
+              placeholder="Enquiry No">
+          </mat-form-field>
+        </div>
+      </div>
+        
       <!-- Status of Enquiry -->
       <div class="form-group row">
-        <mat-form-field class="full-width">
-          <input 
-            type="text" 
-            placeholder="Enquiry Status"
-            id="status"
-            name="status"
-            matInput formControlName="status" 
-            [matAutocomplete]="auto">
-          <mat-error *ngIf="status.invalid">{{getStatusErrorMessage()}}</mat-error>
-          <!-- We need to trigger Enquiry No Validation Trigger here as it depends on enquiry status and
-          needs status value to be passed to the enquiryNoValidator -->
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="enquiryNoValidationTrigger($event)">
-            <mat-option *ngFor="let status of statusOptions" [value]="status">
-              {{status}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <input 
+              type="text" 
+              placeholder="Enquiry Status"
+              id="status"
+              name="status"
+              matInput formControlName="status" 
+              [matAutocomplete]="auto">
+            <mat-error *ngIf="status.invalid">{{getStatusErrorMessage()}}</mat-error>
+            <!-- We need to trigger Enquiry No Validation Trigger here as it depends on enquiry status and
+            needs status value to be passed to the enquiryNoValidator -->
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="enquiryNoValidationTrigger($event)">
+              <mat-option *ngFor="let status of statusOptions" [value]="status">
+                {{status}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
       </div>
       
       <!-- Source FormArray -->
@@ -37,210 +53,145 @@
       formArrayName="sources">
         <!-- Angular assigns array index as group name by default for FormArrays  -->
         <div [formGroupName] = "i" class="form-group row">
-          <mat-form-field class="full-width">
-            <input
-              matInput
-              formControlName="place"
-              ngx-google-places-autocomplete 
-              [options]='placesOptions' 
-              #sourceRef="ngx-places" 
-              (onAddressChange)="handleSourceAddressChange($event, i)"
-              placeholder="Source"
-              id="source"
-              name="source">
-            <button mat-icon-button matSuffix
-              *ngIf="sources.controls.length > 1 && i > 0"
-              (click)="removeSource(sources.controls[i])"
-              type="button">
-              <mat-icon>remove</mat-icon>
-            </button>
-          </mat-form-field>
+          <div class="col-md-8 col-lg-4">
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                formControlName="place"
+                ngx-google-places-autocomplete 
+                [options]='placesOptions' 
+                #sourceRef="ngx-places" 
+                (onAddressChange)="handleSourceAddressChange($event, i)"
+                placeholder="Pickup"
+                id="source"
+                name="source">
+              <button mat-icon-button matSuffix
+                *ngIf="sources.controls.length > 1 && i > 0"
+                (click)="removeSource(sources.controls[i])"
+                type="button">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
         </div>
       </div>
-      <div class="form-group row">
+      <div class="form-group row col-lg-2">
           <button mat-stroked-button
           (click)="addSource()"
           type="button"
           color="primary">
-          ADD SOURCE</button>
+          ADD PICKUP</button>
       </div>
       
       <!-- Destination Location -->
       <div *ngFor="let destination of destinations.controls; let i=index"
       formArrayName="destinations">
         <div [formGroupName] = "i" class="form-group row">
-          <mat-form-field class="full-width">
-            <input
-              matInput
-              formControlName="place"
-              ngx-google-places-autocomplete 
-              [options]='placesOptions' 
-              #destRef="ngx-places" 
-              (onAddressChange)="handleDestinationAddressChange($event, i)"
-              placeholder="Destination"
-              id="destination"
-              name="destination">
-            <button mat-icon-button matSuffix
-              *ngIf="destinations.controls.length > 1 && i > 0"
-              (click)="removeDestination(destinations.controls[i])"
-              type="button">
-              <mat-icon>remove</mat-icon>
-            </button>
-          </mat-form-field>
+          <div class="col-md-8 col-lg-4">
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                formControlName="place"
+                ngx-google-places-autocomplete 
+                [options]='placesOptions' 
+                #destRef="ngx-places" 
+                (onAddressChange)="handleDestinationAddressChange($event, i)"
+                placeholder="Delivery"
+                id="destination"
+                name="destination">
+              <button mat-icon-button matSuffix
+                *ngIf="destinations.controls.length > 1 && i > 0"
+                (click)="removeDestination(destinations.controls[i])"
+                type="button">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
         </div>
       </div>
-      <div class="form-group row">
+      <div class="form-group row col-lg-2">
           <button mat-stroked-button 
             (click)="addDestination()"
             type="button"
             color="primary">
-            Add Destination
+            ADD DELIVERY
           </button>
       </div>
 
       <!-- Return Location -->
       <div class="form-group row" formGroupName="return">
-        <mat-form-field class="full-width">
-          <input
-            matInput
-            ngx-google-places-autocomplete 
-            [options]='placesOptions'
-            #returnRef="ngx-places" 
-            (onAddressChange)="handleReturnAddressChange($event)"
-            placeholder="Return"
-            id="return"
-            name="return"
-            formControlName="place">
-          <mat-error *ngIf="return.invalid">{{getReturnErrorMessage()}}</mat-error>    
-        </mat-form-field>
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              ngx-google-places-autocomplete 
+              [options]='placesOptions'
+              #returnRef="ngx-places" 
+              (onAddressChange)="handleReturnAddressChange($event)"
+              placeholder="Return"
+              id="return"
+              name="return"
+              formControlName="place">
+            <mat-error *ngIf="return.invalid">{{getReturnErrorMessage()}}</mat-error>    
+          </mat-form-field>
+        </div>
       </div>
       
-      <!-- Enquiry No -->
+      <!-- Dimensions and Weight -->
       <div class="form-group row">
-        <mat-form-field class="full-width">
-          <input
-            matInput
-            formControlName="enquiry_no"
-            id="enquiry_no" 
-            name="enquiry_no"
-            placeholder="Enquiry No">
-        </mat-form-field>
-      </div>
-      
-      <div class="form-group row">
-        <div class="grid-container">
-          <div>
-            <mat-form-field class="full-width">
-              <input 
-                matInput
-                formControlName="length"
-                id="length" 
-                name="length"
-                type="number"      
-                placeholder="Length">
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field class="full-width">
-              <input
-                matInput
-                formControlName="width"
-                id="width" 
-                name="width"
-                type="number"
-                placeholder="Width">
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field class="full-width">
-              <input 
-                matInput
-                formControlName="height"
-                id="height" 
-                name="height"
-                type="number"      
-                placeholder="Height">
-            </mat-form-field>  
-          </div>
-          <div>
-            <mat-form-field class="full-width">
-              <input 
-                matInput
-                formControlName="weight"
-                id="weight" 
-                name="weight"
-                type="number"
-                placeholder="Weight">
-            </mat-form-field>
-          </div>
+        <div class="col-md-2 col-lg-1">
+          <mat-form-field class="full-width">
+            <input 
+              matInput
+              formControlName="length"
+              id="length" 
+              name="length"
+              type="number"      
+              placeholder="Length">
+            <span matSuffix>FT</span>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              formControlName="width"
+              id="width" 
+              name="width"
+              type="number"
+              placeholder="Width">
+            <span matSuffix>FT</span>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <mat-form-field class="full-width">
+            <input 
+              matInput
+              formControlName="height"
+              id="height" 
+              name="height"
+              type="number"      
+              placeholder="Height">
+            <span matSuffix>FT</span>
+          </mat-form-field>  
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <mat-form-field class="full-width">
+            <input 
+              matInput
+              formControlName="weight"
+              id="weight" 
+              name="weight"
+              type="number"
+              placeholder="Weight">
+            <span matSuffix>MT</span>
+          </mat-form-field>
         </div>
       </div>
 
-      <div class="form-group row">
-        <mat-grid-list cols="4" rowHeight="2:1">          
-          <mat-grid-tile>            
-          </mat-grid-tile>
-          <mat-grid-tile>            
-          </mat-grid-tile>
-          <mat-grid-tile>
-          </mat-grid-tile>
-        </mat-grid-list>
-      </div>
-
-      <!-- Length -->
-      <!-- <div class="form-group row">
-        <mat-form-field class="full-width">
-          <input 
-            matInput
-            formControlName="length"
-            id="length" 
-            name="length"
-            type="number"      
-            placeholder="Length">
-        </mat-form-field>
-      </div> -->
-
-      <!-- Width -->
-      <!-- <div class="form-group row">        
-        <mat-form-field class="full-width">
-          <input
-            matInput
-            formControlName="width"
-            id="width" 
-            name="width"
-            type="number"
-            placeholder="Width">
-        </mat-form-field>
-      </div> -->
-
-      <!-- Height -->
-      <!-- <div class="form-group row">
-        <mat-form-field class="full-width">
-          <input 
-            matInput
-            formControlName="height"
-            id="height" 
-            name="height"
-            type="number"      
-            placeholder="Height">
-        </mat-form-field>
-      </div> -->
-
-      <!-- Weight -->
-      <!-- <div class="form-group row">
-        <mat-form-field class="full-width">
-          <input 
-            matInput
-            formControlName="weight"
-            id="weight" 
-            name="weight"
-            type="number"
-            placeholder="Weight">
-        </mat-form-field>
-      </div> -->
-
       <!-- Load Type -->
       <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
           <mat-form-field class="full-width">
             <input 
               type="text" 
@@ -256,28 +207,34 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+        </div>
       </div>
 
       <!-- Vehicle Type -->
       <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
           <mat-form-field class="full-width">
             <mat-select placeholder="Vehicle Types" formControlName="vehicle_type" multiple>
               <mat-option *ngFor="let vehicleTypeOpt of vehicleTypeOptions" [value]="vehicleTypeOpt.vehicle_type_id">{{vehicleTypeOpt.vehicle}}</mat-option>
             </mat-select>
           </mat-form-field>
+        </div>
       </div>
 
       <!-- Vehicle Body -->
       <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
           <mat-form-field class="full-width">
             <mat-select placeholder="Vehicle Body" formControlName="vehicle_body" multiple>
               <mat-option *ngFor="let vehicleBodyOpt of vehicleBodyOptions" [value]="vehicleBodyOpt.vehicle_body_id">{{vehicleBodyOpt.body}}</mat-option>
             </mat-select>
           </mat-form-field>
+        </div>
       </div>
 
       <!-- Loading Date -->
       <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
           <mat-form-field class="full-width">
             <input 
               id="loading_date"
@@ -288,26 +245,31 @@
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker touchUi #picker></mat-datepicker>
           </mat-form-field>
+        </div>
       </div>
 
       <!-- Extra Expenses -->
       <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
           <mat-form-field class="full-width">
             <mat-select placeholder="Extra Expenses" formControlName="extra_expenses" multiple>
               <mat-option *ngFor="let extraExpenseOpt of extraExpensesOptions" [value]="extraExpenseOpt.extra_expenses_id">{{extraExpenseOpt.extra_expenses}}</mat-option>
             </mat-select>
           </mat-form-field>
+        </div>
       </div>
 
       <!-- Comments -->
       <div class="form-group row">
-        <textarea
-          matInput 
-          formControlName="comments"
-          id="comments" 
-          name="specialReq"
-          placeholder="Special Requirement">
-        </textarea>
+        <div class="col-md-8 col-lg-4">
+          <textarea
+            matInput 
+            formControlName="comments"
+            id="comments" 
+            name="specialReq"
+            placeholder="Special Requirement">
+          </textarea>
+        </div>
       </div>      
 
       <!-- Adding the submit button -->
@@ -323,10 +285,6 @@
       </div>
     
     </form>
-
-    <pre>
-      {{ enquiriesForm.value | json }}
-    </pre>
 
   </nb-card-body>       
 </nb-card>

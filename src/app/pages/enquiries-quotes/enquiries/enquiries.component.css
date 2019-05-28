@@ -17,27 +17,15 @@
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
     padding: 15px;
 }
-
-.form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
   
 .full-width {
     width: 100%;
 }
 
-.col-4-width {
-    width: 10%;
-}
-
-.col-4-gutter{
-    width: 3%
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: 22% 22% 22% 22%;
-    grid-column-gap: 4%;
+/* Below CSS is to remove arrows from number
+inputs */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button
+{ 
+ -webkit-appearance: none; 
 }
