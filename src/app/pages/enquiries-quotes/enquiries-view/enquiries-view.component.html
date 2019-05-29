@@ -83,14 +83,16 @@
         </agm-direction>
       </agm-map>
 
+      <div class="form-group row"></div>
       <div class="form-group row">
-        <div class="col-4 col-sm-5">
+        <div class="offset-7 offset-sm-7 offset-md-7 offset-lg-7 col-4 col-sm-5" align="right">
           <button 
             id="quote"
-            type="button"
-            class="btn btn-primary"
+            type="submit"
+            mat-raised-button
+            color="primary"
             (click)="openQuote()">
-            Quote
+            QUOTE
           </button>
         </div>
       </div>

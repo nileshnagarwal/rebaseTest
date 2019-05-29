@@ -11,20 +11,14 @@
       <!-- we will place our fields here -->
 
       <!-- Transporter -->
-      <div class="form-group row">
-        <label 
-          for="transporter" 
-          class="col-sm-3 col-form-label">
-          Transporter
-        </label>
-        <div class="col-sm-9">
-          <mat-form-field class="example-full-width" appearance="outline">
+      <div class="form-group row">        
+        <div class="col-md-12 col-lg-6">
+          <mat-form-field class="full-width">
             <input 
               type="text" 
               placeholder="Transporter"
               id="transporter"
               name="transporter"
-              class="form-control"
               matInput
               (click)="filter($event)"
               (input)="filter($event)"
@@ -41,13 +35,8 @@
 
       <!-- Vehicle Type -->
       <div class="form-group row">
-        <label 
-          for="vehicle_type" 
-          class="col-sm-3 col-form-label">
-          Vehicle Types
-        </label>
-        <div class="col-sm-9">
-          <mat-form-field class="example-full-width" appearance="outline">
+        <div class="col-md-12 col-lg-6">
+          <mat-form-field class="full-width">
             <mat-select placeholder="Vehicle Types" formControlName="vehicle_type_id" multiple>
               <mat-option *ngFor="let vehicleTypeOpt of vehicleTypeOptions" [value]="vehicleTypeOpt.vehicle_type_id">{{vehicleTypeOpt.vehicle}}</mat-option>
             </mat-select>
@@ -57,13 +46,8 @@
 
       <!-- Vehicle Body -->
       <div class="form-group row">
-        <label 
-          for="vehicle_body"
-          class="col-sm-3 col-form-label">
-          Vehicle Body
-        </label>
-        <div class="col-sm-9">
-          <mat-form-field class="example-full-width" appearance="outline">
+        <div class="col-md-12 col-lg-6">
+          <mat-form-field class="full-width">
             <mat-select placeholder="Vehicle Body" formControlName="vehicle_body_id" multiple>
               <mat-option *ngFor="let vehicleBodyOpt of vehicleBodyOptions" [value]="vehicleBodyOpt.vehicle_body_id">{{vehicleBodyOpt.body}}</mat-option>
             </mat-select>
@@ -73,33 +57,29 @@
       
       <!-- Freight -->
       <div class="form-group row">
-        <label 
-          for="freight" 
-          class="col-sm-3 col-form-label">
-          Freight
-        </label>
-        <div class="col-sm-9">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <input 
-            matInput
-            formControlName="freight"
-            id="freight" 
-            name="freight"
-            type="number"
-            class="form-control"                
-            placeholder="Freight">
-        </mat-form-field>
+        <div class="col-md-12 col-lg-6">
+          <mat-form-field class="full-width">
+            <input 
+              matInput
+              formControlName="freight"
+              id="freight" 
+              name="freight"
+              type="number"           
+              placeholder="Freight">
+          </mat-form-field>
         </div>
       </div>
 
       <!-- Vehicle Availability -->
       <div class="form-group row">
-        <label 
-          for="vehicle_avail" 
-          class="col-sm-3 col-form-label">
-          Vehicle Available?
-        </label>
-        <div class="col-sm-9">
+        <div class="col-lg-12">
+          <label 
+            for="vehicle_avail" 
+            class="col-form-label">
+            Vehicle Available?
+          </label>
+        </div>
+        <div class="col-lg-12">
           <label class="custom-control custom-radio inline-block">
             <input type="radio" class="custom-control-input" 
               name="vehicle_avail" 
@@ -129,12 +109,14 @@
 
       <!-- Including Fine? -->
       <div class="form-group row">
-        <label 
-          for="including_fine" 
-          class="col-sm-3 col-form-label">
-          Including Fine?
-        </label>
-        <div class="col-sm-9">
+        <div class="col-lg-12">
+          <label 
+            for="including_fine" 
+            class="col-form-label">
+            Including Fine?
+          </label>
+        </div>
+        <div class="col-lg-12">
           <label class="custom-control custom-radio inline-block">
             <input type="radio" class="custom-control-input" 
               name="including_fine" 
@@ -164,29 +146,27 @@
       
       <!-- Comments -->
       <div class="form-group row">
-        <label 
-          for="comments" 
-          class="col-sm-3 col-form-label">
-          Comments
-        </label>
-        <div class="col-sm-9">
-          <textarea 
-            formControlName="comments"
-            id="comments" 
-            name="comments"
-            type="textarea"
-            class="form-control"                
-            placeholder="Comments">
-          </textarea>
+        <div class="col-md-12 col-lg-6">
+          <mat-form-field class="full-width">
+            <textarea 
+              matInput
+              formControlName="comments"
+              id="comments" 
+              name="comments"
+              type="textarea"           
+              placeholder="Comments">
+            </textarea>
+          </mat-form-field>
         </div>
       </div>
 
       <!-- Adding the submit button -->
       <div class="form-group row">
-        <div class="offset-sm-3 col-sm-9">
+        <div class="offset-sm-9 offset-md-9 offset-lg-4 col-lg-2" align="right">
           <button 
             type="submit" 
-            class="btn btn-primary"
+            mat-raised-button
+            color="primary"
             [disabled]="!quotesForm.valid"
             ngbAutofocus> 
             <!-- ngbAutoFocus focuses on Submit button on opening 
@@ -198,9 +178,9 @@
     
     </form>
 
-    <pre>
+    <!-- <pre>
       {{ quotesForm.value | json }}
-    </pre>
+    </pre> -->
 
   </nb-card-body>       
 </nb-card>

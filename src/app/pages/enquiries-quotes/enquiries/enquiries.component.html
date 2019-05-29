@@ -10,20 +10,6 @@
     >
 
     <!-- we will place our fields here -->
-
-      <!-- Enquiry No -->
-      <div class="form-group row">
-        <div class="col-md-8 col-lg-4">
-          <mat-form-field class="full-width">
-            <input
-              matInput
-              formControlName="enquiry_no"
-              id="enquiry_no" 
-              name="enquiry_no"
-              placeholder="Enquiry No">
-          </mat-form-field>
-        </div>
-      </div>
         
       <!-- Status of Enquiry -->
       <div class="form-group row">
@@ -44,6 +30,20 @@
                 {{status}}
               </mat-option>
             </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Enquiry No -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              formControlName="enquiry_no"
+              id="enquiry_no" 
+              name="enquiry_no"
+              placeholder="Enquiry No">
           </mat-form-field>
         </div>
       </div>
@@ -262,22 +262,25 @@
       <!-- Comments -->
       <div class="form-group row">
         <div class="col-md-8 col-lg-4">
-          <textarea
-            matInput 
-            formControlName="comments"
-            id="comments" 
-            name="specialReq"
-            placeholder="Special Requirement">
-          </textarea>
+          <mat-form-field class="full-width">
+            <textarea
+              matInput 
+              formControlName="comments"
+              id="comments" 
+              name="specialReq"
+              placeholder="Special Requirement">
+            </textarea>
+          </mat-form-field>
         </div>
       </div>      
 
       <!-- Adding the submit button -->
       <div class="form-group row">
-        <div class="offset-sm-3 col-sm-9">
+        <div class="offset-md-4 offset-lg-2 col-md-4 col-lg-2" align="right">
           <button 
             type="submit" 
-            class="btn btn-primary"
+            mat-raised-button
+            color="primary"
             [disabled]="!enquiriesForm.valid">
             SUBMIT
           </button>
@@ -285,6 +288,10 @@
       </div>
     
     </form>
+
+    <!-- <pre>
+      {{ quotesForm.value | json }}
+    </pre> -->
 
   </nb-card-body>       
 </nb-card>
