@@ -23,6 +23,11 @@
               (click)="filter($event)"
               (input)="filter($event)"
               [matAutocomplete]="auto">
+            <button mat-icon-button matSuffix
+              (click)="addTransporter()"
+              type="button">
+              <mat-icon>person_add</mat-icon>
+            </button>
             <!-- <mat-error *ngIf="transporter.invalid">{{getTransporterErrorMessage()}}</mat-error> -->
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="transSelected($event)" [displayWith]=transDisplayFn>
               <mat-option #option *ngFor="let transporterOpt of transFilteredOptions" [value]="transporterOpt">

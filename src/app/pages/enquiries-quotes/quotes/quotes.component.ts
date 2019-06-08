@@ -6,6 +6,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TransporterService } from '../../../common/services/masters/transporter.service';
 import { Transporter } from '../../../common/interfaces/transporter';
 import { AuthService } from '../../../common/services/auth/auth-service/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TransporterComponent } from '../../masters/transporter/transporter.component';
 
 @Component({
   selector: 'ngx-quotes',
@@ -18,6 +20,7 @@ export class QuotesComponent implements OnInit {
     private transporterService: TransporterService,
     private service: QuotesService,
     private authService: AuthService,
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit() {
@@ -91,6 +94,24 @@ export class QuotesComponent implements OnInit {
     this.service.addQuote(quotesForm.value)
     .subscribe(response => {});
       // quotesForm.reset(); TO BE DELETED
+  }
+
+  addTransporter() {
+    const activeModal = this.modalService.open(
+      TransporterComponent,
+      { size: 'lg', container: 'nb-layout' },
+    );
+
+    // Get transporter list from backend when a
+    // new transporter is added from modal
+    activeModal.componentInstance.refreshTable
+      .subscribe(resRefresh => {
+        this.transporterService.getTransporter()
+        .subscribe(response => {
+          this.transporterOptions = response.body.
+            map(responseMap => responseMap);
+        });
+      });
   }
 
   // The following get functions are used to describe

@@ -12,6 +12,7 @@ import { EnquiriesViewComponent } from './enquiries-view/enquiries-view.componen
 import { AgmDirectionModule } from 'agm-direction';
 import { AgmCoreModule } from '@agm/core';
 import { TransporterService } from '../../common/services/masters/transporter.service';
+import { TransporterComponent } from '../masters/transporter/transporter.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,9 @@ import { TransporterService } from '../../common/services/masters/transporter.se
   ],
   entryComponents: [
     EnquiriesViewComponent,
+    // Adding TransporterComponent to
+    // allow opening modal from quotescomponent
+    TransporterComponent,
   ],
 })
 export class EnquiriesQuotesModule { }
