@@ -124,10 +124,10 @@ export class EnquiriesComponent implements OnInit {
     load_type: new FormControl('', [
       Validators.required,
     ]),
-    vehicle_type: new FormControl('', [
+    vehicle_type: new FormControl([], [
       Validators.required,
     ]),
-    vehicle_body: new FormControl('', []),
+    vehicle_body: new FormControl([], []),
     enquiry_no: new FormControl('', [
       Validators.required,
     ]),
@@ -157,7 +157,7 @@ export class EnquiriesComponent implements OnInit {
     loading_date: new FormControl('', [
       Validators.required,
     ]),
-    extra_expenses: new FormControl('', []),
+    extra_expenses: new FormControl([], []),
     user: new FormControl('', [
       Validators.required,
     ]),
