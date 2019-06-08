@@ -1,3 +1,4 @@
+import { MastersModule } from './../masters/masters.module';
 import { QuotesService } from './../../common/services/enquiries-quotes/quotes.service';
 import { VehicleBodyService } from './../../common/services/masters/vehicle-body.service';
 import { VehicleTypeService } from './../../common/services/masters/vehicle-type.service';
@@ -12,6 +13,7 @@ import { EnquiriesViewComponent } from './enquiries-view/enquiries-view.componen
 import { AgmDirectionModule } from 'agm-direction';
 import { AgmCoreModule } from '@agm/core';
 import { TransporterService } from '../../common/services/masters/transporter.service';
+import { TransporterComponent } from '../masters/transporter/transporter.component';
 
 @NgModule({
   imports: [
@@ -24,6 +26,9 @@ import { TransporterService } from '../../common/services/masters/transporter.se
       apiKey: 'AIzaSyAdW-L7cDATNI2-G8kph-c8zKuDR8hTdzs',
     }),
     AgmDirectionModule,
+    // Adding MastersModule as TransporterComponent
+    // used in quotes page is part of another module
+    MastersModule,
   ],
   declarations: [
     ...routedComponents,
@@ -34,9 +39,16 @@ import { TransporterService } from '../../common/services/masters/transporter.se
     EnquiriesService,
     TransporterService,
     QuotesService,
+    // Adding TransporterComponent used in quotes page
+    // as Modal requires a new component instance to
+    // be injected
+    TransporterComponent,
   ],
   entryComponents: [
     EnquiriesViewComponent,
+    // Adding TransporterComponent to
+    // allow opening modal from quotescomponent
+    TransporterComponent,
   ],
 })
 export class EnquiriesQuotesModule { }
