@@ -47,7 +47,7 @@
           </mat-form-field>
         </div>
       </div>
-      
+
       <!-- Source FormArray -->
       <div *ngFor="let source of sources.controls; let i=index"
       formArrayName="sources">
@@ -83,7 +83,7 @@
           ADD PICKUP</button>
       </div>
       
-      <!-- Destination Location -->
+        <!-- Destination Location -->
       <div *ngFor="let destination of destinations.controls; let i=index"
       formArrayName="destinations">
         <div [formGroupName] = "i" class="form-group row">
@@ -136,7 +136,7 @@
           </mat-form-field>
         </div>
       </div>
-      
+
       <!-- Dimensions and Weight -->
       <div class="form-group row">
         <div class="col-md-2 col-lg-1">
@@ -276,11 +276,10 @@
 
       <!-- Adding the submit button -->
       <div class="form-group row">
-        <div class="offset-md-4 offset-lg-2 col-md-4 col-lg-2" align="right">
+        <div class="col-md-8 col-lg-4" align="right">
           <button 
+            mat-raised-button color="primary"
             type="submit" 
-            mat-raised-button
-            color="primary"
             [disabled]="!enquiriesForm.valid">
             SUBMIT
           </button>
@@ -289,10 +288,5 @@
     
     </form>
 
-    <!-- <pre>
-      {{ quotesForm.value | json }}
-    </pre> -->
-
   </nb-card-body>       
 </nb-card>
-
