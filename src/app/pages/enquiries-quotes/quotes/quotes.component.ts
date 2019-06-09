@@ -97,6 +97,7 @@ export class QuotesComponent implements OnInit {
   }
 
   addTransporter() {
+    event.stopPropagation();
     const activeModal = this.modalService.open(
       TransporterComponent,
       { size: 'lg', container: 'nb-layout' },
