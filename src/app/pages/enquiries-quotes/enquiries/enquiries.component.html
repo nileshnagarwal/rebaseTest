@@ -213,10 +213,15 @@
       <!-- Vehicle Type -->
       <div class="form-group row">
         <div class="col-md-8 col-lg-4">
-          <mat-form-field class="full-width">
+          <mat-form-field class="full-width">          
             <mat-select placeholder="Vehicle Types" formControlName="vehicle_type" multiple>
               <mat-option *ngFor="let vehicleTypeOpt of vehicleTypeOptions" [value]="vehicleTypeOpt.vehicle_type_id">{{vehicleTypeOpt.vehicle}}</mat-option>
             </mat-select>
+            <button mat-icon-button matSuffix
+              (click)="addVehicleType()"
+              type="button">
+              <mat-icon>add</mat-icon>
+            </button>
           </mat-form-field>
         </div>
       </div>
@@ -228,6 +233,11 @@
             <mat-select placeholder="Vehicle Body" formControlName="vehicle_body" multiple>
               <mat-option *ngFor="let vehicleBodyOpt of vehicleBodyOptions" [value]="vehicleBodyOpt.vehicle_body_id">{{vehicleBodyOpt.body}}</mat-option>
             </mat-select>
+            <button mat-icon-button matSuffix
+              (click)="addVehicleBody()"
+              type="button">
+              <mat-icon>add</mat-icon>
+            </button>
           </mat-form-field>
         </div>
       </div>

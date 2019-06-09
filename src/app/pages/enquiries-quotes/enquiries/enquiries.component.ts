@@ -1,3 +1,4 @@
+import { VehicleBodyComponent } from './../../masters/vehicle-body/vehicle-body.component';
 import { AuthService } from './../../../common/services/auth/auth-service/auth.service';
 import { ExtraExpensesService } from './../../../common/services/masters/extra-expenses.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
@@ -12,6 +13,8 @@ import { googlePlaceValidator } from '../../../common/validators/ngx-google-plac
 import { dropdownValidator } from '../../../common/validators/dropdown.directive';
 import { enquiryNoValidator } from '../../../common/validators/enquiry-id.directive';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VehicleTypeComponent } from '../../masters/vehicle-type/vehicle-type.component';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -28,6 +31,7 @@ export class EnquiriesComponent implements OnInit {
     private adapter: DateAdapter<any>,
     private service: EnquiriesService,
     private authService: AuthService,
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit() {
@@ -78,7 +82,6 @@ export class EnquiriesComponent implements OnInit {
   @ViewChild('sourceRef') sourceRef: GooglePlaceDirective;
   @ViewChild('destRef') destRef: GooglePlaceDirective;
   @ViewChild('returnRef') returnRef: GooglePlaceDirective;
-
 
   // StatusOptions are hard coded at backend as well as frontend.
   // Changing this involves changing it in this component as well as
@@ -255,6 +258,44 @@ export class EnquiriesComponent implements OnInit {
     // the method used in addSource()
     const index = this.destinations.controls.indexOf(destination);
     this.destinations.removeAt(index);
+  }
+
+  addVehicleType() {
+    event.stopPropagation();
+    const activeModal = this.modalService.open(
+      VehicleTypeComponent,
+      { size: 'lg', container: 'nb-layout' },
+    );
+
+    // Get transporter list from backend when a
+    // new transporter is added from modal
+    activeModal.componentInstance.refreshTable
+      .subscribe(resRefresh => {
+        this.vehicleTypeService.getVehicleType()
+        .subscribe(response => {
+          this.vehicleTypeOptions = response.body.
+            map(responseMap => responseMap);
+        });
+      });
+  }
+
+  addVehicleBody() {
+    event.stopPropagation();
+    const activeModal = this.modalService.open(
+      VehicleBodyComponent,
+      { size: 'lg', container: 'nb-layout' },
+    );
+
+    // Get transporter list from backend when a
+    // new transporter is added from modal
+    activeModal.componentInstance.refreshTable
+      .subscribe(resRefresh => {
+        this.vehicleBodyService.getVehicleBody()
+        .subscribe(response => {
+          this.vehicleBodyOptions = response.body.
+            map(responseMap => responseMap);
+        });
+      });
   }
 
   // Below we handle error messages for each field individually
