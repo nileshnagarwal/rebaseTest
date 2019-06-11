@@ -260,7 +260,10 @@ export class EnquiriesComponent implements OnInit {
     this.destinations.removeAt(index);
   }
 
+  // This function opens a modal to add new vehicle type
   addVehicleType() {
+    // event.stopPropagation is used to avoid triggering
+    // the opening of dropdown panel
     event.stopPropagation();
     const activeModal = this.modalService.open(
       VehicleTypeComponent,
@@ -279,7 +282,10 @@ export class EnquiriesComponent implements OnInit {
       });
   }
 
+  // This function opens a modal to add new vehicle body
   addVehicleBody() {
+    // event.stopPropagation is used to avoid triggering
+    // the opening of dropdown panel
     event.stopPropagation();
     const activeModal = this.modalService.open(
       VehicleBodyComponent,

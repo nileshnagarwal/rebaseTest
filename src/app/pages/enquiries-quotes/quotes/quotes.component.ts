@@ -96,7 +96,10 @@ export class QuotesComponent implements OnInit {
       // quotesForm.reset(); TO BE DELETED
   }
 
+  // This function opens a modal to add new transporter
   addTransporter() {
+    // event.stopPropagation is used to avoid triggering
+    // the opening of dropdown panel
     event.stopPropagation();
     const activeModal = this.modalService.open(
       TransporterComponent,

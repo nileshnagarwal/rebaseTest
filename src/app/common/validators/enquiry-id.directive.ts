@@ -23,7 +23,7 @@ export function enquiryNoValidator(status: string): ValidatorFn {
 
     // Check for Enquiry Status = "Confirm"
     else if (status.toLowerCase().includes('confirm')) {
-        if (enquiryNo.length === 10) {
+        if (enquiryNo.length === 10 || enquiryNo.length === 12) {
             if (enquiryNo.substr(0, 1) === 'C') {
                 // Last we check if the date entered is of current year
                 // and is a valid date.
@@ -35,15 +35,17 @@ export function enquiryNoValidator(status: string): ValidatorFn {
                 'enquiryNo': enquiryNo,
                 }};
               }
-        } else return {inValid : {
-            expectedLength: 10,
+        } else {
+            return {inValid : {
+            expectedLength: '10 OR 12',
             actualLength: enquiryNo.length,
             'enquiryNo': enquiryNo,
-        }};
+            }};
+          }
 
     // Check for Enquiry Status = "Unfloated"
     } else if (status.toLowerCase().includes('unfloated')) {
-        if (enquiryNo.length === 11) {
+        if (enquiryNo.length === 11 || enquiryNo.length === 13) {
             if (enquiryNo.substr(0, 2) === 'UF') {
                 return enquiryDateChecker(enquiryNo);
             } else return {inValid : {
@@ -52,7 +54,7 @@ export function enquiryNoValidator(status: string): ValidatorFn {
                 'enquiryNo': enquiryNo,
             }};
         } else return {inValid : {
-            expectedLength: 11,
+            expectedLength: '11 OR 13',
             actualLength: enquiryNo.length,
             'enquiryNo': enquiryNo,
         }};
@@ -60,7 +62,7 @@ export function enquiryNoValidator(status: string): ValidatorFn {
     // Check for Enquiry Status = "Floated"
     } else if ((!(status.toLowerCase().includes('unfloated')))
         && (status.toLowerCase().includes('floated'))) {
-        if (enquiryNo.length === 10) {
+          if (enquiryNo.length === 10 || enquiryNo.length === 12) {
             if (enquiryNo.substr(0, 1) === 'F') {
                 return enquiryDateChecker(enquiryNo);
             } else return {inValid : {
@@ -69,7 +71,7 @@ export function enquiryNoValidator(status: string): ValidatorFn {
                 'enquiryNo': enquiryNo,
             }};
         } else return {inValid : {
-            expectedLength: 10,
+            expectedLength: '10 OR 12',
             actualLength: enquiryNo.length,
             'enquiryNo': enquiryNo,
         }};
@@ -79,9 +81,13 @@ export function enquiryNoValidator(status: string): ValidatorFn {
 
 function enquiryDateChecker(enquiryNo: string): {[key: string]: any} | null {
     // This function is used if the date in Enquiry No is valid and of current year.
-
+    let date: string;
     // + Operator is used to convert string ie enquiryNo to number ie date
-    const date: string = enquiryNo.slice(enquiryNo.length - 9, enquiryNo.length - 3);
+    if (enquiryNo.length === 10 || enquiryNo.length === 11) {
+      date = enquiryNo.slice(enquiryNo.length - 9, enquiryNo.length - 3);
+    } else {
+      date = enquiryNo.slice(enquiryNo.length - 11, enquiryNo.length - 5);
+    }
     const day: number = +date.toString().substr(0, 2);
     const month: number = +date.toString().substr(2, 2);
     const year: number = +date.toString().substr(4, 2);
