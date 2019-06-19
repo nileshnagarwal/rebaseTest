@@ -1,13 +1,15 @@
 import { QuotesService } from './../../../common/services/enquiries-quotes/quotes.service';
 import { VehicleBody } from './../../../common/interfaces/vehicle-body';
 import { VehicleType } from './../../../common/interfaces/vehicle-type';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';
 import { TransporterService } from '../../../common/services/masters/transporter.service';
 import { Transporter } from '../../../common/interfaces/transporter';
 import { AuthService } from '../../../common/services/auth/auth-service/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransporterComponent } from '../../masters/transporter/transporter.component';
+import { NbToastrService } from '@nebular/theme';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'ngx-quotes',
@@ -21,6 +23,7 @@ export class QuotesComponent implements OnInit {
     private service: QuotesService,
     private authService: AuthService,
     private modalService: NgbModal,
+    private toastrService: NbToastrService,
   ) {}
 
   ngOnInit() {
@@ -37,6 +40,7 @@ export class QuotesComponent implements OnInit {
     .subscribe(user => {
       this.user_id.setValue(user.user_id);
     });
+
   }
 
   @Input() enquiryId: string;
@@ -45,6 +49,11 @@ export class QuotesComponent implements OnInit {
   transporterOptions: Transporter[] = [];
   vehicleBodyOptions: VehicleBody[];
   transFilteredOptions: Transporter[];
+  vehicleBodyVisiblity: Observable<Boolean>;
+
+  @ViewChild('transAutoComplete') transAutoComplete: ElementRef;
+  // Get reference of FormGroupDirective to reset form on submit
+  @ViewChild(FormGroupDirective) quoteFormDir;
 
   filter($event) {
     $event['type'] === 'click' ? '' : this.transporter_id.reset();
@@ -80,10 +89,10 @@ export class QuotesComponent implements OnInit {
     vehicle_avail: new FormControl('', [
       Validators.required,
     ]),
-    vehicle_type_id: new FormControl('', [
+    vehicle_type_id: new FormControl([], [
       Validators.required,
     ]),
-    vehicle_body_id: new FormControl('', []),
+    vehicle_body_id: new FormControl([], []),
     comments: new FormControl('', []),
     user_id: new FormControl('', [
       Validators.required,
@@ -92,8 +101,32 @@ export class QuotesComponent implements OnInit {
 
   addQuote(quotesForm) {
     this.service.addQuote(quotesForm.value)
-    .subscribe(response => {});
-      // quotesForm.reset(); TO BE DELETED
+    .subscribe(response => {
+      this.toastrShow('success', false, 'nb-notifications', '3000', 'top-right');
+      this.clearForm();
+    });
+  }
+
+  clearForm() {
+    // When resetting form, only running form.reset() is not sufficient
+    // We also need to reset the validators to the state of init.
+    // Reseting the Form is not enough as it does not
+    // make the form valid. We have to do resetForm on
+    // FormGroupDirective. Refer: https://github.com/
+    // angular/components/issues/4190#issuecomment-305222426
+    this.quoteFormDir.resetForm();
+    this.transDisplayFn(null);
+    this.transporter_id.setValue('');
+    this.vehicle_type_id.setValue([]);
+    this.vehicle_body_id.setValue([]);
+    this.enquiry_id.setValue(this.enquiryId);
+    this.comments.setValue('');
+    this.transAutoComplete.nativeElement['value'] = '';
+    // Set user field to current user_id
+    this.authService.getUser()
+    .subscribe(user => {
+      this.user_id.setValue(user.user_id);
+    });
   }
 
   // This function opens a modal to add new transporter
@@ -116,6 +149,23 @@ export class QuotesComponent implements OnInit {
             map(responseMap => responseMap);
         });
       });
+  }
+
+  // Hide Vehicle Body Field if blank
+  vehicleBodyVisibility() {
+    if (this.vehicleBodyOptions.length === 0) {
+      return of(false);
+    } else {
+      return of(true);
+    }
+  }
+
+  // Trigger toastr for showing subscription complete message
+  toastrShow(status, preventDuplicates, icon, duration, position) {
+    this.toastrService.show('',
+    'Quotation Submitted',
+      {status, preventDuplicates, icon, duration, position},
+    );
   }
 
   // The following get functions are used to describe

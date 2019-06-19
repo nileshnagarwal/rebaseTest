@@ -15,6 +15,7 @@
         <div class="col-md-12 col-lg-6">
           <mat-form-field class="full-width">
             <input 
+              #transAutoComplete
               type="text" 
               placeholder="Transporter"
               id="transporter"
@@ -50,7 +51,7 @@
       </div>
 
       <!-- Vehicle Body -->
-      <div class="form-group row">
+      <div class="form-group row" *ngIf="vehicleBodyVisibility() | async">
         <div class="col-md-12 col-lg-6">
           <mat-form-field class="full-width">
             <mat-select placeholder="Vehicle Body" formControlName="vehicle_body_id" multiple>
@@ -167,7 +168,16 @@
 
       <!-- Adding the submit button -->
       <div class="form-group row">
-        <div class="offset-sm-9 offset-md-9 offset-lg-4 col-lg-2" align="right">
+        <div class="col-md-12 col-lg-6" align="right">
+          <!-- Clear the Form -->          
+          <button 
+            mat-raised-button
+            type="button"
+            style='margin-right:16px'
+            (click)="clearForm()">
+            CLEAR
+          </button>
+          <!-- Submit the Form -->
           <button 
             type="submit" 
             mat-raised-button

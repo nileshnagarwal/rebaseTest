@@ -286,7 +286,15 @@
 
       <!-- Adding the submit button -->
       <div class="form-group row">
-        <div class="col-md-8 col-lg-4" align="right">
+        <div class="col-md-8 col-lg-4" align="right">          
+          <!-- Clear the Form -->          
+          <button 
+            mat-raised-button
+            type="button"
+            style='margin-right:16px'
+            (click)="clearForm()">
+            CLEAR
+          </button>
           <button 
             mat-raised-button color="primary"
             type="submit" 
@@ -298,5 +306,9 @@
     
     </form>
 
-  </nb-card-body>       
+    <pre>
+      {{ enquiriesForm.value | json }}
+    </pre>
+
+  </nb-card-body>
 </nb-card>

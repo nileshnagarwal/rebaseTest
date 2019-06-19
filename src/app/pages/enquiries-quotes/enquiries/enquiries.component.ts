@@ -2,7 +2,7 @@ import { VehicleBodyComponent } from './../../masters/vehicle-body/vehicle-body.
 import { AuthService } from './../../../common/services/auth/auth-service/auth.service';
 import { ExtraExpensesService } from './../../../common/services/masters/extra-expenses.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormGroupDirective } from '@angular/forms';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { VehicleTypeService } from '../../../common/services/masters/vehicle-type.service';
@@ -15,6 +15,7 @@ import { enquiryNoValidator } from '../../../common/validators/enquiry-id.direct
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTypeComponent } from '../../masters/vehicle-type/vehicle-type.component';
+import { NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -32,6 +33,7 @@ export class EnquiriesComponent implements OnInit {
     private service: EnquiriesService,
     private authService: AuthService,
     private modalService: NgbModal,
+    private toastrService: NbToastrService,
   ) {}
 
   ngOnInit() {
@@ -82,6 +84,7 @@ export class EnquiriesComponent implements OnInit {
   @ViewChild('sourceRef') sourceRef: GooglePlaceDirective;
   @ViewChild('destRef') destRef: GooglePlaceDirective;
   @ViewChild('returnRef') returnRef: GooglePlaceDirective;
+  @ViewChild(FormGroupDirective) enqFormDir;
 
   // StatusOptions are hard coded at backend as well as frontend.
   // Changing this involves changing it in this component as well as
@@ -113,8 +116,44 @@ export class EnquiriesComponent implements OnInit {
   // Submit function for the form
   addEnquiry(enquiriesForm) {
     this.service.addEnquiry(enquiriesForm.value)
-      .subscribe(response => {});
-      // enquiriesForm.reset(); TO BE DELETED
+      .subscribe(response => {
+        this.toastrShow('success', false, 'nb-notifications', '3000', 'top-right');
+        this.clearForm();
+      });
+  }
+
+  clearForm() {
+    // When resetting form, only running form.reset() is not sufficient
+    // We also need to reset the validators to the state of init.
+    this.enquiry_no.clearValidators();
+    this.enquiry_no.setValidators(Validators.required);
+    this.sources.clearValidators();
+    this.sources.setValidators(Validators.required);
+    this.destinations.clearValidators();
+    this.destinations.setValidators(Validators.required);
+    // Removing the extra FormControls in FormArrays
+    while (this.sources.length > 1) {
+      this.sources.removeAt(this.sources.length - 1);
+    }
+    while (this.destinations.length > 1) {
+      this.destinations.removeAt(this.destinations.length - 1);
+    }
+    this.return.clearValidators();
+    // Reseting the Form is not enough as it does not
+    // make the form valid. We have to do resetForm on
+    // FormGroupDirective. Refer: https://github.com/
+    // angular/components/issues/4190#issuecomment-305222426
+    this.enqFormDir.resetForm();
+    this.enquiry_no.setValue('');
+    // Set user field to current user_id
+    this.authService.getUser()
+      .subscribe(user => {
+        this.user.setValue(user.user_id);
+      });
+    this.vehicle_body.setValue([]);
+    this.extra_expenses.setValue([]);
+    this.comments.setValue('');
+    this.enquiriesForm.markAsPristine();
   }
 
   // Enquiry Form Controls Defined
@@ -304,6 +343,14 @@ export class EnquiriesComponent implements OnInit {
       });
   }
 
+  // Trigger toastr for showing subscription complete message
+  toastrShow(status, preventDuplicates, icon, duration, position) {
+    this.toastrService.show('',
+    'Enquiry Submitted',
+      {status, preventDuplicates, icon, duration, position},
+    );
+  }
+
   // Below we handle error messages for each field individually
   getStatusErrorMessage() {
     return this.enquiriesForm.controls.status.hasError('required') ? 'You must enter a value' :
@@ -390,6 +437,10 @@ export class EnquiriesComponent implements OnInit {
     // This is returned as FormArray to get access to the functions
     // associated with FormArrays such as push, removeAt etc.
     return (this.enquiriesForm.get('sources') as FormArray);
+  }
+
+  get extra_expenses() {
+    return this.enquiriesForm.get('extra_expenses');
   }
 
   get user() {
