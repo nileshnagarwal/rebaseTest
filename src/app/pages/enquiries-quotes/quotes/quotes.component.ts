@@ -6,7 +6,7 @@ import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular
 import { TransporterService } from '../../../common/services/masters/transporter.service';
 import { Transporter } from '../../../common/interfaces/transporter';
 import { AuthService } from '../../../common/services/auth/auth-service/auth.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TransporterComponent } from '../../masters/transporter/transporter.component';
 import { NbToastrService } from '@nebular/theme';
 import { Observable, of } from 'rxjs';
@@ -45,6 +45,8 @@ export class QuotesComponent implements OnInit {
 
   @Input() enquiryId: string;
   @Input() enquiryNo: number;
+  @Input() isModalOpen: boolean;
+  @Input() modalRef: NgbModalRef;
   vehicleTypeOptions: VehicleType[];
   transporterOptions: Transporter[] = [];
   vehicleBodyOptions: VehicleBody[];
@@ -166,6 +168,18 @@ export class QuotesComponent implements OnInit {
     'Quotation Submitted',
       {status, preventDuplicates, icon, duration, position},
     );
+  }
+
+  modalStatus() {
+    if (this.isModalOpen) {
+      return of(true);
+    } else {
+      return of(false);
+    }
+  }
+
+  closeModal() {
+    this.modalRef.close();
   }
 
   // The following get functions are used to describe

@@ -116,6 +116,8 @@ export class EnquiriesReportComponent implements OnInit {
       { size: 'lg', container: 'nb-layout' },
     );
     activeModal.componentInstance.enquiryId = event['data']['enquiry_id'];
+    activeModal.componentInstance.isModalOpen = true;
+    activeModal.componentInstance.modalRef = activeModal;
   }
 
   // Trigger toastr for reminding to subsribe

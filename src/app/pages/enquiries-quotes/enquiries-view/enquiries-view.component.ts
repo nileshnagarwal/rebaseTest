@@ -1,7 +1,8 @@
 import { QuotesComponent } from './../quotes/quotes.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EnquiriesService } from './../../../common/services/enquiries-quotes/enquiries.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -49,6 +50,8 @@ export class EnquiriesViewComponent implements OnInit {
   originString: string;
   destinationString: string;
   waypointsString: string = '';
+  @Input() isModalOpen: boolean;
+  @Input() modalRef: NgbModalRef;
 
 
   // getDirections() sets origin, destination and waypoints.
@@ -131,6 +134,17 @@ export class EnquiriesViewComponent implements OnInit {
         '&travelmode=driving';
   }
 
+  modalStatus() {
+    if (this.isModalOpen) {
+      return of(true);
+    } else {
+      return of(false);
+    }
+  }
+
+  closeModal() {
+    this.modalRef.close();
+  }
 
   openQuote() {
     const activeModal = this.modalService.open(
@@ -141,5 +155,7 @@ export class EnquiriesViewComponent implements OnInit {
     activeModal.componentInstance.enquiryNo = this.response['enquiry_no'];
     activeModal.componentInstance.vehicleTypeOptions = this.response['vehicle_type_obj'];
     activeModal.componentInstance.vehicleBodyOptions = this.response['vehicle_body_obj'];
+    activeModal.componentInstance.isModalOpen = true;
+    activeModal.componentInstance.modalRef = activeModal;
   }
 }

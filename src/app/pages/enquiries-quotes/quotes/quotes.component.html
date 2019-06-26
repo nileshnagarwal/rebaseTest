@@ -1,6 +1,14 @@
 <nb-card>
   <nb-card-header>
-    Quote for Enquiry No {{ enquiryNo }}
+    <button 
+      *ngIf = "modalStatus() | async"
+      mat-icon-button
+      type="button"
+      style="float: right;"
+      (click)="closeModal()">
+        <mat-icon>close</mat-icon>
+    </button>
+    <h3>Quote for Enquiry No {{ enquiryNo }}</h3>
   </nb-card-header>
 
   <nb-card-body>
