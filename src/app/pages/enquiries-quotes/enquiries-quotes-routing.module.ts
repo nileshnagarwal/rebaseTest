@@ -1,3 +1,4 @@
+import { QuotesReportComponent } from './quotes-report/quotes-report.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { QuotesComponent } from './quotes/quotes.component';
@@ -24,10 +25,10 @@ const routes: Routes = [{
   },
   {
   path: '',
-  component: QuotesComponent,
+  component: QuotesReportComponent,
   children: [{
-    path: 'quotes',
-    component: QuotesComponent,
+    path: 'quotes-report',
+    component: QuotesReportComponent,
   }],
   }];
 
@@ -45,4 +46,5 @@ export const routedComponents = [
   QuotesComponent,
   EnquiriesReportComponent,
   EnquiriesViewComponent,
+  QuotesReportComponent,
 ];

@@ -33,10 +33,10 @@ const routes: Routes = [
   //     },
   //   ],
   // },
-  {
-    path: 'auth',
-    loadChildren: 'app/common/modules/auth/auth.module#NgxAuthModule',
-  },
+  // {
+  //   path: 'auth',
+  //   loadChildren: 'app/common/modules/auth/auth.module#NgxAuthModule',
+  // },
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
 ];

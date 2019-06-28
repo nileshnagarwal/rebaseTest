@@ -69,6 +69,7 @@ export class EnquiriesReportComponent implements OnInit {
     actions: {
       add : false,
       edit: false,
+      delete: false,
     },
   };
 
@@ -76,19 +77,11 @@ export class EnquiriesReportComponent implements OnInit {
 
   constructor(
     private service: EnquiriesService,
-    // private transporterComponent: TransporterComponent,
     private modalService: NgbModal,
     private toastrService: NbToastrService,
   ) {}
 
   ngOnInit() {
-    // this.transporterComponent.refreshTable
-    //   .subscribe(response => {
-    //     this.service.getTransporter()
-    //       .subscribe(responseGet => {
-    //         this.source.load(responseGet.body);
-    //       });
-    //   });
     this.service.getEnquiry()
       .subscribe(response => {
         this.source.load(response.body);

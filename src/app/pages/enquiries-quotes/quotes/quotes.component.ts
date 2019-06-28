@@ -1,7 +1,7 @@
 import { QuotesService } from './../../../common/services/enquiries-quotes/quotes.service';
 import { VehicleBody } from './../../../common/interfaces/vehicle-body';
 import { VehicleType } from './../../../common/interfaces/vehicle-type';
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';
 import { TransporterService } from '../../../common/services/masters/transporter.service';
 import { Transporter } from '../../../common/interfaces/transporter';
@@ -47,6 +47,7 @@ export class QuotesComponent implements OnInit {
   @Input() enquiryNo: number;
   @Input() isModalOpen: boolean;
   @Input() modalRef: NgbModalRef;
+  @Output() refreshTable = new EventEmitter();
   vehicleTypeOptions: VehicleType[];
   transporterOptions: Transporter[] = [];
   vehicleBodyOptions: VehicleBody[];
@@ -101,14 +102,17 @@ export class QuotesComponent implements OnInit {
     ]),
   });
 
+  // Submit quote to backend
   addQuote(quotesForm) {
     this.service.addQuote(quotesForm.value)
     .subscribe(response => {
       this.toastrShow('success', false, 'nb-notifications', '3000', 'top-right');
       this.clearForm();
+      this.refreshTable.emit();
     });
   }
 
+  // Clear form after submission
   clearForm() {
     // When resetting form, only running form.reset() is not sufficient
     // We also need to reset the validators to the state of init.
@@ -170,6 +174,8 @@ export class QuotesComponent implements OnInit {
     );
   }
 
+  /** Returns observable to check if component is used inside
+   * a modal*/
   modalStatus() {
     if (this.isModalOpen) {
       return of(true);
@@ -179,7 +185,7 @@ export class QuotesComponent implements OnInit {
   }
 
   closeModal() {
-    this.modalRef.close();
+    this.modalRef.dismiss();
   }
 
   // The following get functions are used to describe

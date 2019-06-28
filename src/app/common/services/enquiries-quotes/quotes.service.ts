@@ -30,38 +30,38 @@ export class QuotesService {
         {
           observe: 'response',
           headers: this.header,
-        });
-    }
-
-  getQuoteById(id) {
-    return this.http
-      .get(
-        this.url + id + '/',
-        { headers: this.header },
+        },
       );
   }
 
-  deleteQuote(data) {
-    // We receive data object which is a part of the event object
-    // passed by the event emitter of smart table. This data object
-    // has the data of the field, out of which we can extract the
-    // quote_id.
-    const id = data['quote_id'];
+  getQuoteById(id): Observable<HttpResponse<Quote[]>> {
     return this.http
-      .delete(
+      .get<Quote[]>(
         this.url + id + '/',
-        { headers: this.header },
+        {
+          // observe: response gets the full response object.
+          // Without this angular only takes response.body
+          // as response.
+          // Refer: https://alligator.io/angular/httpclient-intro/
+          observe: 'response',
+          headers: this.header,
+        },
       );
   }
 
-  editQuote(
-    quote: Quote,
-    id: number) {
+  /**The below service gets quotes for a given enquiry only */
+  getQuoteByEnquiry(enquiry_id): Observable<HttpResponse<Quote[]>> {
     return this.http
-      .put(
-        this.url + id + '/',
-        quote,
-        { headers: this.header },
+      .get<Quote[]>(
+        this.url + 'enquiry/' + enquiry_id + '/',
+        {
+          // observe: response gets the full response object.
+          // Without this angular only takes response.body
+          // as response.
+          // Refer: https://alligator.io/angular/httpclient-intro/
+          observe: 'response',
+          headers: this.header,
+        },
       );
   }
 }

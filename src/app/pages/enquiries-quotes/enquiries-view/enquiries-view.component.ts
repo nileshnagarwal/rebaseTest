@@ -1,5 +1,6 @@
+import { QuotesReportComponent } from './../quotes-report/quotes-report.component';
 import { QuotesComponent } from './../quotes/quotes.component';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { EnquiriesService } from './../../../common/services/enquiries-quotes/enquiries.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
@@ -28,6 +29,11 @@ export class EnquiriesViewComponent implements OnInit {
       (error: any) => {},
       () => this.getDirections(),
     );
+
+    // Delete Columns from Quotes Report Table
+    this.deleteProps(this.quotesReport.settings.columns, ['length',
+      'width', 'height', 'weight', 'places_source',
+      'places_destination', 'enquiry_no']);
   }
 
   response;
@@ -52,6 +58,8 @@ export class EnquiriesViewComponent implements OnInit {
   waypointsString: string = '';
   @Input() isModalOpen: boolean;
   @Input() modalRef: NgbModalRef;
+
+  @ViewChild('report') quotesReport: QuotesReportComponent;
 
 
   // getDirections() sets origin, destination and waypoints.
@@ -143,7 +151,7 @@ export class EnquiriesViewComponent implements OnInit {
   }
 
   closeModal() {
-    this.modalRef.close();
+    this.modalRef.dismiss();
   }
 
   openQuote() {
@@ -157,5 +165,17 @@ export class EnquiriesViewComponent implements OnInit {
     activeModal.componentInstance.vehicleBodyOptions = this.response['vehicle_body_obj'];
     activeModal.componentInstance.isModalOpen = true;
     activeModal.componentInstance.modalRef = activeModal;
+    activeModal.result.then(result => {
+      this.quotesReport.refreshTable();
+    }, reason => {
+      this.quotesReport.refreshTable();
+    });
+  }
+
+  // Custom function to delete list of prop from obj
+  private deleteProps(obj, props: string[]) {
+    for (const prop of props) {
+      (prop in obj) && (delete obj[prop]);
+    }
   }
 }

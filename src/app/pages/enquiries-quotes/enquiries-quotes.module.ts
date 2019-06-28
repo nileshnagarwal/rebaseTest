@@ -1,3 +1,4 @@
+import { QuotesComponent } from './quotes/quotes.component';
 import { MastersModule } from './../masters/masters.module';
 import { QuotesService } from './../../common/services/enquiries-quotes/quotes.service';
 import { VehicleBodyService } from './../../common/services/masters/vehicle-body.service';
@@ -46,9 +47,8 @@ import { TransporterComponent } from '../masters/transporter/transporter.compone
   ],
   entryComponents: [
     EnquiriesViewComponent,
-    // Adding TransporterComponent to
-    // allow opening modal from quotescomponent
     TransporterComponent,
+    QuotesComponent,
   ],
 })
 export class EnquiriesQuotesModule { }
