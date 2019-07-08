@@ -1,3 +1,4 @@
+import { ConfirmEnquiryService } from './../../common/services/enquiries-quotes/confirm-enquiry.service';
 import { QuotesComponent } from './quotes/quotes.component';
 import { MastersModule } from './../masters/masters.module';
 import { QuotesService } from './../../common/services/enquiries-quotes/quotes.service';
@@ -15,6 +16,7 @@ import { AgmDirectionModule } from 'agm-direction';
 import { AgmCoreModule } from '@agm/core';
 import { TransporterService } from '../../common/services/masters/transporter.service';
 import { TransporterComponent } from '../masters/transporter/transporter.component';
+import { EnquiryConfirmComponent } from './enquiry-confirm/enquiry-confirm.component';
 
 @NgModule({
   imports: [
@@ -33,6 +35,7 @@ import { TransporterComponent } from '../masters/transporter/transporter.compone
   ],
   declarations: [
     ...routedComponents,
+    EnquiryConfirmComponent,
   ],
   providers: [
     VehicleTypeService,
@@ -40,6 +43,7 @@ import { TransporterComponent } from '../masters/transporter/transporter.compone
     EnquiriesService,
     TransporterService,
     QuotesService,
+    ConfirmEnquiryService,
     // Adding TransporterComponent used in quotes page
     // as Modal requires a new component instance to
     // be injected
@@ -49,6 +53,7 @@ import { TransporterComponent } from '../masters/transporter/transporter.compone
     EnquiriesViewComponent,
     TransporterComponent,
     QuotesComponent,
+    EnquiryConfirmComponent,
   ],
 })
 export class EnquiriesQuotesModule { }

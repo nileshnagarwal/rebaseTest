@@ -94,6 +94,16 @@
       <div class="form-group row"></div>
       <div class="form-group row">
         <div class="offset-7 offset-sm-7 offset-md-7 offset-lg-7 col-4 col-sm-5" align="right">
+          <!-- Convert to Confirm Button -->
+          <button 
+            *ngIf="(userType$ | async)?.user_id === 2; else false"
+            mat-raised-button
+            type="button"
+            style='margin-right:16px'
+            (click)="openConfirmEnquiry()">
+            CONFIRM ORDER
+          </button>
+          <!-- Quote Button -->
           <button 
             id="quote"
             type="submit"
@@ -115,4 +125,3 @@
 
   </nb-card-body>  
 </nb-card>
-

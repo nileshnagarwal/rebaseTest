@@ -1,0 +1,61 @@
+<nb-card>
+  <nb-card-header>
+    Confirm Order No: {{ enquiryNo }}
+  </nb-card-header>
+
+  <nb-card-body>    
+    <form
+    [formGroup]="enquiryConfirmForm"
+    (ngSubmit)="addEnquiry(enquiryConfirmForm)"
+    >
+
+    <!-- we will place our fields here -->
+
+      <!-- Loading Date -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <input 
+              id="loading_date"
+              name="loading_date"
+              matInput [matDatepicker]="picker"
+              formControlName="loading_date"
+              placeholder="Final Loading Date">
+            <mat-datepicker-toggle matSuffix [for]="picker" ngbAutofocus></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Comments -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <textarea
+              matInput 
+              formControlName="comments"
+              id="comments" 
+              name="comments"
+              placeholder="Comments">
+            </textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      
+      <!-- Adding the submit button -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4" align="right">
+          <button
+            #submit
+            mat-raised-button color="primary"
+            type="submit" 
+            [disabled]="(isPending$ | async) || (!enquiryConfirmForm.valid)">
+            SUBMIT
+          </button>
+        </div>
+      </div>
+    
+    </form>
+
+  </nb-card-body>
+</nb-card>

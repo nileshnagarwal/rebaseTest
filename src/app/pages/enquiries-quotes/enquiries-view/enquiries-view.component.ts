@@ -1,9 +1,11 @@
+import { EnquiryConfirmComponent } from './../enquiry-confirm/enquiry-confirm.component';
 import { QuotesReportComponent } from './../quotes-report/quotes-report.component';
 import { QuotesComponent } from './../quotes/quotes.component';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { EnquiriesService } from './../../../common/services/enquiries-quotes/enquiries.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { AuthService } from '../../../common/services/auth/auth-service/auth.service';
 
 
 @Component({
@@ -16,7 +18,10 @@ export class EnquiriesViewComponent implements OnInit {
 
   constructor(
     private service: EnquiriesService,
-    private modalService: NgbModal) {}
+    private modalService: NgbModal,
+    private authService: AuthService) {
+      this.userType$ = this.authService.getUser();
+    }
 
   ngOnInit() {
     this.service.getEnquiryById(this.enquiryId)
@@ -61,6 +66,8 @@ export class EnquiriesViewComponent implements OnInit {
 
   @ViewChild('report') quotesReport: QuotesReportComponent;
 
+  // Observables defined below
+  userType$; // Observable returning user type ie sales, traffic etc
 
   // getDirections() sets origin, destination and waypoints.
   // For origin we take the first place of the sources array and for
@@ -170,6 +177,15 @@ export class EnquiriesViewComponent implements OnInit {
     }, reason => {
       this.quotesReport.refreshTable();
     });
+  }
+
+  openConfirmEnquiry() {
+    const activeModal = this.modalService.open(
+      EnquiryConfirmComponent,
+      { size: 'sm', container: 'nb-layout' },
+    );
+    activeModal.componentInstance.enquiryId = this.enquiryId;
+    activeModal.componentInstance.enquiryNo = this.response['enquiry_no'];
   }
 
   // Custom function to delete list of prop from obj
