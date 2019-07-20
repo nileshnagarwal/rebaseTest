@@ -33,6 +33,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Quotes Report',
         link: '/pages/enquiries-quotes/quotes-report',
       },
+      {
+        title: 'Enquiries Search',
+        link: '/pages/enquiries-quotes/enquiries-search',
+      },
     ],
   },
   {

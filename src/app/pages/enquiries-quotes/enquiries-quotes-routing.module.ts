@@ -6,30 +6,39 @@ import { EnquiriesComponent } from './../enquiries-quotes/enquiries/enquiries.co
 import { EnquiriesReportComponent } from './enquiries-report/enquiries-report.component';
 import { EnquiriesViewComponent } from './enquiries-view/enquiries-view.component';
 import { EnquiriesQuotesComponent } from './enquiries-quotes.component';
+import { EnquiriesSearchComponent } from './enquiries-search/enquiries-search.component';
 
 const routes: Routes = [{
-  path: '',
-  component: EnquiriesComponent,
-  children: [{
-    path: 'enquiries',
+    path: '',
     component: EnquiriesComponent,
+    children: [{
+      path: 'enquiries',
+      component: EnquiriesComponent,
+      }],
+  },
+  {
+    path: '',
+    component: EnquiriesReportComponent,
+    children: [{
+      path: 'enquiries-report',
+      component: EnquiriesReportComponent,
     }],
   },
   {
-  path: '',
-  component: EnquiriesReportComponent,
-  children: [{
-    path: 'enquiries-report',
-    component: EnquiriesReportComponent,
-  }],
+    path: '',
+    component: QuotesReportComponent,
+    children: [{
+      path: 'quotes-report',
+      component: QuotesReportComponent,
+    }],
   },
   {
-  path: '',
-  component: QuotesReportComponent,
-  children: [{
-    path: 'quotes-report',
-    component: QuotesReportComponent,
-  }],
+    path: '',
+    component: EnquiriesSearchComponent,
+    children: [{
+      path: 'enquiries-search',
+      component: EnquiriesSearchComponent,
+    }],
   }];
 
 
@@ -47,4 +56,5 @@ export const routedComponents = [
   EnquiriesReportComponent,
   EnquiriesViewComponent,
   QuotesReportComponent,
+  EnquiriesSearchComponent,
 ];

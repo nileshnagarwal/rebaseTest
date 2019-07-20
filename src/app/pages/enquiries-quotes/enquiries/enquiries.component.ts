@@ -16,6 +16,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTypeComponent } from '../../masters/vehicle-type/vehicle-type.component';
 import { NbToastrService } from '@nebular/theme';
+import { statusOptions } from '../../../common/constants/status-options';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -72,6 +73,9 @@ export class EnquiriesComponent implements OnInit {
         this.user.setValue(user.user_id);
       });
 
+    // Set local statusOptions to value of imported statusOptions
+    this.statusOptions = statusOptions;
+
   }
 
   /*
@@ -86,14 +90,7 @@ export class EnquiriesComponent implements OnInit {
   @ViewChild('returnRef') returnRef: GooglePlaceDirective;
   @ViewChild(FormGroupDirective) enqFormDir;
 
-  // StatusOptions are hard coded at backend as well as frontend.
-  // Changing this involves changing it in this component as well as
-  // as changing it in validator.
-  statusOptions: string[] = [
-    'Confirmed Order',
-    'Unfloated Enquiry',
-    'Floated Enquiry',
-  ];
+  statusOptions: string[];
 
   // Below are arrays for DropDowns. Except for loadTypeOptions all
   // arrays are pulled from Backend. loadTypeOptions are hardcoded.

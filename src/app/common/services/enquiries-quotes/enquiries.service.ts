@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Enquiry } from '../../interfaces/enquiry';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { EnquiriesSearch } from '../../interfaces/enquiry-search';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +42,8 @@ export class EnquiriesService {
         { headers: this.header },
       );
   }
+
+  searchEnquiry(enquiriesSearch: EnquiriesSearch) {}
 
   deleteEnquiry(data) {
     // We receive data object which is a part of the event object
