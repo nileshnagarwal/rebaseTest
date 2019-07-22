@@ -75,12 +75,11 @@ export class EnquiriesComponent implements OnInit {
     
     // Set local statusOptions to value of imported statusOptions
     this.locStatusOptions = statusOptions;
-    console.log(this.locStatusOptions);
     this.status.setValidators([
       Validators.required,
       dropdownValidator(this.locStatusOptions),
     ])
-  }
+    }
 
   /*
   The below section defines all the local fields
