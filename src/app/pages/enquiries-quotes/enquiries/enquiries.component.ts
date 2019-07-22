@@ -16,6 +16,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTypeComponent } from '../../masters/vehicle-type/vehicle-type.component';
 import { NbToastrService } from '@nebular/theme';
+import { statusOptions } from '../../../common/constants/status-options';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -71,7 +72,14 @@ export class EnquiriesComponent implements OnInit {
       .subscribe(user => {
         this.user.setValue(user.user_id);
       });
-
+    
+    // Set local statusOptions to value of imported statusOptions
+    this.locStatusOptions = statusOptions;
+    console.log(this.locStatusOptions);
+    this.status.setValidators([
+      Validators.required,
+      dropdownValidator(this.locStatusOptions),
+    ])
   }
 
   /*
@@ -89,11 +97,7 @@ export class EnquiriesComponent implements OnInit {
   // StatusOptions are hard coded at backend as well as frontend.
   // Changing this involves changing it in this component as well as
   // as changing it in validator.
-  statusOptions: string[] = [
-    'Confirmed Order',
-    'Unfloated Enquiry',
-    'Floated Enquiry',
-  ];
+  locStatusOptions: string[];
 
   // Below are arrays for DropDowns. Except for loadTypeOptions all
   // arrays are pulled from Backend. loadTypeOptions are hardcoded.
@@ -158,11 +162,11 @@ export class EnquiriesComponent implements OnInit {
 
   // Enquiry Form Controls Defined
   enquiriesForm = new FormGroup({
-    status: new FormControl('', [
-      Validators.required,
-      // Checks if option selected is available in dropdown
-      dropdownValidator(this.statusOptions),
-    ]),
+    /** Status field validators are set in ngOnInit
+    * because it throws an error if set here as the
+    * locStatusOptions has not been initialsed by this
+    * time*/
+    status: new FormControl('', []),
     load_type: new FormControl('', [
       Validators.required,
     ]),

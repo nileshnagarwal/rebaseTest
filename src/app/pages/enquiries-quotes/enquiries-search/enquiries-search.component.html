@@ -1,0 +1,176 @@
+<nb-card>
+  <nb-card-header>
+    Enquiries Search
+  </nb-card-header>
+
+  <nb-card-body>    
+    <form
+    [formGroup]="enquiriesSearchForm"
+    (ngSubmit)="searchEnquiry(enquiriesSearchForm)"
+    >
+
+    <!-- we will place our fields here -->
+
+      <!-- Search From Date -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <input 
+              id="from_date"
+              name="from_date"
+              matInput [matDatepicker]="from_date" 
+              formControlName="from_date"
+              placeholder="Search Enquiries from Date">
+            <mat-datepicker-toggle matSuffix [for]="from_date"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #from_date></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Search To Date -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <input 
+              id="to_date"
+              name="to_date"
+              matInput [matDatepicker]="to_date" 
+              formControlName="to_date"
+              placeholder="Search Enquiries upto Date">
+            <mat-datepicker-toggle matSuffix [for]="to_date"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #to_date></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      
+      <!-- Source -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              ngx-google-places-autocomplete 
+              [options]='placesOptions' 
+              #sourceRef="ngx-places" 
+              (onAddressChange)="handleSourceAddressChange($event)"
+              placeholder="Pickup From"
+              id="source"
+              name="source">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Source Radius -->
+      <div class="form-group row">
+        <div class="col-md-2 col-lg-1">
+          <mat-form-field class="full-width">
+            <input 
+              matInput
+              formControlName="source_rad"
+              id="source_rad" 
+              name="source_rad"
+              type="number"      
+              placeholder="source_rad">
+            <span matSuffix>Km</span>
+          </mat-form-field>
+        </div>
+      </div>
+     
+      <!-- Destination -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              ngx-google-places-autocomplete 
+              [options]='placesOptions' 
+              #destRef="ngx-places" 
+              (onAddressChange)="handleDestAddressChange($event)"
+              placeholder="Deliver To"
+              id="dest"
+              name="dest">
+          </mat-form-field>
+        </div>
+      </div>
+      
+      <!-- Destination Radius -->
+      <div class="form-group row">
+        <div class="col-md-2 col-lg-1">
+          <mat-form-field class="full-width">
+            <input 
+              matInput
+              formControlName="dest_rad"
+              id="dest_rad" 
+              name="dest_rad"
+              type="number"      
+              placeholder="dest_rad">
+            <span matSuffix>Km</span>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Vehicle Type -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">          
+            <mat-select placeholder="Vehicle Types" formControlName="vehicle_type" multiple>
+              <mat-option *ngFor="let vehicleTypeOpt of vehicleTypeOptions" [value]="vehicleTypeOpt.vehicle_type_id">{{vehicleTypeOpt.vehicle}}</mat-option>
+            </mat-select>
+            <button mat-icon-button matSuffix
+              (click)="addVehicleType()"
+              type="button">
+              <mat-icon>add</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      
+      <!-- Status of Enquiry -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4">
+          <mat-form-field class="full-width">
+            <input 
+              type="text" 
+              placeholder="Enquiry Status"
+              id="status"
+              name="status"
+              matInput formControlName="status" 
+              [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let status of statusOptions" [value]="status">
+                {{status}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Adding the submit button -->
+      <div class="form-group row">
+        <div class="col-md-8 col-lg-4" align="right">          
+          <!-- Clear the Form -->          
+          <button 
+            mat-raised-button
+            type="button"
+            style='margin-right:16px'
+            (click)="clearForm()">
+            CLEAR
+          </button>
+          <button 
+            mat-raised-button color="primary"
+            type="submit" 
+            [disabled]="!enquiriesSearchForm.valid">
+            SUBMIT
+          </button>
+        </div>
+      </div>
+    
+    </form>
+
+    <pre>
+      {{ enquiriesSearchForm.value | json }}
+    </pre>
+
+  </nb-card-body>
+</nb-card>

@@ -17,6 +17,7 @@ import { AgmCoreModule } from '@agm/core';
 import { TransporterService } from '../../common/services/masters/transporter.service';
 import { TransporterComponent } from '../masters/transporter/transporter.component';
 import { EnquiryConfirmComponent } from './enquiry-confirm/enquiry-confirm.component';
+import { EnquiriesSearchComponent } from './enquiries-search/enquiries-search.component';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { EnquiryConfirmComponent } from './enquiry-confirm/enquiry-confirm.compo
   declarations: [
     ...routedComponents,
     EnquiryConfirmComponent,
+    EnquiriesSearchComponent,
   ],
   providers: [
     VehicleTypeService,
