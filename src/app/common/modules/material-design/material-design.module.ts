@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatButtonModule, MatCheckboxModule, MatFormFieldModule,
   MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatGridListModule,
-  MatDividerModule} from '@angular/material';
+  MatDividerModule,
+  MatExpansionModule} from '@angular/material';
 import {MatIconModule, MatInputModule, MatAutocompleteModule, MatSliderModule} from '@angular/material';
 
 @NgModule({
@@ -22,6 +23,7 @@ import {MatIconModule, MatInputModule, MatAutocompleteModule, MatSliderModule} f
     MatNativeDateModule,
     MatGridListModule,
     MatDividerModule,
+    MatExpansionModule,
   ],
   exports: [
     MatButtonModule,
@@ -36,6 +38,7 @@ import {MatIconModule, MatInputModule, MatAutocompleteModule, MatSliderModule} f
     MatDatepickerModule,
     MatGridListModule,
     MatDividerModule,
+    MatExpansionModule,
   ],
   providers: [
     MatDatepickerModule,
