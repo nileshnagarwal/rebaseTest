@@ -1,3 +1,4 @@
+import { EnquiriesService } from './../../../common/services/enquiries-quotes/enquiries.service';
 import { VehicleType } from './../../../common/interfaces/vehicle-type';
 import { VehicleTypeService } from './../../../common/services/masters/vehicle-type.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -15,6 +16,7 @@ export class EnquiriesSearchComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private vehicleTypeService: VehicleTypeService,
+    private service: EnquiriesService,
     ) {
     this.enquiriesSearchForm = this.fb.group({
       from_date: [],
@@ -54,7 +56,11 @@ export class EnquiriesSearchComponent implements OnInit {
     this.dest_lng.setValue(address.geometry.location.lng());
   }
 
-  searchEnquiry(enquiriesSearchForm) {}
+  searchEnquiry(enquiriesSearchForm) {
+    this.service.searchEnquiry(enquiriesSearchForm.value)
+      .subscribe(response => {
+      });
+  }
 
   // The following get functions are used to describe
   // properties which can be used for cleaner code in html file.

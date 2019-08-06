@@ -72,13 +72,13 @@ export class EnquiriesComponent implements OnInit {
       .subscribe(user => {
         this.user.setValue(user.user_id);
       });
-    
+
     // Set local statusOptions to value of imported statusOptions
     this.locStatusOptions = statusOptions;
     this.status.setValidators([
       Validators.required,
       dropdownValidator(this.locStatusOptions),
-    ])
+    ]);
     }
 
   /*
