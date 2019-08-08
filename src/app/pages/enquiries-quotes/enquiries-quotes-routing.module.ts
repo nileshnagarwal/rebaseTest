@@ -3,10 +3,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { QuotesComponent } from './quotes/quotes.component';
 import { EnquiriesComponent } from './../enquiries-quotes/enquiries/enquiries.component';
-import { EnquiriesReportComponent } from './enquiries-report/enquiries-report.component';
+import { EnquiriesTableComponent } from './enquiries-table/enquiries-table.component';
 import { EnquiriesViewComponent } from './enquiries-view/enquiries-view.component';
 import { EnquiriesQuotesComponent } from './enquiries-quotes.component';
 import { EnquiriesSearchComponent } from './enquiries-search/enquiries-search.component';
+import { EnquiriesReportComponent } from './enquiries-report/enquiries-report.component';
 
 const routes: Routes = [{
     path: '',
@@ -53,7 +54,7 @@ export const routedComponents = [
   EnquiriesQuotesComponent,
   EnquiriesComponent,
   QuotesComponent,
-  EnquiriesReportComponent,
+  EnquiriesTableComponent,
   EnquiriesViewComponent,
   QuotesReportComponent,
   EnquiriesSearchComponent,

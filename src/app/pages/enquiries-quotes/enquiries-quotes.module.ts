@@ -18,6 +18,8 @@ import { TransporterService } from '../../common/services/masters/transporter.se
 import { TransporterComponent } from '../masters/transporter/transporter.component';
 import { EnquiryConfirmComponent } from './enquiry-confirm/enquiry-confirm.component';
 import { EnquiriesSearchComponent } from './enquiries-search/enquiries-search.component';
+import { EnquiriesReportComponent } from './enquiries-report/enquiries-report.component';
+import { EnquiriesTableComponent } from './enquiries-table/enquiries-table.component';
 
 @NgModule({
   imports: [
@@ -38,6 +40,7 @@ import { EnquiriesSearchComponent } from './enquiries-search/enquiries-search.co
     ...routedComponents,
     EnquiryConfirmComponent,
     EnquiriesSearchComponent,
+    EnquiriesReportComponent,
   ],
   providers: [
     VehicleTypeService,
@@ -56,6 +59,7 @@ import { EnquiriesSearchComponent } from './enquiries-search/enquiries-search.co
     TransporterComponent,
     QuotesComponent,
     EnquiryConfirmComponent,
+    EnquiriesTableComponent,
   ],
 })
 export class EnquiriesQuotesModule { }

@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { statusOptions } from '../../../common/constants/status-options';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'ngx-enquiries-search',
@@ -45,6 +46,7 @@ export class EnquiriesSearchComponent implements OnInit {
   enquiriesSearchForm: FormGroup;
   vehicleTypeOptions: VehicleType[];
   statusOptions: string[];
+  $data: Observable<any>;
 
   handleSourceAddressChange(address: Address) {
     this.source_lat.setValue(address.geometry.location.lat());
@@ -59,6 +61,7 @@ export class EnquiriesSearchComponent implements OnInit {
   searchEnquiry(enquiriesSearchForm) {
     this.service.searchEnquiry(enquiriesSearchForm.value)
       .subscribe(response => {
+        this.$data = of(response.body);
       });
   }
 
