@@ -48,6 +48,18 @@ export class EnquiriesSearchComponent implements OnInit {
   statusOptions: string[];
   $data: Observable<any>;
 
+  resetSourceDest(input, field: string) {
+    if (!input.target.value.replace(/\s/g, '').length) {
+      if (field.includes('source')) {
+        this.source_lat.reset();
+        this.source_lng.reset();
+      } else if (field.includes('dest')) {
+        this.dest_lat.reset();
+        this.dest_lng.reset();
+      }
+    }
+  }
+
   handleSourceAddressChange(address: Address) {
     this.source_lat.setValue(address.geometry.location.lat());
     this.source_lng.setValue(address.geometry.location.lng());

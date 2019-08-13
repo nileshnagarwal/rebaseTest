@@ -39,6 +39,7 @@
                   [options]='placesOptions' 
                   #sourceRef="ngx-places" 
                   (onAddressChange)="handleSourceAddressChange($event)"
+                  (input)="resetSourceDest($event, 'source')"
                   placeholder="Pickup From"
                   id="source"
                   name="source">
@@ -54,6 +55,7 @@
                   [options]='placesOptions' 
                   #destRef="ngx-places" 
                   (onAddressChange)="handleDestAddressChange($event)"
+                  (input)="resetSourceDest($event, 'dest')"
                   placeholder="Deliver To"
                   id="dest"
                   name="dest">
@@ -158,5 +160,8 @@
     [data]="$data|async">
     </ngx-enquiries-table>
 
+    <pre>
+      {{ enquiriesSearchForm.value | json }}
+    </pre>
   </nb-card-body>
 </nb-card>

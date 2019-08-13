@@ -28,6 +28,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { MessagingService } from './common/services/messaging.service';
+import { MAT_DATE_LOCALE } from '@angular/material';
 
 @NgModule({
   declarations: [AppComponent],
@@ -81,6 +82,7 @@ import { MessagingService } from './common/services/messaging.service';
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-IN' },
 
     // Barrel of Http Interceptors
     httpInterceptorProviders,
