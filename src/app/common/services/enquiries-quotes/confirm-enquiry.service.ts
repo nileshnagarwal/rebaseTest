@@ -12,12 +12,12 @@ export class ConfirmEnquiryService {
   }
 
   private header;
-  private url = environment.baseUrl + '/con_enquiry/';
+  private url = environment.baseUrl + '/cnf_enquiry/';
 
   addConfirmEnquiry(cnfEnq) {
     return this.http
-      .post(
-        this.url,
+      .patch(
+        this.url + cnfEnq.enquiry_id + '/',
         cnfEnq,
         { headers: this.header });
   }
