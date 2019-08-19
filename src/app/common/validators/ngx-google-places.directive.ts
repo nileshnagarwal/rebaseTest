@@ -14,7 +14,7 @@ export function googlePlaceValidator(place: Address | null): ValidatorFn {
         return {'invalidPlace':
           {inputValue: control.value, 'place': null},
         };
-      } else if (place.formatted_address !== control.value) {
+      } else if (place.name + ', ' + place.formatted_address !== control.value) {
         return {'invalidPlace':
           {inputValue: control.value, googlePlaceValue: place.formatted_address, 'place': place},
         };

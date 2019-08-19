@@ -113,6 +113,7 @@ export class EnquiriesComponent implements OnInit {
   // This is used in template to restrict Google Places
   // text box to India.
   placesOptions = {
+    types: ['establishment'],
     componentRestrictions: {country: 'in'},
   };
 
@@ -223,7 +224,7 @@ export class EnquiriesComponent implements OnInit {
   // Below are AddressChange handlers for Source, Destination and Return.
   public handleSourceAddressChange(address: Address, i: number) {
     // First we update the value selected from suggestions in input box
-    this.sources.controls[i].get('place').setValue(address.formatted_address);
+    this.sources.controls[i].get('place').setValue(address.name + ', ' + address.formatted_address);
     // Next we set googlePlaceValidator passing the address. This was not
     // set before as we need to pass the address to validator and initially
     // this value is null.
@@ -240,7 +241,7 @@ export class EnquiriesComponent implements OnInit {
 
   public handleDestinationAddressChange(address: Address, i: number) {
     // Refer handleSourceAddressChange() for explanation
-    this.destinations.controls[i].get('place').setValue(address.formatted_address);
+    this.destinations.controls[i].get('place').setValue(address.name + ', ' + address.formatted_address);
     this.destinations.controls[i].get('place').setValidators([
       Validators.required,
       googlePlaceValidator(address),
@@ -253,7 +254,7 @@ export class EnquiriesComponent implements OnInit {
 
   public handleReturnAddressChange(address: Address) {
     // Refer handleSourceAddressChange() for explanation
-    this.return.get('place').setValue(address.formatted_address);
+    this.return.get('place').setValue(address.name + ', ' + address.formatted_address);
     this.return.get('place').setValidators([
       googlePlaceValidator(address),
     ]);
