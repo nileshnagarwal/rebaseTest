@@ -95,8 +95,9 @@
       <div class="form-group row">
         <div class="offset-7 offset-sm-7 offset-md-7 offset-lg-7 col-4 col-sm-5" align="right">
           <!-- Convert to Confirm Button -->
+          <!-- ((userType$ | async)?.user_id === 2; else false) && (response?.status === 'Floated Enquiry'; else false)" -->
           <button 
-            *ngIf="(userType$ | async)?.user_id === 2; else false"
+            *ngIf="displayConfirmButton() | async"            
             mat-raised-button
             type="button"
             style='margin-right:16px'

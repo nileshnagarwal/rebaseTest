@@ -4,9 +4,11 @@ import { QuotesComponent } from './../quotes/quotes.component';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { EnquiriesService } from './../../../common/services/enquiries-quotes/enquiries.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { AuthService } from '../../../common/services/auth/auth-service/auth.service';
-
+import { User } from '../../../common/interfaces/user';
+import { NbAuthService } from '@nebular/auth';
+import { userTypeOpt, enquiryStatusOpt } from '../../../common/misc/api-constants';
 
 @Component({
   selector: 'ngx-enquiries-view',
@@ -19,7 +21,8 @@ export class EnquiriesViewComponent implements OnInit {
   constructor(
     private service: EnquiriesService,
     private modalService: NgbModal,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private nbAuth: NbAuthService) {
       this.userType$ = this.authService.getUser();
     }
 
@@ -39,6 +42,11 @@ export class EnquiriesViewComponent implements OnInit {
     this.deleteProps(this.quotesReport.settings.columns, ['length',
       'width', 'height', 'weight', 'places_source',
       'places_destination', 'enquiry_no']);
+
+    // Get Token Payload and store in local var
+    this.nbAuth.getToken().subscribe(resp => {
+      this.tokenPayload = resp.getPayload();
+    });
   }
 
   response;
@@ -61,13 +69,14 @@ export class EnquiriesViewComponent implements OnInit {
   originString: string;
   destinationString: string;
   waypointsString: string = '';
+  tokenPayload: Object;
   @Input() isModalOpen: boolean;
   @Input() modalRef: NgbModalRef;
 
   @ViewChild('report') quotesReport: QuotesReportComponent;
 
   // Observables defined below
-  userType$; // Observable returning user type ie sales, traffic etc
+  userType$: Observable<User>; // Observable returning user type ie sales, traffic etc
 
   // getDirections() sets origin, destination and waypoints.
   // For origin we take the first place of the sources array and for
@@ -186,6 +195,28 @@ export class EnquiriesViewComponent implements OnInit {
     );
     activeModal.componentInstance.enquiryId = this.enquiryId;
     activeModal.componentInstance.enquiryNo = this.response['enquiry_no'];
+  }
+
+  // Control if Confirm Button is to be displayed or not
+  displayConfirmButton(): Observable<boolean> {
+    let userType: Number;
+    this.userType$.
+      subscribe(resp => {
+      userType = resp.user_id;
+    });
+    // Check if userType exists and is of the allowed user types
+    if (userType) {
+      if (userType === userTypeOpt.admin || userType === userTypeOpt.developer
+          || userType === userTypeOpt.sales) {
+        // Check if response exists and enquiryStatus is Floated Enquiry
+        if (this.response) {
+          if (this.response.status === enquiryStatusOpt.FloatedEnquiry) {
+            return of(true);
+          }
+        }
+      }
+    }
+    return of(false);
   }
 
   // Custom function to delete list of prop from obj
