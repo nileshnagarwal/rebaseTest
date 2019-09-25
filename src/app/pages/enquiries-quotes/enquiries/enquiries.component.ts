@@ -113,7 +113,6 @@ export class EnquiriesComponent implements OnInit {
   // This is used in template to restrict Google Places
   // text box to India.
   placesOptions = {
-    types: ['establishment'],
     componentRestrictions: {country: 'in'},
   };
 
@@ -237,6 +236,9 @@ export class EnquiriesComponent implements OnInit {
     this.sources.controls[i].get('lat').setValue(address.geometry.location.lat());
     this.sources.controls[i].get('lng').setValue(address.geometry.location.lng());
     this.sources.controls[i].get('place_id_agm').setValue(address.place_id);
+    console.log(address);
+    let obj = address.address_components.find(adrComp => adrComp.types[0] === 'administrative_area_level_2');
+    console.log(obj);
   }
 
   public handleDestinationAddressChange(address: Address, i: number) {
