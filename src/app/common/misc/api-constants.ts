@@ -12,9 +12,9 @@ export const enquiryStatusOpt = {
     'FinalisedOrder': 'Confirmed Order',
 };
 
-export const loadTypeOpt = {
-    'ODC': 'ODC',
-    'Normal': 'Normal',
-    'Part': 'Part',
-    'Container': 'Container',
+export const loadTypeOptions = {
+    'Normal': 1,
+    'ODC': 2,
+    'Container': 3,
+    'Part': 4,
 };

@@ -198,12 +198,12 @@
               placeholder="Load Type"
               id="load_type"
               name="load_type"
-              matInput formControlName="load_type" 
+              matInput
               [matAutocomplete]="autoLoadType">
-            <mat-error *ngIf="load_type.invalid">{{getLoadTypeErrorMessage()}}</mat-error>
-            <mat-autocomplete #autoLoadType="matAutocomplete">
-              <mat-option *ngFor="let loadTypeOpt of loadTypeOptions" [value]="loadTypeOpt">
-                {{loadTypeOpt}}
+            <mat-error *ngIf="load_type_new.invalid">{{getLoadTypeErrorMessage()}}</mat-error>
+            <mat-autocomplete #autoLoadType="matAutocomplete" (optionSelected)="setLoadType($event)">
+              <mat-option *ngFor="let loadTypeOpt of loadTypeOptionsArr" [value]="loadTypeOpt[0]">
+                {{loadTypeOpt[0]}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -306,9 +306,9 @@
     
     </form>
 
-    <!-- <pre>
+    <pre>
       {{ enquiriesForm.value | json }}
-    </pre> -->
+    </pre>
 
   </nb-card-body>
 </nb-card>

@@ -16,7 +16,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTypeComponent } from '../../masters/vehicle-type/vehicle-type.component';
 import { NbToastrService } from '@nebular/theme';
-import { statusOptions } from '../../../common/constants/status-options';
+import { loadTypeOptions, enquiryStatusOpt } from '../../../common/misc/api-constants';
 
 @Component({
   selector: 'ngx-enquiries',
@@ -74,7 +74,7 @@ export class EnquiriesComponent implements OnInit {
       });
 
     // Set local statusOptions to value of imported statusOptions
-    this.locStatusOptions = statusOptions;
+    this.locStatusOptions = Object.values(enquiryStatusOpt);
     this.status.setValidators([
       Validators.required,
       dropdownValidator(this.locStatusOptions),
@@ -103,12 +103,7 @@ export class EnquiriesComponent implements OnInit {
   vehicleTypeOptions: any[];
   vehicleBodyOptions: any[];
   extraExpensesOptions: any[];
-  loadTypeOptions: string[] = [
-    'ODC',
-    'Normal',
-    'Part',
-    'Container',
-  ];
+  loadTypeOptionsArr: any[] = Object.entries(loadTypeOptions);
 
   // This is used in template to restrict Google Places
   // text box to India.
@@ -166,7 +161,7 @@ export class EnquiriesComponent implements OnInit {
     * locStatusOptions has not been initialsed by this
     * time*/
     status: new FormControl('', []),
-    load_type: new FormControl('', [
+    load_type_new: new FormControl('', [
       Validators.required,
     ]),
     vehicle_type: new FormControl([], [
@@ -236,9 +231,7 @@ export class EnquiriesComponent implements OnInit {
     this.sources.controls[i].get('lat').setValue(address.geometry.location.lat());
     this.sources.controls[i].get('lng').setValue(address.geometry.location.lng());
     this.sources.controls[i].get('place_id_agm').setValue(address.place_id);
-    console.log(address);
-    let obj = address.address_components.find(adrComp => adrComp.types[0] === 'administrative_area_level_2');
-    console.log(obj);
+    // const obj = address.address_components.find(adrComp => adrComp.types[0] === 'administrative_area_level_2');
   }
 
   public handleDestinationAddressChange(address: Address, i: number) {
@@ -349,6 +342,12 @@ export class EnquiriesComponent implements OnInit {
       });
   }
 
+  // Set load type form control value on field selection
+  setLoadType(event) {
+    const value = loadTypeOptions[event['option']['value']];
+    this.load_type_new.setValue(value);
+  }
+
   // Trigger toastr for showing subscription complete message
   toastrShow(status, preventDuplicates, icon, duration, position) {
     this.toastrService.show('',
@@ -419,8 +418,8 @@ export class EnquiriesComponent implements OnInit {
     return this.enquiriesForm.get('weight');
   }
 
-  get load_type() {
-    return this.enquiriesForm.get('load_type');
+  get load_type_new() {
+    return this.enquiriesForm.get('load_type_new');
   }
 
   get vehicle_type() {
